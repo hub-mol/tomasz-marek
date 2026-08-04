@@ -1,0 +1,57 @@
+---
+import type { Project } from '../../data/portfolio';
+
+interface Props {
+  prev: Project;
+  next: Project;
+}
+
+const { prev, next } = Astro.props;
+---
+
+<nav class="section pnav" aria-label="Inne realizacje">
+  <a class="pnav__link pnav__link--prev" href={`/portfolio/${prev.slug}`}>
+    <span class="pnav__dir">Poprzednia</span>
+    <span class="pnav__title">{prev.title}</span>
+  </a>
+  <a class="pnav__link pnav__link--next" href={`/portfolio/${next.slug}`}>
+    <span class="pnav__dir">Następna</span>
+    <span class="pnav__title">{next.title}</span>
+  </a>
+</nav>
+
+<style>
+  .pnav {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    padding-block: 70px;
+    border-top: 1px solid var(--c-line);
+  }
+
+  .pnav__link--next {
+    text-align: right;
+  }
+
+  .pnav__dir {
+    display: block;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--c-muted);
+  }
+
+  .pnav__title {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--ff-heading);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    transition: color 0.3s ease;
+  }
+
+  .pnav__link:hover .pnav__title {
+    color: var(--c-accent);
+  }
+</style>

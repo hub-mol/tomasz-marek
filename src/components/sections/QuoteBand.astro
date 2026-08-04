@@ -1,0 +1,59 @@
+---
+// Własny pas: pełna szerokość w kolorze akcentu, jedno duże zdanie.
+// Ma przecinać rytm jasnych sekcji i dać oddech przed kolejną treścią.
+interface Props {
+  text?: string;
+  author?: string;
+  role?: string;
+}
+
+const {
+  text = 'Najlepszy projekt to taki, który powstaje warsztatowo, wspólnie.',
+  author,
+  role,
+} = Astro.props;
+---
+
+<section class="quote-band">
+  <div class="quote-band__inner">
+    <p class="quote-band__text">{text}</p>
+    {
+      (author || role) && (
+        <p class="quote-band__by">
+          {author}
+          {author && role && <span aria-hidden="true"> · </span>}
+          {role && <span class="quote-band__role">{role}</span>}
+        </p>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .quote-band {
+    padding-inline: var(--gutter);
+    padding-block: clamp(80px, 10vw, 140px);
+    background: var(--c-accent);
+    color: #fff;
+  }
+
+  .quote-band__text {
+    max-width: 22ch;
+    font-family: var(--ff-heading);
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .quote-band__by {
+    margin-top: 32px;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .quote-band__role {
+    opacity: 0.7;
+  }
+</style>

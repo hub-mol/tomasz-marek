@@ -1,0 +1,147 @@
+---
+import ArrowLink from '../ArrowLink.astro';
+
+// Sekcja "Making sure…" z podstrony Our Services.
+// Lewa kolumna: tytuł + czerwony przycisk. Prawa: 5 usług w dwóch kolumnach (3 + 2).
+const items = [
+  {
+    icon: '/icons/svc-planning.svg',
+    title: 'Oczekiwania inwestora',
+    text: 'Wsłuchuję się w oczekiwania i trafnie przekładam wytyczne inwestora na język architektury.',
+  },
+  {
+    icon: '/icons/svc-artisans.svg',
+    title: 'Praca warsztatowa',
+    text: 'Proces projektowy prowadzę w trybie warsztatowym, w bezpośredniej współpracy architekta i inwestora.',
+  },
+  {
+    icon: '/icons/svc-residences.svg',
+    title: 'Porównywanie wariantów',
+    text: 'Wspólnie weryfikujemy różne opcje projektu, zanim wybierzemy kierunek rozwijany w kolejnych etapach.',
+  },
+  {
+    icon: '/icons/svc-3d-modelling.svg',
+    title: 'Swoboda zmian',
+    text: 'Proces daje łatwość i swobodę wprowadzania zmian na etapie, na którym można je świadomie przeanalizować.',
+  },
+  {
+    icon: '/icons/svc-floor-plans.svg',
+    title: 'Świadome decyzje',
+    text: 'Dobra i przemyślana architektura powstaje jako efekt procesu oraz wielu wzajemnie powiązanych decyzji.',
+  },
+];
+---
+
+<section class="section section--alt making">
+  <div class="making__aside">
+    <h2 class="making__title">
+      Prowadzi nas proces.
+    </h2>
+    <ArrowLink href="/#kontakt">Porozmawiajmy o projekcie</ArrowLink>
+  </div>
+
+  <ul class="making__grid">
+    {
+      items.map((item) => (
+        <li class="making__item">
+          <img class="making__icon" src={item.icon} alt="" width="48" height="56" />
+          <h3 class="making__name">{item.title}</h3>
+          <p class="making__text">{item.text}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .making {
+    padding-top: 125px;
+    padding-bottom: 135px;
+  }
+
+  .making__aside {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 75px;
+  }
+
+  .making__title {
+    max-width: 550px;
+  }
+
+  .making__grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    border-top: 1px solid var(--c-line);
+  }
+
+  .making__item {
+    padding: 30px 30px 0 0;
+    border-right: 1px solid var(--c-line);
+  }
+
+  .making__item + .making__item {
+    padding-left: 30px;
+  }
+
+  .making__icon {
+    width: auto;
+    height: 56px;
+  }
+
+  .making__name {
+    margin-top: 20px;
+    line-height: 28px;
+  }
+
+  .making__text {
+    margin-top: 14px;
+  }
+
+  @media (max-width: 1024px) {
+    .making {
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
+
+    .making__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 45px 0;
+    }
+
+    .making__item {
+      padding-right: 30px;
+      border-right: 0;
+    }
+
+    .making__item:nth-child(even) {
+      padding-left: 30px;
+      border-left: 1px solid var(--c-line);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .making__aside {
+      display: block;
+      margin-bottom: 55px;
+    }
+
+    .making__aside :global(a) {
+      margin-top: 24px;
+    }
+
+    .making__grid {
+      grid-template-columns: 1fr;
+      gap: 45px;
+    }
+
+    .making__item,
+    .making__item + .making__item,
+    .making__item:nth-child(even) {
+      padding: 0;
+      border: 0;
+    }
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+// Siatka zdjęć. Liczba kolumn wynika z liczby zdjęć — 4 układają się 2×2.
+interface Props {
+  images: string[];
+}
+
+const { images } = Astro.props;
+const cols = images.length % 2 === 0 ? 2 : 3;
+---
+
+<section class="section gallery" style={`--cols:${cols}`}>
+  <ul class="gallery__grid">
+    {
+      images.map((img) => (
+        <li>
+          <img src={img} alt="" width="800" height="600" loading="lazy" />
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .gallery {
+    padding-block: 60px;
+  }
+
+  .gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    gap: 30px;
+  }
+
+  .gallery__grid img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .gallery__grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+</style>

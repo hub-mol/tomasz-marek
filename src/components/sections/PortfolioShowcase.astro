@@ -1,0 +1,107 @@
+---
+// Komponent z portfolio/portfolio-showcase: wielkie zdanie, w które
+// wplecione są małe zdjęcia. Zawijanie robi zwykły flex-wrap.
+type Part = string | { img: string };
+
+interface Props {
+  parts?: Part[];
+}
+
+const {
+  parts = [
+    'Building',
+    { img: '/img/tm-1.jpg' },
+    'space',
+    'from',
+    { img: '/img/tm-2.jpg' },
+    'the',
+    'inside',
+    'to',
+    'the',
+    { img: '/img/tm-3.jpg' },
+    'architectual,',
+    'outside',
+    'project.',
+    'We',
+    'aim',
+    { img: '/img/tm-4.jpg' },
+    'to',
+    'set',
+    'the',
+    { img: '/img/tm-5.jpg' },
+    'trends',
+    { img: '/img/tm-6.jpg' },
+    'of',
+    'new',
+    'creative',
+    'solutions.',
+  ],
+} = Astro.props;
+---
+
+<section class="showcase">
+  <p class="showcase__line">
+    {
+      parts.map((part) =>
+        typeof part === 'string' ? (
+          <span class="showcase__word">{part}</span>
+        ) : (
+          <img
+            class="showcase__img"
+            src={part.img}
+            alt=""
+            width="103"
+            height="63"
+            loading="lazy"
+          />
+        )
+      )
+    }
+  </p>
+</section>
+
+<style>
+  .showcase {
+    padding-inline: var(--gutter);
+    padding-block: 120px;
+  }
+
+  .showcase__line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: clamp(2rem, 6vw, 86px);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+  }
+
+  .showcase__word {
+    margin-right: 20px;
+    padding-right: 5px;
+  }
+
+  .showcase__img {
+    width: 103px;
+    height: 63px;
+    margin-right: 20px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .showcase {
+      padding-block: 70px;
+    }
+
+    .showcase__word {
+      margin-right: 12px;
+      padding-right: 3px;
+    }
+
+    .showcase__img {
+      width: 64px;
+      height: 40px;
+      margin-right: 12px;
+    }
+  }
+</style>

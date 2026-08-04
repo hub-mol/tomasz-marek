@@ -1,0 +1,201 @@
+---
+// Układ z podstrony /vc/ dema: lewa kolumna to życiorys, prawa to zdjęcie
+// przyklejone do okna przy przewijaniu.
+interface Props {
+  name?: string;
+  role?: string;
+  img?: string;
+  signature?: string;
+}
+
+const {
+  name = 'Mary Johns',
+  role = 'Head Architect',
+  img = '/img/tm-6.jpg',
+  signature = '/img/p4-img-02.png',
+} = Astro.props;
+
+const intro =
+  'Tris ique risus nec feugiat in ferm entum pos uere urna nec tincidunt. Amet cons ectetur adipi scing elit pelle ntesque. Tempus impe rdiet nulla males uada pellen tesque elit eget gravida cum. Diam ut venenatis tellus in metus vulputa is viverra nibh cras pulvite uis ipsum.';
+
+const projectsIntro =
+  'Tris ique risus nec feugiat in ferm entum pos uere urna nec tincidunt. Amet cons ectetur adipi scing elit pelle ntesque.';
+
+const projects = [
+  'Commercial Bridge, Dubai, 2022',
+  'Project No3, 2021',
+  'Tiny House Cabin, Bali, 2021',
+  'Lux Modern Vila, Bali, 2021',
+  'Public open Teatre, Berlin 2021',
+  'Project No31, 2020',
+  'Riverhouse, Amsterdam 2020',
+];
+
+const awards = [
+  'Pritzker Architecture Prize 2021',
+  'ECO Microhome, 2021',
+  'RIBA 2020',
+  'The Aga Khan Award 2020',
+  'Modular dream home 2020',
+  'The LEAF Award 2020',
+  'The Royal Gold Medal 2019',
+];
+
+const social = ['Instagram', 'Linkedin', 'YouTube', 'Behance'];
+---
+
+<section class="cv">
+  <div class="cv__col cv__body">
+    <img class="cv__sign" src={signature} alt="" width="284" height="141" />
+
+    <header class="cv__head">
+      <h1 class="cv__name">{name}</h1>
+      <p class="cv__role">{role}</p>
+    </header>
+
+    <section class="cv__block">
+      <h2>Work Experience</h2>
+      <p>{intro}</p>
+    </section>
+
+    <section class="cv__block">
+      <h2>Latest Projects</h2>
+      <p>{projectsIntro}</p>
+      <ul class="cv__list">
+        {projects.map((p) => <li>{p}</li>)}
+      </ul>
+    </section>
+
+    <section class="cv__block">
+      <h2>Awards and competitions</h2>
+      <ul class="cv__list">
+        {awards.map((a) => <li>{a}</li>)}
+      </ul>
+    </section>
+
+    <section class="cv__block">
+      <h2>Social</h2>
+      <ul class="cv__list cv__list--plain">
+        {
+          social.map((s) => (
+            <li>
+              <a class="link-btn" href="#">
+                {s}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="cv__block">
+      <h2>Download CV</h2>
+      <p><a class="link-btn" href="#">PDF, 320 kB</a></p>
+    </section>
+  </div>
+
+  <div class="cv__col cv__media" style={`--img:url(${img})`}></div>
+</section>
+
+<style>
+  .cv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cv__body {
+    padding: 90px var(--pad-x) 120px;
+  }
+
+  .cv__sign {
+    width: 284px;
+    height: auto;
+    margin-bottom: 60px;
+    /* grafika podpisu jest biała (w demie leżała na ciemnym tle) */
+    filter: invert(1);
+  }
+
+  .cv__name {
+    font-size: 60px;
+    line-height: 60px;
+    letter-spacing: -1.5px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .cv__role {
+    margin-top: 8px;
+    color: var(--c-muted);
+  }
+
+  .cv__block {
+    margin-top: 55px;
+    max-width: 613px;
+  }
+
+  .cv__block h2 {
+    margin-bottom: 12px;
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .cv__list {
+    margin-top: 18px;
+  }
+
+  .cv__list li {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.45px;
+  }
+
+  /* myślnik jak w oryginale, ale jako znak listy — nie w treści */
+  .cv__list:not(.cv__list--plain) li::before {
+    content: '– ';
+  }
+
+  .cv__list--plain li {
+    margin-bottom: 6px;
+  }
+
+  /* zdjęcie zostaje w kadrze przy przewijaniu życiorysu */
+  .cv__media {
+    background-image: var(--img);
+    background-size: cover;
+    background-position: center;
+    position: sticky;
+    top: 0;
+    height: 100svh;
+  }
+
+  @media (max-width: 1024px) {
+    .cv__body {
+      padding-top: 60px;
+      padding-bottom: 80px;
+    }
+
+    .cv__name {
+      font-size: 44px;
+      line-height: 46px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cv {
+      grid-template-columns: 1fr;
+    }
+
+    /* na wąskim ekranie zdjęcie idzie na górę, bez przyklejania */
+    .cv__media {
+      position: static;
+      order: -1;
+      height: 60svh;
+    }
+
+    .cv__sign {
+      width: 200px;
+      margin-bottom: 40px;
+    }
+  }
+</style>

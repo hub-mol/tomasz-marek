@@ -1,0 +1,113 @@
+---
+interface Item {
+  value: string | number;
+  label: string;
+}
+
+interface Props {
+  title?: string;
+  items?: Item[];
+  note?: string;
+}
+
+const {
+  title = 'Doświadczenie, które pomaga podejmować właściwe decyzje.',
+  note,
+  items = [
+    { value: '7+', label: 'lat doświadczenia projektowego' },
+    { value: 3, label: 'kraje praktyki zawodowej' },
+    { value: '25+', label: 'projektów architektury i wnętrz' },
+    { value: '100%', label: 'projektów prowadzonych osobiście' },
+  ],
+} = Astro.props;
+---
+
+<section class="section counters split-golden">
+  <div class="counters__col">
+    {note && <p class="counters__note eyebrow">{note}</p>}
+    <h2 class="counters__title">{title}</h2>
+  </div>
+
+  <ul class="counters__col counters__grid">
+    {
+      items.map((item, i) => (
+        <li class="counters__item" style={`--d:${i * 0.1}s`}>
+          <span class="counters__digit">{item.value}</span>
+          <p class="counters__label">{item.label}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  /* demo: tytuł w lewej kolumnie 650px, po prawej liczniki w siatce 2×2 */
+  .counters {
+    padding-top: 115px;
+    padding-bottom: 115px;
+  }
+
+  .counters__title {
+    max-width: 613px;
+  }
+
+  .counters__note {
+    margin-bottom: 12px;
+  }
+
+  .counters__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+
+  .counters__digit {
+    display: block;
+    font-size: var(--fs-digit);
+    line-height: 1;
+    letter-spacing: -1.5px;
+  }
+
+  .counters__label {
+    margin-top: 17px;
+    color: var(--c-muted);
+  }
+
+  .counters__item {
+    animation: counter-in 0.7s both;
+    animation-delay: var(--d);
+    animation-timeline: view();
+    animation-range: entry 10% cover 35%;
+  }
+
+  @keyframes counter-in {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .counters {
+      --split-gap-tablet: 50px;
+      padding-top: 90px;
+      padding-bottom: 90px;
+    }
+
+    .counters__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 50px 30px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .counters__grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

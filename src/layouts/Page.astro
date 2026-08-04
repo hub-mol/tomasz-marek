@@ -1,0 +1,56 @@
+---
+import Base from './Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  heading?: string;
+  description?: string;
+  // wide — nagłówek na pełnej szerokości (dla treści spoza kontenera 1100px)
+  wide?: boolean;
+}
+
+const { title, heading, description, wide = false } = Astro.props;
+---
+
+<Base title={title} description={description}>
+  <Header />
+
+  <main class="page">
+    {
+      heading && (
+        <div class={wide ? 'section' : 'container'}>
+          <h1 class="page__title">{heading}</h1>
+        </div>
+      )
+    }
+    <slot />
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .page {
+    padding-block: 140px;
+  }
+
+  .page__title {
+    margin-bottom: 60px;
+    font-size: var(--fs-h2);
+    line-height: var(--lh-h2);
+    letter-spacing: var(--ls-h2);
+    font-weight: 400;
+  }
+
+  @media (max-width: 1024px) {
+    .page {
+      padding-block: 90px;
+    }
+
+    .page__title {
+      margin-bottom: 40px;
+    }
+  }
+</style>

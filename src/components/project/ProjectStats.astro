@@ -1,0 +1,82 @@
+---
+import type { Stat } from '../../data/portfolio';
+
+interface Props {
+  stats: Stat[];
+  skin?: 'light' | 'dark';
+}
+
+const { stats, skin = 'light' } = Astro.props;
+---
+
+<section class:list={['section', 'stats', `stats--${skin}`]}>
+  <ul class="stats__grid">
+    {
+      stats.map((s) => (
+        <li>
+          <span class="stats__value">
+            {s.value}
+            {s.unit && <span class="stats__unit">{s.unit}</span>}
+          </span>
+          <p class="stats__label">{s.label}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .stats {
+    padding-block: 110px;
+  }
+
+  .stats--dark {
+    background: var(--c-bg-dark);
+    color: #fff;
+  }
+
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+
+  .stats__value {
+    display: block;
+    font-family: var(--ff-heading);
+    font-size: var(--fs-digit);
+    line-height: 1;
+    letter-spacing: -1.5px;
+  }
+
+  .stats__unit {
+    font-size: 0.45em;
+    margin-left: 4px;
+  }
+
+  .stats__label {
+    margin-top: 14px;
+    color: var(--c-muted);
+  }
+
+  .stats--dark .stats__label {
+    color: var(--c-gray);
+  }
+
+  @media (max-width: 1024px) {
+    .stats {
+      padding-block: 80px;
+    }
+
+    .stats__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px 30px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .stats__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,102 @@
+---
+interface Props {
+  title: string;
+  category: string;
+  year?: string;
+  lead?: string;
+  img?: string;
+  /** cover — tytuł na zdjęciu; plain — sam tytuł na białym */
+  variant?: 'cover' | 'plain';
+}
+
+const { title, category, year, lead, img, variant = 'plain' } = Astro.props;
+---
+
+{
+  variant === 'cover' && img ? (
+    <section class="phero phero--cover" style={`--img:url(${img})`}>
+      <div class="phero__inner">
+        <p class="phero__meta">
+          {category}
+          {year && <span> — {year}</span>}
+        </p>
+        <h1 class="phero__title">{title}</h1>
+      </div>
+    </section>
+  ) : (
+    <section class="section phero phero--plain">
+      <p class="phero__meta">
+        {category}
+        {year && <span> — {year}</span>}
+      </p>
+      <h1 class="phero__title">{title}</h1>
+      {lead && <p class="phero__lead">{lead}</p>}
+    </section>
+  )
+}
+
+<style>
+  .phero--plain {
+    padding-block: 120px 60px;
+  }
+
+  .phero--cover {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 66svh;
+    padding: var(--pad-x) var(--gutter);
+    background-image: var(--img);
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+  }
+
+  .phero--cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  .phero__inner {
+    position: relative;
+  }
+
+  .phero__meta {
+    font-size: 15px;
+    line-height: 22px;
+    text-transform: uppercase;
+    color: #777;
+  }
+
+  .phero--cover .phero__meta {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .phero__title {
+    margin-top: 10px;
+    font-size: clamp(2.5rem, 5vw, 60px);
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    font-weight: 400;
+  }
+
+  .phero__lead {
+    max-width: 640px;
+    margin-top: 28px;
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  @media (max-width: 1024px) {
+    .phero--plain {
+      padding-block: 80px 40px;
+    }
+
+    .phero--cover {
+      min-height: 50svh;
+    }
+  }
+</style>

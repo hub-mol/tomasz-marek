@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+import Hero from '../components/sections/Hero.astro';
+import Statement from '../components/sections/Statement.astro';
+import Services from '../components/sections/Services.astro';
+import ProjectsGrid from '../components/sections/ProjectsGrid.astro';
+import OfferList from '../components/sections/OfferList.astro';
+import Accordion from '../components/sections/Accordion.astro';
+import ProcessOverview from '../components/sections/ProcessOverview.astro';
+import MakingSure from '../components/sections/MakingSure.astro';
+import ParallaxBanner from '../components/sections/ParallaxBanner.astro';
+import AboutHero from '../components/sections/AboutHero.astro';
+import Counters from '../components/sections/Counters.astro';
+import Testimonials from '../components/sections/Testimonials.astro';
+import BlogList from '../components/sections/BlogList.astro';
+import ContactInfo from '../components/sections/ContactInfo.astro';
+
+import { procesArchitektura, procesWnetrza, faq } from '../data/home';
+---
+
+<Base
+  title="Tomasz Marek — architektura i wnętrza"
+  description="Kompleksowa obsługa inwestycji — od analizy działki, przez projekt i formalności, po wnętrza i nadzór autorski."
+>
+  <Header variant="overlay" />
+
+  <main>
+    <Hero />
+
+    <Statement
+      text="Dobra i przemyślana architektura jest efektem procesu i wielu świadomych decyzji. Proces projektowy prowadzę warsztatowo — wspólnie weryfikujemy różne warianty i wprowadzamy zmiany."
+    />
+
+    <ProjectsGrid />
+
+    <Services />
+
+    <OfferList />
+
+    <ProcessOverview
+      architecture={procesArchitektura}
+      interiors={procesWnetrza}
+    />
+
+    <MakingSure />
+
+    <ParallaxBanner
+      title={'Architektura + wnętrza.\nOd pustej działki po ostatni detal.'}
+      img="/img/tm-7.jpg"
+    />
+
+    <AboutHero
+      id="o-mnie"
+      title="Tomasz Marek"
+      text="Architekt IARP. Absolwent Politechniki Gdańskiej i Politecnico di Milano. Doświadczenie zdobywał w pracowniach architektonicznych i wnętrzarskich w Tallinie, Paryżu i Trójmieście."
+      img="/img/team-image-05.jpg"
+    />
+
+    <Counters note="Liczby demonstracyjne" />
+
+    <Testimonials demo />
+
+    <Accordion
+      id="faq"
+      title="Pytania przed rozpoczęciem współpracy"
+      items={faq}
+      numbered
+      alt
+    />
+
+    <BlogList />
+
+    <ContactInfo />
+
+  </main>
+
+  <Footer />
+</Base>

@@ -1,0 +1,140 @@
+---
+import { projects } from '../../data/portfolio';
+
+// Odpowiednik `varied_rows_portfolio_list` z dema: wiersze po dwie realizacje,
+// w których szerokości zamieniają się miejscami (60/40, potem 40/60).
+interface Props {
+  title?: string;
+  eyebrow?: string;
+  limit?: number;
+  showHeader?: boolean;
+}
+
+const {
+  title = 'Realizacje',
+  eyebrow = 'Wybrane projekty',
+  limit = 6,
+  showHeader = true,
+} = Astro.props;
+
+const items = projects.slice(0, limit);
+const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
+  items.slice(i * 2, i * 2 + 2)
+);
+---
+
+<section class="section rows" id="realizacje">
+  {
+    showHeader && (
+      <header class="rows__head">
+        <p class="eyebrow">{eyebrow}</p>
+        <h2>{title}</h2>
+      </header>
+    )
+  }
+
+  {
+    pary.map((para, i) => (
+      <div class:list={['rows__row', { 'rows__row--swap': i % 2 === 1 }]}>
+        {para.map((p) => (
+          <a class="rows__item" href={`/portfolio/${p.slug}`}>
+            <span class="rows__media">
+              <img src={p.img} alt="" width="1100" height="900" loading="lazy" />
+            </span>
+            <span class="rows__meta">
+              <span class="rows__title">{p.title}</span>
+              <span class="rows__cat">
+                {p.category}
+                {p.year && ` · ${p.year}`}
+              </span>
+            </span>
+          </a>
+        ))}
+      </div>
+    ))
+  }
+</section>
+
+<style>
+  .rows {
+    padding-block: var(--sec-y);
+  }
+
+  .rows__head {
+    margin-bottom: 60px;
+  }
+
+  .rows__head h2 {
+    margin-top: 10px;
+  }
+
+  /* asymetria: szeroki + wąski, a w co drugim wierszu odwrotnie */
+  .rows__row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 45px;
+    margin-bottom: 45px;
+  }
+
+  .rows__row--swap {
+    grid-template-columns: 1fr 1.5fr;
+  }
+
+  .rows__media {
+    display: block;
+    overflow: hidden;
+  }
+
+  .rows__media img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .rows__item:hover .rows__media img {
+    transform: scale(1.04);
+  }
+
+  .rows__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 18px;
+  }
+
+  .rows__title {
+    font-family: var(--ff-heading);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    transition: color 0.3s ease;
+  }
+
+  .rows__item:hover .rows__title {
+    color: var(--c-accent);
+  }
+
+  .rows__cat {
+    flex-shrink: 0;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-muted);
+  }
+
+  @media (max-width: 768px) {
+    .rows__row,
+    .rows__row--swap {
+      grid-template-columns: 1fr;
+      gap: 35px;
+      margin-bottom: 35px;
+    }
+
+    .rows__head {
+      margin-bottom: 40px;
+    }
+  }
+</style>

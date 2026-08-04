@@ -1,0 +1,27 @@
+---
+// Zdjęcie przez całą szerokość okna albo w obrębie kontenera.
+interface Props {
+  img: string;
+  bleed?: boolean;
+  ratio?: string;
+}
+
+const { img, bleed = false, ratio = '1024 / 480' } = Astro.props;
+---
+
+<figure class:list={['full', { 'full--bleed': bleed, section: !bleed }]}>
+  <img src={img} alt="" style={`--ratio:${ratio}`} loading="lazy" />
+</figure>
+
+<style>
+  .full {
+    margin: 0;
+  }
+
+  .full img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--ratio);
+    object-fit: cover;
+  }
+</style>

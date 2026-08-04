@@ -1,0 +1,136 @@
+---
+// Edytorialny blok o pracowni: tekstowa kolumna i dominujące zdjęcie.
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+  img?: string;
+}
+
+const {
+  id,
+  eyebrow = 'O mnie',
+  title = 'ArhiconStudio',
+  text = 'We reach beyond established trends and apply new creative solutions. Right place for achieving top results.',
+  img = '/img/tm-5.jpg',
+} = Astro.props;
+---
+
+<section class="about-hero" id={id}>
+  <div class="section about-hero__inner split-golden">
+    <div class="about-hero__col about-hero__col--text">
+      <div>
+        {eyebrow && <p class="about-hero__eyebrow eyebrow">{eyebrow}</p>}
+        <h2 class="about-hero__title type-lead">{title}</h2>
+      </div>
+
+      <div class="about-hero__intro">
+        <p class="about-hero__lead">{text}</p>
+      </div>
+    </div>
+
+    <div class="about-hero__col about-hero__col--media">
+      <img
+        src={img}
+        alt=""
+        width="1200"
+        height="900"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-hero {
+    min-height: 720px;
+    background: #262724;
+    color: #fff;
+    overflow: hidden;
+  }
+
+  .about-hero__inner {
+    min-height: inherit;
+  }
+
+  .about-hero__col--text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-block: 70px 75px;
+  }
+
+  .about-hero__eyebrow {
+    margin-bottom: 14px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .about-hero__title {
+    margin: 0;
+  }
+
+  .about-hero__intro {
+    margin-top: auto;
+    padding-top: 60px;
+  }
+
+  .about-hero__lead {
+    max-width: 560px;
+    margin-top: 28px;
+    font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+  }
+
+  .about-hero__col--media {
+    position: relative;
+    width: calc(100% + var(--gutter));
+    min-height: inherit;
+    margin-right: calc(-1 * var(--gutter));
+    overflow: hidden;
+  }
+
+  .about-hero__col--media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+  }
+
+  @media (max-width: 1024px) {
+    .about-hero {
+      min-height: 0;
+    }
+
+    .about-hero__inner {
+      min-height: 0;
+    }
+
+    .about-hero__col--text {
+      padding-block: 55px 60px;
+    }
+
+    .about-hero__col--media {
+      min-height: 420px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about-hero__inner {
+      --split-gap-tablet: 48px;
+    }
+
+    .about-hero__intro {
+      padding-top: 75px;
+    }
+
+    .about-hero__col--media {
+      width: calc(100% + 2 * var(--gutter));
+      min-height: 320px;
+      margin-inline: calc(-1 * var(--gutter));
+    }
+  }
+</style>

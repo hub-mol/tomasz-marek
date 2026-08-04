@@ -1,0 +1,311 @@
+---
+interface Props {
+  // overlay — przezroczysty, biały, nałożony na hero (strona główna)
+  // solid   — jasne tło, czarny tekst, w normalnym przepływie (podstrony)
+  variant?: 'overlay' | 'solid';
+  // logo rozbite na części, bo gwiazdka w środku ma własny kolor
+  logoStart?: string;
+  logoEnd?: string;
+}
+
+const {
+  variant = 'solid',
+  logoStart = 'to',
+  logoEnd = 'masz.studio',
+} = Astro.props;
+
+const menu = [
+  { label: 'Projekty', href: '/#projekty' },
+  { label: 'Oferta', href: '/#oferta' },
+  { label: 'Proces', href: '/#proces' },
+  { label: 'O mnie', href: '/#o-mnie' },
+  { label: 'FAQ', href: '/#faq' },
+  { label: 'Kontakt', href: '/#kontakt' },
+];
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => !href.includes('#') && href === path;
+---
+
+{/* Przełącznik menu bez JS. Musi być rodzeństwem <nav>, żeby zadziałało `~`.
+    Checkbox jest przezroczysty, ale zostaje w drzewie fokusu. */}
+<input class="hdr__toggle" type="checkbox" id="nav-open" aria-label="Menu" />
+
+{/* Cały pasek to jeden <nav>: logo, kreska i pozycje menu. Dzięki temu
+    przy otwartym menu nie łapie przygaszenia nakładanego na resztę strony. */}
+<nav class:list={['hdr', `hdr--${variant}`]} aria-label="Główna">
+  <div class="hdr__inner">
+    <a class="hdr__logo" href="/">{logoStart}<span class="hdr__star">*</span>{logoEnd}</a>
+
+    <ul class="hdr__menu">
+      {
+        menu.map((item) => (
+          <li>
+            <a
+              class:list={['hdr__link', { 'is-current': isCurrent(item.href) }]}
+              href={item.href}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <label class="hdr__burger" for="nav-open" aria-hidden="true">
+      <span class="hdr__burger-lines"></span>
+    </label>
+  </div>
+</nav>
+
+{/* Nakładka pod panelem: kliknięcie w main, footer lub cokolwiek innego
+    przełącza ten sam checkbox, czyli zamyka menu. Bez JS. */}
+<label class="hdr__backdrop" for="nav-open" aria-hidden="true"></label>
+
+<style>
+  .hdr {
+    z-index: 100;
+  }
+
+  .hdr--solid {
+    position: relative;
+    background: var(--c-bg);
+    color: var(--c-fg);
+  }
+
+  .hdr--overlay {
+    position: absolute;
+    inset: 0 0 auto;
+    background: transparent;
+    color: #fff;
+  }
+
+  .hdr__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    min-height: var(--hdr-h);
+    padding-inline: var(--gutter);
+    /* cienka linia zamykająca pasek */
+    border-bottom: 1px solid currentColor;
+  }
+
+  .hdr--overlay .hdr__inner {
+    border-bottom-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .hdr--solid .hdr__inner {
+    border-bottom-color: var(--c-line);
+  }
+
+  .hdr__logo {
+    flex-shrink: 0;
+    font-family: var(--ff-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+  }
+
+  .hdr__star {
+    color: var(--c-accent);
+  }
+
+  /* na szerokim ekranie przełącznik, ikona i nakładka nie istnieją */
+  .hdr__toggle,
+  .hdr__burger,
+  .hdr__backdrop {
+    display: none;
+  }
+
+  .hdr__menu {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .hdr__link {
+    position: relative;
+    display: inline-block;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.3s ease-out;
+  }
+
+  /* podkreślenie wjeżdżające od prawej — zostaje z motywu */
+  .hdr__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.35s cubic-bezier(0.16, 0.48, 0.36, 1);
+  }
+
+  .hdr__link:hover::after,
+  .hdr__link.is-current::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  .hdr__link:hover {
+    color: var(--c-accent);
+  }
+
+  @media (max-width: 768px) {
+    /* przezroczysty checkbox leży dokładnie na ikonie i przejmuje kliknięcia */
+    .hdr__toggle {
+      position: absolute;
+      top: calc(var(--hdr-h) / 2);
+      right: var(--gutter);
+      z-index: 103;
+      display: block;
+      width: 28px;
+      height: 28px;
+      margin: 0;
+      opacity: 0;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    .hdr__burger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+    }
+
+    .hdr__burger-lines {
+      position: relative;
+    }
+
+    .hdr__burger-lines,
+    .hdr__burger-lines::before,
+    .hdr__burger-lines::after {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+      transition:
+        transform 0.3s ease,
+        background 0.2s ease;
+    }
+
+    .hdr__burger-lines::before,
+    .hdr__burger-lines::after {
+      content: '';
+      position: absolute;
+    }
+
+    .hdr__burger-lines::before {
+      transform: translateY(-7px);
+    }
+
+    .hdr__burger-lines::after {
+      transform: translateY(7px);
+    }
+
+    /* otwarte — trzy kreski składają się w krzyżyk */
+    .hdr__toggle:checked ~ .hdr .hdr__burger-lines {
+      background: transparent;
+    }
+
+    .hdr__toggle:checked ~ .hdr .hdr__burger-lines::before {
+      transform: rotate(45deg);
+    }
+
+    .hdr__toggle:checked ~ .hdr .hdr__burger-lines::after {
+      transform: rotate(-45deg);
+    }
+
+    /* panel przykrywa pasek — logo i ikona muszą być czytelne na jasnym tle */
+    .hdr__toggle:checked ~ .hdr .hdr__logo,
+    .hdr__toggle:checked ~ .hdr .hdr__burger {
+      color: var(--c-fg);
+      z-index: 102;
+    }
+
+    /* Kreska nagłówka leży pod panelem, więc przy otwartym menu rysujemy ją
+       jeszcze raz jako warstwę nad nim — w kolorze czytelnym na jasnym tle. */
+    .hdr__toggle:checked ~ .hdr .hdr__inner::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      z-index: 102;
+      height: 1px;
+      background: var(--c-line);
+    }
+
+    /* z-index niżej niż pasek (100), więc panel i ikona zostają klikalne,
+       a cała reszta widoku zamyka menu */
+    .hdr__toggle:checked ~ .hdr__backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 99;
+      cursor: pointer;
+    }
+
+    .hdr__toggle:focus-visible ~ .hdr .hdr__burger {
+      outline: 2px solid currentColor;
+      outline-offset: 4px;
+    }
+
+    /* ta sama lista, tylko rozwijana pod paskiem */
+    .hdr__menu {
+      display: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 101;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      /* ten sam wymiar co hero, nigdy wyżej niż okno */
+      min-height: var(--hero-h);
+      max-height: 100svh;
+      overflow-y: auto;
+      /* pionowo robimy miejsce na pasek; poziomy padding przejmują linki,
+         dzięki czemu ich kreski idą przez całą szerokość panelu */
+      padding: var(--hdr-h) 0;
+      background: var(--c-bg);
+      color: var(--c-fg);
+    }
+
+    .hdr__toggle:checked ~ .hdr .hdr__menu {
+      display: flex;
+    }
+
+    .hdr__link {
+      display: block;
+      padding: 14px var(--gutter);
+      border-bottom: 1px solid var(--c-line);
+      font-family: var(--ff-heading);
+      font-size: var(--fs-h3);
+      line-height: var(--lh-h3);
+      letter-spacing: var(--ls-h3);
+      text-transform: none;
+    }
+
+    /* w panelu pozycje są blokowe — podkreślenie z desktopu tu nie pasuje */
+    .hdr__link::after {
+      display: none;
+    }
+
+    .hdr__link.is-current {
+      color: var(--c-accent);
+    }
+  }
+</style>

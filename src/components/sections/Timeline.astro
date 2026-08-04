@@ -1,0 +1,127 @@
+---
+// Sekcja z podstrony Building Materials — pozioma oś czasu naprzemienna
+// (jeden punkt nad linią, następny pod). W oryginale to slider na JS;
+// tutaj poziomy scroll ze snapowaniem.
+const text =
+  'In meis principes pri, pro tota altera honestatis ex, chororum. Ex agam magna ius, ne mel simul inermis consequat.';
+
+const items = [
+  'Preparation',
+  'Case studies',
+  'Test objects',
+  'Implementation',
+  'Materials',
+  'Innovation',
+  'Delivery',
+];
+---
+
+<section class="timeline-sec">
+  <ol class="timeline x-scroll">
+    {
+      items.map((title, i) => (
+        <li class={`timeline__item timeline__item--${i % 2 === 0 ? 'up' : 'down'}`}>
+          <div class="timeline__card">
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </div>
+          <div class="timeline__axis">
+            <span class="timeline__dot" />
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .timeline-sec {
+    padding: 120px 0 180px;
+    padding-left: var(--gutter);
+    background: var(--c-bg-dark);
+    color: #fff;
+    overflow: hidden;
+  }
+
+  .timeline {
+    display: flex;
+    scroll-snap-type: x mandatory;
+    padding-right: var(--gutter);
+  }
+
+  .timeline__item {
+    position: relative;
+    flex: 0 0 453px;
+    display: flex;
+    flex-direction: column;
+    scroll-snap-align: start;
+    padding-right: 60px;
+  }
+
+  /* naprzemienność: karta nad osią albo pod nią */
+  .timeline__item--up .timeline__card {
+    order: 0;
+    padding-bottom: 40px;
+  }
+
+  .timeline__item--up .timeline__axis {
+    order: 1;
+  }
+
+  .timeline__item--down .timeline__card {
+    order: 1;
+    padding-top: 40px;
+  }
+
+  .timeline__item--down .timeline__axis {
+    order: 0;
+  }
+
+  /* obie połowy tej samej wysokości → linia biegnie przez środek sekcji */
+  .timeline__card {
+    flex: 1 1 200px;
+    min-height: 200px;
+  }
+
+  .timeline__card h3 {
+    margin-bottom: 24px;
+  }
+
+  .timeline__card p {
+    max-width: 304px;
+    color: var(--c-gray);
+  }
+
+  .timeline__axis {
+    position: relative;
+    height: 1px;
+    background: var(--c-accent);
+  }
+
+  .timeline__dot {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--c-accent);
+    transform: translateY(-50%);
+  }
+
+  @media (max-width: 768px) {
+    .timeline-sec {
+      padding: 80px 0 100px;
+      padding-left: var(--gutter);
+    }
+
+    .timeline__item {
+      flex-basis: 85%;
+      padding-right: 30px;
+    }
+
+    .timeline__card {
+      min-height: 170px;
+    }
+  }
+</style>

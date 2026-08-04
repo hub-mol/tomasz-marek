@@ -1,0 +1,137 @@
+---
+import ArrowLink from '../ArrowLink.astro';
+
+const posts = [
+  {
+    img: '/img/tm-5.jpg',
+    day: '01',
+    category: 'Poradnik',
+    title: 'Jak przygotować się do pierwszej rozmowy z architektem?',
+    href: '/no-sidebar',
+  },
+  {
+    img: '/img/tm-6.jpg',
+    day: '02',
+    category: 'Poradnik',
+    title: 'Od czego zależy koszt projektu domu lub wnętrza?',
+    href: '/no-sidebar',
+  },
+  {
+    img: '/img/tm-7.jpg',
+    day: '03',
+    category: 'Poradnik',
+    title: 'Projekt koncepcyjny, budowlany i wykonawczy: czym się różnią?',
+    href: '/no-sidebar',
+  },
+];
+---
+
+<section class="section section--alt blog split-golden">
+  <header class="blog__head">
+    <h2>Zanim rozpoczniesz projekt</h2>
+    <ArrowLink href="/no-sidebar">Zobacz poradniki</ArrowLink>
+  </header>
+
+  <ul class="blog__grid">
+    {
+      posts.map((post) => (
+        <li>
+          <article class="post">
+            <a class="post__media" href={post.href}>
+              <img src={post.img} alt="" width="800" height="597" loading="lazy" />
+            </a>
+            <div class="post__info">
+              <span class="post__day">{post.day}</span>
+              <span class="post__cat">{post.category}</span>
+            </div>
+            <h3 class="post__title">
+              <a href={post.href}>{post.title}</a>
+            </h3>
+          </article>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  /* demo: nagłówek w lewej kolumnie 325px, wpisy w prawej 975px */
+  .blog {
+    padding-top: 120px;
+    padding-bottom: calc(125px + var(--sec-y));
+  }
+
+  .blog__head {
+    min-width: 0;
+  }
+
+  .blog__head .link-btn {
+    margin-top: 23px;
+  }
+
+  .blog__grid {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .post__media {
+    display: block;
+    overflow: hidden;
+  }
+
+  .post__media img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 800 / 597;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .post__media:hover img {
+    transform: scale(1.06);
+  }
+
+  .post__info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--c-muted);
+  }
+
+  .post__day {
+    color: var(--c-accent);
+  }
+
+  .post__title {
+    margin-top: 8px;
+  }
+
+  .post__title a:hover {
+    color: var(--c-accent);
+  }
+
+  @media (max-width: 1024px) {
+    .blog {
+      --split-gap-tablet: 40px;
+      padding-top: 110px;
+      padding-bottom: calc(100px + var(--sec-y));
+    }
+
+    .blog__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .blog__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

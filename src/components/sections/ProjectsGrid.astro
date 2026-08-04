@@ -1,0 +1,149 @@
+---
+import { projects } from '../../data/portfolio';
+import ArrowLink from '../ArrowLink.astro';
+
+// Asymetryczny wybór realizacji: jedna duża historia i dwie mniejsze.
+const items = projects.slice(0, 3);
+---
+
+<section class="section projects" id="projekty">
+  <header class="projects__head">
+    <h2>Wybrane realizacje</h2>
+    <ArrowLink href="/portfolio/standard-list">Zobacz wszystkie projekty</ArrowLink>
+  </header>
+
+  <ul class="projects__grid split-golden--reverse">
+    {
+      items.map((item) => (
+        <li>
+          <a class="projects__item" href={`/portfolio/${item.slug}`}>
+            <span class="projects__media">
+              <img src={item.img} alt="" width="650" height="650" loading="lazy" />
+            </span>
+            <span class="projects__meta">
+              <span>{item.category}</span>
+              {item.year && <span class="projects__year">{item.year}</span>}
+            </span>
+            <span class="projects__title">{item.title}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .projects {
+    padding-block: 130px 150px;
+  }
+
+  .projects__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 55px;
+  }
+
+  .projects__grid {
+    display: grid;
+    gap: 70px clamp(30px, 5vw, 80px);
+    align-items: start;
+  }
+
+  .projects__grid > li:first-child {
+    grid-row: span 2;
+  }
+
+  .projects__grid > li:nth-child(3) {
+    margin-top: 35px;
+  }
+
+  .projects__item {
+    display: block;
+  }
+
+  .projects__media {
+    display: block;
+    overflow: hidden;
+  }
+
+  .projects__media img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .projects__item:hover .projects__media img {
+    transform: scale(1.06);
+  }
+
+  .projects__grid > li:first-child .projects__media img {
+    aspect-ratio: 16 / 11;
+  }
+
+  .projects__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 22px;
+    text-transform: uppercase;
+    color: #777;
+  }
+
+  .projects__year {
+    font-size: 13px;
+  }
+
+  .projects__title {
+    display: block;
+    margin-top: 3px;
+    font-family: var(--ff-heading);
+    font-size: 23px;
+    line-height: 30px;
+    letter-spacing: -0.575px;
+    color: var(--c-fg);
+    transition: color 0.3s ease;
+  }
+
+  .projects__item:hover .projects__title {
+    color: var(--c-accent);
+  }
+
+  @media (max-width: 1024px) {
+    .projects {
+      padding-block: 110px;
+    }
+
+    .projects__grid {
+      gap: 45px 25px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .projects {
+      padding-block: 80px;
+    }
+
+    .projects__head {
+      margin-bottom: 35px;
+    }
+
+    .projects__grid {
+      gap: 35px;
+    }
+
+    .projects__grid > li:first-child {
+      grid-row: auto;
+    }
+
+    .projects__grid > li:nth-child(3) {
+      margin-top: 0;
+    }
+  }
+</style>

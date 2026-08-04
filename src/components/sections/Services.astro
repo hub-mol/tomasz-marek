@@ -1,0 +1,170 @@
+---
+const items = [
+  {
+    icon: '/icons/building-1.svg',
+    img: '/img/tm-1.jpg',
+    title: 'Domy',
+    text: 'Projekty domów jednorodzinnych — od koncepcji i pozwolenia na budowę, przez projekt techniczny, po koordynację branż i nadzór autorski.',
+  },
+  {
+    icon: '/icons/building-2.svg',
+    img: '/img/tm-2.jpg',
+    title: 'Wnętrza',
+    text: 'Kompleksowe projekty wnętrz prywatnych: układy funkcjonalne, koncepcja, materiały, dokumentacja techniczna i zestawienia produktowe.',
+  },
+  {
+    icon: '/icons/building-3.svg',
+    img: '/img/tm-3.jpg',
+    title: 'Usługi',
+    text: 'Wnętrza lokali usługowych — kawiarni, gabinetów i salonów. Przestrzenie, które dobrze działają i budują spójny wizerunek marki.',
+  },
+  {
+    icon: '/icons/building-4.svg',
+    img: '/img/tm-4.jpg',
+    title: 'Doradztwo',
+    text: 'Analiza działki lub nieruchomości przed zakupem, ocena potencjału inwestycji i konsultacje gotowej dokumentacji.',
+  },
+];
+
+interface Props {
+  showHeader?: boolean;
+  /** 'row' — cztery kolumny w rzędzie, 'grid' — siatka 2×2 */
+  layout?: 'row' | 'grid';
+}
+
+const { showHeader = false, layout = 'row' } = Astro.props;
+---
+
+<section class="section services" id="oferta">
+  {
+    showHeader && (
+      <header class="services__head">
+        <p class="services__eyebrow eyebrow">Oferta</p>
+        <h2>W czym się specjalizuję</h2>
+      </header>
+    )
+  }
+
+  <ul class:list={['services__grid', `services__grid--${layout}`]}>
+    {
+      items.map((item) => (
+        <li class="services__item">
+          {
+            layout === 'grid' ? (
+              <img
+                class="services__photo"
+                src={item.img}
+                alt=""
+                width="108"
+                height="108"
+                loading="lazy"
+              />
+            ) : (
+              <img class="services__icon" src={item.icon} alt="" width="105" height="71" />
+            )
+          }
+          <div class="services__body">
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .services {
+    padding-top: 110px;
+    padding-bottom: 110px;
+  }
+
+  .services__head {
+    margin-bottom: 58px;
+  }
+
+  .services__eyebrow {
+    margin-bottom: 10px;
+  }
+
+  .services__grid {
+    display: grid;
+  }
+
+  .services__grid--row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .services__grid--grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 70px 60px;
+  }
+
+  /* w tym układzie kadr stoi obok tekstu, nie nad nim */
+  .services__grid--grid .services__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    padding-right: 0;
+  }
+
+  .services__grid--grid .services__photo {
+    flex-shrink: 0;
+  }
+
+  /* pionowy odstęp spod ikony jest tu zbędny — tekst startuje od góry */
+  .services__grid--grid .services__item h3 {
+    margin-top: 0;
+  }
+
+  /* kadr jak przy opinii, tylko półtora raza większy */
+  .services__photo {
+    width: 108px;
+    height: 108px;
+    object-fit: cover;
+  }
+
+  .services__grid--grid .services__item p {
+    max-width: 50ch;
+  }
+
+  .services__item {
+    padding-right: 35px;
+  }
+
+  .services__icon {
+    height: 71px;
+    width: auto;
+  }
+
+  .services__item h3 {
+    margin-top: 23px;
+  }
+
+  .services__item p {
+    margin-top: 8px;
+  }
+
+  @media (max-width: 1024px) {
+    .services {
+      padding-top: 80px;
+      padding-bottom: 80px;
+    }
+
+    .services__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 50px 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .services__grid {
+      grid-template-columns: 1fr;
+      gap: 45px;
+    }
+
+    .services__item {
+      padding-right: 0;
+    }
+  }
+</style>

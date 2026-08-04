@@ -1,0 +1,75 @@
+---
+// Sekcja z podstrony About Us. Czerwony pas z przewijanym tekstem.
+// Oryginał animuje go JS-em; tu wystarczy jedna klatka CSS i zdublowana treść.
+interface Props {
+  items?: string[];
+  speed?: number;
+}
+
+const {
+  items = [
+    'Nulla aliquet enim tortor at auctor urna.',
+    'Elit ullamcorper dignissim cras tincidunt lobortis.',
+    'Ornare suspendisse sed nisi lacus sed viverra.',
+  ],
+  speed = 30,
+} = Astro.props;
+---
+
+<section class="marquee" style={`--speed:${speed}s`}>
+  <div class="marquee__track">
+    {
+      [0, 1].map((copy) => (
+        <div class="marquee__group" aria-hidden={copy === 1 ? 'true' : undefined}>
+          {items.map((item) => (
+            <span class="marquee__item">{item}</span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .marquee {
+    padding-block: 18px;
+    background: var(--c-accent);
+    color: #fff;
+    overflow: hidden;
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--speed) linear infinite;
+  }
+
+  .marquee__group {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .marquee__item {
+    padding-inline: 30px;
+    white-space: nowrap;
+  }
+
+  .marquee__item::after {
+    content: '*';
+    margin-left: 30px;
+  }
+
+  /* dwie identyczne kopie → przesunięcie o -50% wygląda na pętlę bez szwu */
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+</style>

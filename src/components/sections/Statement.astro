@@ -1,0 +1,36 @@
+---
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<section class="section statement">
+  <h2>{text}</h2>
+</section>
+
+<style>
+  .statement {
+    padding-top: 140px;
+    padding-bottom: 130px;
+  }
+
+  .statement h2 {
+    max-width: 1120px;
+  }
+
+  @media (max-width: 1024px) {
+    .statement {
+      padding-top: 90px;
+      padding-bottom: 90px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .statement {
+      padding-top: 75px;
+      padding-bottom: 75px;
+    }
+  }
+</style>

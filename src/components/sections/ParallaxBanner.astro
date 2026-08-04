@@ -1,0 +1,74 @@
+---
+interface Props {
+  title: string;
+  img?: string;
+}
+
+const { title, img = '/img/tm-4.jpg' } = Astro.props;
+---
+
+<section class="banner">
+  <img
+    class="banner__media"
+    src={img}
+    alt=""
+    width="1920"
+    height="1080"
+    loading="lazy"
+  />
+  <div class="banner__inner">
+    <h2 class="banner__title type-lead">{title}</h2>
+  </div>
+</section>
+
+<style>
+  .banner {
+    position: relative;
+    height: min(620px, 72svh);
+    display: flex;
+    align-items: center;
+    padding-inline: var(--gutter);
+    overflow: hidden;
+    color: #fff;
+  }
+
+  .banner__media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+  }
+
+  .banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .banner__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+  }
+
+  .banner__title {
+    max-width: 1180px;
+    white-space: pre-line;
+  }
+
+  @media (max-width: 1024px) {
+    .banner {
+      height: 420px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .banner {
+      height: 340px;
+    }
+
+  }
+</style>

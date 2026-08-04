@@ -1,0 +1,187 @@
+---
+interface Item {
+  label: string;
+  img: string;
+  href?: string;
+}
+
+interface Props {
+  id?: string;
+  title?: string;
+  items?: Item[];
+}
+
+const {
+  id = 'zakres',
+  title = 'Pełny zakres współpracy',
+  items = [
+    { label: 'Analizy przedprojektowe', img: '/img/tm-1.jpg' },
+    { label: 'Koncepcje architektoniczne', img: '/img/tm-2.jpg' },
+    { label: 'Pozwolenie na budowę', img: '/img/tm-3.jpg' },
+    { label: 'Projekty techniczne', img: '/img/tm-4.jpg' },
+    { label: 'Koordynacja międzybranżowa', img: '/img/tm-5.jpg' },
+    { label: 'Nadzór autorski', img: '/img/tm-6.jpg' },
+  ],
+} = Astro.props;
+---
+
+<section class="section offer split-golden" id={id}>
+  <h2 class="offer__title">{title}</h2>
+
+  <ul class="offer__list">
+    {
+      items.map((item, i) => (
+        <li class="offer__item">
+          <a class="offer__link" href={item.href ?? '#'}>
+            <span class="offer__label">
+              {item.label}
+              <span class="offer__num">{String(i + 1).padStart(2, '0')}</span>
+            </span>
+            <img
+              class="offer__preview"
+              src={item.img}
+              alt=""
+              width="502"
+              height="277"
+              loading="lazy"
+            />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .offer {
+    position: relative;
+    padding-top: 135px;
+    padding-bottom: calc(135px + var(--sec-y));
+  }
+
+  .offer__title {
+    align-self: start;
+    position: sticky;
+    top: 40px;
+  }
+
+  .offer__list {
+    position: relative;
+    border-top: 1px solid var(--c-line);
+  }
+
+  .offer__item {
+    border-bottom: 1px solid var(--c-line);
+  }
+
+  .offer__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 92px;
+    padding-block: 20px;
+    transition: color 0.35s ease;
+  }
+
+  .offer__label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    font-family: var(--ff-heading);
+    font-size: clamp(1.75rem, 3vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+
+  .offer__num {
+    display: inline-block;
+    order: -1;
+    min-width: 34px;
+    margin: 0;
+    font-family: var(--ff);
+    font-size: 15px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--c-gray);
+  }
+
+  .offer__preview {
+    position: absolute;
+    right: 48px;
+    bottom: calc(100% - 10px);
+    z-index: 2;
+    width: 240px;
+    height: 150px;
+    object-fit: cover;
+    opacity: 0;
+    transform: translateX(20px) scale(0.94);
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s cubic-bezier(0.16, 0.48, 0.36, 1);
+    pointer-events: none;
+  }
+
+  .offer__link:hover .offer__preview,
+  .offer__link:focus-visible .offer__preview {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  @media (max-width: 1024px) {
+    .offer {
+      padding-top: 100px;
+      padding-bottom: calc(100px + var(--sec-y));
+    }
+
+    .offer__title {
+      position: static;
+    }
+
+  }
+
+  @media (max-width: 768px) {
+    .offer {
+      padding-top: 70px;
+      padding-bottom: calc(70px + var(--sec-y));
+    }
+
+    .offer__link {
+      flex-wrap: wrap;
+      min-height: 0;
+      padding-block: 1.5rem;
+    }
+
+    .offer__label {
+      flex: 1 1 100%;
+      justify-content: flex-start;
+    }
+
+    .offer__num {
+      margin-top: 0;
+      margin-right: 0;
+      vertical-align: baseline;
+    }
+
+    .offer__preview {
+      position: static;
+      flex-basis: 100%;
+      width: 100%;
+      height: 160px;
+      margin-top: 14px;
+      opacity: 1;
+      transform: none;
+    }
+
+    .offer__list:hover .offer__link {
+      color: var(--c-fg);
+    }
+  }
+</style>

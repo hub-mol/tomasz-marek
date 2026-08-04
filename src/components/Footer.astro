@@ -1,0 +1,42 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="section ftr">
+  <a class="ftr__logo" href="/">tma<span class="ftr__star">*</span> studio</a>
+  <p class="ftr__copy">&copy; {year} tma* studio</p>
+</footer>
+
+<style>
+  .ftr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: var(--hdr-h);
+    border-top: 1px solid var(--c-line);
+  }
+
+  .ftr__logo {
+    font-family: var(--ff-heading);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+  }
+
+  .ftr__star {
+    color: var(--c-accent);
+  }
+
+  .ftr__copy {
+    color: var(--c-muted);
+  }
+
+  @media (max-width: 768px) {
+    .ftr {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

@@ -1,0 +1,170 @@
+---
+import type { Post } from '../../data/blog';
+import { excerpt } from '../../data/blog';
+
+// Dwa układy listy wpisów z dema:
+//   large   — No Sidebar: jedna kolumna, duże zdjęcie, zajawka
+//   compact — Blog Compact: siatka 3 kolumn, bez zajawki
+interface Props {
+  posts: Post[];
+  layout?: 'large' | 'compact';
+}
+
+const { posts, layout = 'large' } = Astro.props;
+---
+
+<div class="container">
+  <ul class:list={['feed', `feed--${layout}`]}>
+    {
+      posts.map((post) => (
+        <li>
+          <article class="post">
+            <a class="post__media" href="#">
+              <img
+                src={post.img}
+                alt=""
+                width="1100"
+                height="692"
+                loading="lazy"
+              />
+              <span class="post__date">
+                <span class="post__day">{post.day}</span>
+                <span class="post__month">{post.month}</span>
+              </span>
+            </a>
+
+            <div class="post__body">
+              <p class="post__cats">
+                {post.categories.map((c) => (
+                  <span>{c}</span>
+                ))}
+              </p>
+
+              <h2 class="post__title">
+                <a href="#">{post.title}</a>
+              </h2>
+
+              {layout === 'large' && <p class="post__excerpt">{excerpt}</p>}
+            </div>
+          </article>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .feed--large {
+    display: grid;
+    gap: 70px;
+  }
+
+  .feed--compact {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 45px 20px;
+  }
+
+  .post__media {
+    position: relative;
+    display: block;
+    overflow: hidden;
+  }
+
+  .post__media img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1100 / 692;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .post__media:hover img {
+    transform: scale(1.04);
+  }
+
+  /* data w białym kaflu na rogu zdjęcia — jak w oryginale */
+  .post__date {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 81px;
+    background: var(--c-bg);
+    font-size: 15px;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+
+  .post__day {
+    font-family: var(--ff-heading);
+    font-weight: 700;
+  }
+
+  .post__body {
+    padding-top: 33px;
+  }
+
+  .post__cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    font-size: 13px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--c-muted);
+  }
+
+  .post__title {
+    margin-top: 10px;
+    font-size: var(--fs-h2);
+    line-height: var(--lh-h2);
+    letter-spacing: var(--ls-h2);
+    font-weight: 400;
+  }
+
+  .feed--compact .post__title {
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .post__title a {
+    transition: color 0.3s ease;
+  }
+
+  .post__title a:hover {
+    color: var(--c-accent);
+  }
+
+  .post__excerpt {
+    margin-top: 16px;
+    max-width: 60ch;
+    color: var(--c-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .feed--large {
+      gap: 50px;
+    }
+
+    .feed--compact {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .post__body {
+      padding-top: 24px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .feed--compact {
+      grid-template-columns: 1fr;
+      gap: 35px;
+    }
+  }
+</style>

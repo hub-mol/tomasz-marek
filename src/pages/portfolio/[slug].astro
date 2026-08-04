@@ -1,0 +1,158 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+import ProjectHero from '../../components/project/ProjectHero.astro';
+import ProjectInfo from '../../components/project/ProjectInfo.astro';
+import ProjectStats from '../../components/project/ProjectStats.astro';
+import ProjectNav from '../../components/project/ProjectNav.astro';
+import MediaText from '../../components/project/MediaText.astro';
+import FullImage from '../../components/project/FullImage.astro';
+import Gallery from '../../components/project/Gallery.astro';
+import Testimonials from '../../components/sections/Testimonials.astro';
+
+import { projects, projectBody } from '../../data/portfolio';
+
+export function getStaticPaths() {
+  return projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: {
+      project,
+      prev: projects[(i - 1 + projects.length) % projects.length],
+      next: projects[(i + 1) % projects.length],
+    },
+  }));
+}
+
+const { project, prev, next } = Astro.props;
+const { layout, gallery, info, stats } = project;
+---
+
+<Base title={`${project.title} — tma* studio`}>
+  <Header variant={layout === 'b' ? 'overlay' : 'solid'} />
+
+  <main>
+    {/* ---------- wariant A: tytuł, pełne zdjęcie, bloki naprzemienne ---------- */}
+    {
+      layout === 'a' && (
+        <>
+          <ProjectHero
+            title={project.title}
+            category={project.category}
+            year={project.year}
+            lead={project.lead}
+          />
+
+          <FullImage img={project.img} bleed ratio="1600 / 620" />
+
+          <MediaText img={gallery[0]} title="Exterior" text={projectBody} />
+
+          <ProjectStats stats={stats} />
+
+          <MediaText img={gallery[1]} title="Interior" text={projectBody} reverse alt>
+            <div class="mt-info">
+              <ProjectInfo info={info} />
+            </div>
+          </MediaText>
+
+          <Gallery images={gallery} />
+        </>
+      )
+    }
+
+    {/* ---------- wariant B: tytuł na zdjęciu, metadane obok wstępu ---------- */}
+    {
+      layout === 'b' && (
+        <>
+          <ProjectHero
+            title={project.title}
+            category={project.category}
+            year={project.year}
+            img={project.img}
+            variant="cover"
+          />
+
+          <section class="section intro">
+            <p class="intro__lead">{project.lead}</p>
+            <ProjectInfo info={info} />
+          </section>
+
+          <Gallery images={gallery} />
+
+          <Testimonials />
+
+          <ProjectStats stats={stats} skin="dark" />
+
+          <FullImage img={gallery[0]} bleed ratio="1600 / 700" />
+        </>
+      )
+    }
+
+    {/* ---------- wariant C: rytm dwukolumnowy, metadane na końcu ---------- */}
+    {
+      layout === 'c' && (
+        <>
+          <ProjectHero
+            title={project.title}
+            category={project.category}
+            year={project.year}
+            lead={project.lead}
+          />
+
+          <MediaText img={project.img} text={projectBody} />
+
+          <ProjectStats stats={stats} skin="dark" />
+
+          <MediaText img={gallery[0]} title="Materiały" text={projectBody} reverse />
+
+          <FullImage img={gallery[1]} bleed ratio="1600 / 520" />
+
+          <section class="section intro intro--tight">
+            <h2>Architect team</h2>
+            <ProjectInfo info={info} />
+          </section>
+
+          <Gallery images={gallery} />
+        </>
+      )
+    }
+
+    <ProjectNav prev={prev} next={next} />
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    padding-block: 110px;
+  }
+
+  .intro__lead {
+    max-width: 550px;
+    font-family: var(--ff-heading);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .intro--tight {
+    padding-block: 90px;
+  }
+
+  .mt-info {
+    margin-top: 32px;
+  }
+
+  @media (max-width: 1024px) {
+    .intro {
+      grid-template-columns: 1fr;
+      gap: 35px;
+      padding-block: 70px;
+    }
+  }
+</style>

@@ -1,0 +1,177 @@
+---
+import type { AccordionItem } from './Accordion.astro';
+
+interface Props {
+  architecture: AccordionItem[];
+  interiors: AccordionItem[];
+}
+
+const { architecture, interiors } = Astro.props;
+
+const groups = [
+  { title: 'Architektura', items: architecture },
+  { title: 'Wnętrza', items: interiors },
+];
+---
+
+<section class="section process" id="proces">
+  <header class="process__head split-golden">
+    <p class="process__eyebrow eyebrow">Proces</p>
+    <h2>Od pierwszej rozmowy do realizacji</h2>
+  </header>
+
+  <div class="process__groups">
+    {
+      groups.map((group) => (
+        <article class="process__group">
+          <h3 class="process__group-title">{group.title}</h3>
+
+          <div class="process__list">
+            {group.items.map((item, i) => (
+              <details class="process__item" name={`process-${group.title}`}>
+                <summary class="process__summary">
+                  <span class="process__num">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="process__label">{item.title}</span>
+                  <span class="process__mark" aria-hidden="true">+</span>
+                </summary>
+                <div class="process__body">
+                  <p>{item.body}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .process {
+    padding-top: 140px;
+    padding-bottom: 150px;
+    background: #171816;
+    color: #fff;
+  }
+
+  .process__head {
+    margin-bottom: 78px;
+  }
+
+  .process__eyebrow {
+    padding-top: 8px;
+    color: #a7a7a7;
+  }
+
+  .process__head h2 {
+    max-width: 720px;
+    font-size: clamp(2.3rem, 4.2vw, 4.4rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+  }
+
+  .process__groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(45px, 6vw, 100px);
+  }
+
+  .process__group-title {
+    margin-bottom: 28px;
+    color: #a7a7a7;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .process__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .process__item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .process__summary {
+    display: grid;
+    grid-template-columns: 34px 1fr 20px;
+    gap: 14px;
+    align-items: baseline;
+    padding-block: 20px;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .process__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .process__num {
+    color: #929292;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .process__label {
+    font-family: var(--ff-heading);
+    font-size: clamp(1.2rem, 1.8vw, 1.7rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    transition: color 0.25s ease;
+  }
+
+  .process__summary:hover .process__label {
+    color: var(--c-accent);
+  }
+
+  .process__mark {
+    justify-self: end;
+    color: #a7a7a7;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .process__item[open] .process__mark {
+    transform: rotate(45deg);
+  }
+
+  .process__body {
+    max-width: 580px;
+    padding: 0 34px 22px 48px;
+    color: #bcbcbc;
+  }
+
+  @media (max-width: 1024px) {
+    .process {
+      padding-top: 100px;
+      padding-bottom: 110px;
+    }
+
+    .process__head {
+      --split-gap-tablet: 16px;
+      margin-bottom: 60px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .process {
+      padding-top: 80px;
+      padding-bottom: 85px;
+    }
+
+    .process__groups {
+      grid-template-columns: 1fr;
+      gap: 65px;
+    }
+
+    .process__head {
+      margin-bottom: 50px;
+    }
+
+    .process__body {
+      padding-left: 48px;
+      padding-right: 0;
+    }
+  }
+</style>

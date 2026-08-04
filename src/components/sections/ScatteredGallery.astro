@@ -1,0 +1,123 @@
+---
+// Odpowiednik `assorted_portfolio_gallery` z dema: kadry o różnej wielkości,
+// rozsypane po siatce z celowymi przesunięciami w pionie.
+interface Kadr {
+  img: string;
+  caption?: string;
+  /** kolumna startowa 1–12 */
+  col: number;
+  /** ile kolumn zajmuje */
+  span: number;
+  /** przesunięcie w dół, w krotności --shift */
+  offset?: number;
+  ratio?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  items?: Kadr[];
+}
+
+const {
+  eyebrow = 'Detale',
+  title = 'Fragmenty, które budują całość',
+  items = [
+    { img: '/img/tm-1.jpg', caption: 'Elewacja południowa', col: 1, span: 5, ratio: '4 / 5' },
+    { img: '/img/tm-4.jpg', caption: 'Strefa dzienna', col: 7, span: 6, offset: 2, ratio: '3 / 2' },
+    { img: '/img/tm-6.jpg', caption: 'Detal stolarki', col: 2, span: 4, offset: 1, ratio: '1 / 1' },
+    { img: '/img/tm-3.jpg', caption: 'Widok od ogrodu', col: 8, span: 5, offset: 3, ratio: '4 / 5' },
+    { img: '/img/tm-7.jpg', caption: 'Przestrzeń wspólna', col: 1, span: 6, offset: 2, ratio: '3 / 2' },
+  ],
+} = Astro.props;
+---
+
+<section class="section scatter">
+  <header class="scatter__head">
+    <p class="eyebrow">{eyebrow}</p>
+    <h2>{title}</h2>
+  </header>
+
+  <div class="scatter__grid">
+    {
+      items.map((k) => (
+        <figure
+          class="scatter__item"
+          style={`--col:${k.col}; --span:${k.span}; --offset:${k.offset ?? 0}; --ratio:${k.ratio ?? '3 / 2'}`}
+        >
+          <img src={k.img} alt="" width="900" height="700" loading="lazy" />
+          {k.caption && <figcaption>{k.caption}</figcaption>}
+        </figure>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .scatter {
+    padding-block: var(--sec-y);
+    background: var(--c-bg-alt);
+  }
+
+  .scatter__head {
+    margin-bottom: 70px;
+  }
+
+  .scatter__head h2 {
+    max-width: 16ch;
+    margin-top: 10px;
+  }
+
+  .scatter__grid {
+    --shift: 60px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 40px;
+  }
+
+  .scatter__item {
+    grid-column: var(--col) / span var(--span);
+    margin: 0;
+    /* przesunięcie w dół rozbija równy rytm siatki */
+    margin-top: calc(var(--offset) * var(--shift));
+  }
+
+  .scatter__item img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--ratio);
+    object-fit: cover;
+  }
+
+  .scatter__item figcaption {
+    margin-top: 14px;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .scatter__grid {
+      --shift: 30px;
+      gap: 25px;
+    }
+  }
+
+  /* na wąskim ekranie rozsypka nie ma sensu — wracamy do jednej kolumny */
+  @media (max-width: 768px) {
+    .scatter__grid {
+      grid-template-columns: 1fr;
+      gap: 35px;
+    }
+
+    .scatter__item {
+      grid-column: auto;
+      margin-top: 0;
+    }
+
+    .scatter__head {
+      margin-bottom: 40px;
+    }
+  }
+</style>

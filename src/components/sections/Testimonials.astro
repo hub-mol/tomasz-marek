@@ -1,0 +1,122 @@
+---
+// Opinia klienta. Treść jest na razie przykładowa — do podmiany na prawdziwą.
+interface Props {
+  text?: string;
+  name?: string;
+  job?: string;
+  photo?: string;
+  alt?: boolean;
+  demo?: boolean;
+}
+
+const {
+  text = 'Najbardziej doceniam to, że na każdym etapie wiedzieliśmy, co się dzieje i dlaczego. Zamiast gotowego katalogu rozwiązań dostaliśmy projekt, który naprawdę odpowiada na to, jak żyjemy.',
+  name = 'Anna i Paweł',
+  job = 'dom jednorodzinny pod Gdańskiem',
+  photo = '/img/team-image-05.jpg',
+  alt = false,
+  demo = false,
+} = Astro.props;
+---
+
+<section class:list={['section', 'testimonial', 'split-golden', { 'section--alt': alt }]}>
+  <figure class="testimonial__inner">
+    {demo && <p class="testimonial__demo eyebrow">Opinia demonstracyjna</p>}
+    <blockquote>
+      <p class="testimonial__text">&bdquo;{text}&rdquo;</p>
+    </blockquote>
+
+    <figcaption class="testimonial__author">
+      {
+        photo && (
+          <img
+            class="testimonial__photo"
+            src={photo}
+            alt=""
+            width="72"
+            height="72"
+            loading="lazy"
+          />
+        )
+      }
+      <span class="testimonial__who">
+        <span class="testimonial__name">{name}</span>
+        <span class="testimonial__job">{job}</span>
+      </span>
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .testimonial {
+    padding-top: 110px;
+    padding-bottom: calc(110px + var(--sec-y));
+  }
+
+  .testimonial__inner {
+    grid-column: 2;
+    margin: 0;
+  }
+
+  .testimonial__text {
+    max-width: 700px;
+    margin-bottom: 28px;
+    font-family: var(--ff-heading);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .testimonial__demo {
+    margin-bottom: 14px;
+  }
+
+  /* zdjęcie stoi przy autorze, nie przy całym cytacie */
+  .testimonial__author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .testimonial__photo {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+  }
+
+  .testimonial__name {
+    display: block;
+    font-family: var(--ff-heading);
+    font-weight: 700;
+  }
+
+  .testimonial__job {
+    color: var(--c-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .testimonial {
+      padding-block: 90px;
+      padding-bottom: calc(90px + var(--sec-y));
+    }
+
+    .testimonial__inner {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .testimonial {
+      padding-block: 70px;
+      padding-bottom: calc(70px + var(--sec-y));
+    }
+
+    .testimonial__photo {
+      width: 60px;
+      height: 60px;
+    }
+  }
+</style>

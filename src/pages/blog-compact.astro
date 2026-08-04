@@ -1,0 +1,9 @@
+---
+import Page from '../layouts/Page.astro';
+import BlogFeed from '../components/sections/BlogFeed.astro';
+import { compact } from '../data/blog';
+---
+
+<Page title="Blog — lista zwarta — tma* studio" heading="Blog">
+  <BlogFeed posts={compact} layout="compact" />
+</Page>

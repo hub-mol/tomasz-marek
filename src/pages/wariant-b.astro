@@ -1,0 +1,88 @@
+---
+// Wariant strony głównej na prezentację dla klienta.
+// Ta sama narracja i te same treści, ale kilka sekcji dostało inne
+// rozwiązanie graficzne — chodzi o pokazanie rozpiętości układów.
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+import Hero from '../components/sections/Hero.astro';
+import Statement from '../components/sections/Statement.astro';
+import Services from '../components/sections/Services.astro';
+import Accordion from '../components/sections/Accordion.astro';
+import AboutHero from '../components/sections/AboutHero.astro';
+import Testimonials from '../components/sections/Testimonials.astro';
+import Counters from '../components/sections/Counters.astro';
+import Credentials from '../components/sections/Credentials.astro';
+import ContactInfo from '../components/sections/ContactInfo.astro';
+
+// sekcje pokazane tylko w tym wariancie
+import VariedRows from '../components/sections/VariedRows.astro';
+import StickyFeature from '../components/sections/StickyFeature.astro';
+import QuoteBand from '../components/sections/QuoteBand.astro';
+import ScatteredGallery from '../components/sections/ScatteredGallery.astro';
+
+import { faq } from '../data/home';
+---
+
+<Base
+  title="Wariant B — Tomasz Marek"
+  description="Alternatywny układ strony głównej: inne rozwiązania graficzne tych samych treści."
+>
+  <Header variant="overlay" logoStart="tomasz" logoEnd="marek" />
+
+  <main>
+    <Hero titleStart="to" titleEnd="ma ambitną architekturę" />
+
+    <Statement
+      text="Dobra i przemyślana architektura jest efektem procesu i wielu świadomych decyzji. Proces projektowy prowadzę warsztatowo — wspólnie weryfikujemy różne warianty i wprowadzamy zmiany."
+    />
+
+    {/* zamiast siatki 3 kafli — wiersze o zmiennych proporcjach */}
+    <VariedRows />
+
+    <Services layout="grid" showHeader />
+
+    <Statement
+      text="Potrafię wsłuchać się w oczekiwania klientów i trafnie przełożyć ich wytyczne na język architektury."
+    />
+
+    {/* zamiast listy zakresu i akordeonu procesu — przyklejona kolumna tekstu */}
+    <StickyFeature />
+
+    {/* zamiast zdjęcia z napisem — pełny pas w kolorze akcentu */}
+    <QuoteBand
+      text="Najlepszy projekt to taki, który powstaje warsztatowo, wspólnie."
+      author="Tomasz Marek"
+      role="architekt IARP"
+    />
+
+    {/* nowa sekcja: rozsypane kadry o różnej wielkości */}
+    <ScatteredGallery />
+
+    <AboutHero
+      id="o-mnie"
+      title="Tomasz Marek"
+      text="Architekt IARP. Absolwent Politechniki Gdańskiej i Politecnico di Milano. Doświadczenie zdobywał w pracowniach architektonicznych i wnętrzarskich w Tallinie, Paryżu i Trójmieście."
+      img="/img/team-image-05.jpg"
+    />
+
+    <Credentials />
+
+    <Counters note="Liczby demonstracyjne" />
+
+    <Testimonials demo />
+
+    <Accordion
+      id="faq"
+      title="Pytania przed rozpoczęciem współpracy"
+      items={faq}
+      numbered
+      alt
+    />
+
+    <ContactInfo />
+  </main>
+
+  <Footer />
+</Base>

@@ -1,0 +1,162 @@
+---
+// Jeden komponent w dwóch trybach:
+//   interactive — rozwijany <details>, do FAQ
+//   static      — wszystkie panele otwarte, bez strzałki i bez interakcji (proces)
+export interface AccordionItem {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  id?: string;
+  title: string;
+  items: AccordionItem[];
+  variant?: 'interactive' | 'static';
+  numbered?: boolean;
+  alt?: boolean;
+}
+
+const {
+  id,
+  title,
+  items,
+  variant = 'interactive',
+  numbered = false,
+  alt = false,
+} = Astro.props;
+
+const isStatic = variant === 'static';
+---
+
+<section class:list={['section', 'accordion-sec', 'split-golden', { 'section--alt': alt }]} id={id}>
+  <div class="accordion-sec__col">
+    <h2 class="accordion-sec__title">{title}</h2>
+  </div>
+
+  <div class="accordion-sec__col accordion">
+    {
+      items.map((item, i) => {
+        const num = numbered ? String(i + 1).padStart(2, '0') : null;
+
+        return isStatic ? (
+          <div class="accordion__item">
+            <div class="accordion__head">
+              {num && <span class="accordion__num">{num}</span>}
+              <span class="accordion__label">{item.title}</span>
+            </div>
+            <div class="accordion__body">
+              <p>{item.body}</p>
+            </div>
+          </div>
+        ) : (
+          <details class="accordion__item" name={id ?? 'accordion'}>
+            <summary class="accordion__head">
+              {num && <span class="accordion__num">{num}</span>}
+              <span class="accordion__label">{item.title}</span>
+              <span class="accordion__mark" aria-hidden="true">
+                <svg width="11" height="14" viewBox="0 0 10.94 13.423">
+                  <path d="M5.516 0v12.51" />
+                  <path d="M10.586 7.6 5.47 12.716.354 7.6" />
+                </svg>
+              </span>
+            </summary>
+            <div class="accordion__body">
+              <p>{item.body}</p>
+            </div>
+          </details>
+        );
+      })
+    }
+  </div>
+</section>
+
+<style>
+  /* dwie kolumny — tytuł po lewej, pozycje po prawej */
+  .accordion-sec {
+    padding-top: calc(125px + var(--sec-y));
+    padding-bottom: 120px;
+  }
+
+  .accordion-sec__title {
+    max-width: 613px;
+  }
+
+  .accordion__item {
+    border-bottom: 1px solid var(--c-line);
+  }
+
+  .accordion__head {
+    display: flex;
+    /* numer siada na linii bazowej OSTATNIEJ linii tytułu — przy zawinięciu
+       nie zawisa w połowie wysokości. Pierwsza deklaracja to zapas
+       dla silników bez obsługi `last`. */
+    align-items: baseline;
+    align-items: last baseline;
+    gap: 16px;
+    padding: 20px 0;
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+    list-style: none;
+  }
+
+  details.accordion__item .accordion__head {
+    cursor: pointer;
+  }
+
+  .accordion__head::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion__num {
+    min-width: 34px;
+    font-family: var(--ff);
+    font-size: 15px;
+    letter-spacing: normal;
+    color: var(--c-gray);
+  }
+
+  .accordion__label {
+    flex: 1;
+    font-family: var(--ff-heading);
+  }
+
+  /* strzałka zostaje wyśrodkowana — na linii bazowej wyglądałaby krzywo */
+  .accordion__mark {
+    align-self: center;
+  }
+
+  .accordion__mark svg {
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    transition: transform 0.35s ease;
+  }
+
+  .accordion__item[open] .accordion__mark svg {
+    transform: rotate(180deg);
+  }
+
+  details.accordion__item .accordion__head:hover .accordion__label {
+    color: var(--c-accent);
+  }
+
+  .accordion__body {
+    padding: 0 26px 26px 50px;
+    color: var(--c-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .accordion-sec {
+      --split-gap-tablet: 40px;
+      padding-top: calc(100px + var(--sec-y));
+      padding-bottom: 90px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .accordion__body {
+      padding-inline: 0;
+    }
+  }
+</style>
