@@ -11,13 +11,13 @@ interface Props {
 
 const {
   titleStart = 'to',
-  titleEnd = 'masz architekta po swojemu',
+  titleEnd = 'masz architekta\nod pierwszego szkicu\ndo ostatniego detalu',
 } = Astro.props;
 
 const slides = ['/img/tm-1.jpg', '/img/tm-6.jpg', '/img/tm-3.jpg'];
 
 const note =
-  'Kompleksowa obsługa inwestycji — od analizy, przez projekt i formalności, po wnętrza i nadzór autorski.';
+  'Tomasz Marek — architekt oferujący kompleksową obsługę Twojej inwestycji';
 
 const DURATION = 7; // s na slajd
 ---
@@ -115,8 +115,10 @@ const DURATION = 7; // s na slajd
   .hero__title {
     max-width: 15ch;
     margin: 0;
-    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-size: clamp(2.5rem, 4vw, 5.5rem);
     line-height: 1.02;
+    /* nagłówek łamiemy ręcznie znakami nowej linii z propsa */
+    white-space: pre-line;
     letter-spacing: -0.03em;
     font-weight: 500;
   }
