@@ -1,0 +1,159 @@
+---
+import { plNoBreak } from '../../utils/typography';
+
+const pillars = [
+  {
+    title: 'Miejsce',
+    text: 'Wykorzystujemy potencjał działki, otoczenia, światła i widoków.',
+  },
+  {
+    title: 'Funkcja',
+    text: 'Projektujemy przestrzeń wokół sposobu życia i rzeczywistych potrzeb użytkowników.',
+  },
+  {
+    title: 'Autentyczność',
+    text: 'Łączymy architekturę, wnętrza, materiały i detal w jedną przemyślaną całość.',
+  },
+];
+---
+
+<section class="section approach">
+  <p class="approach__eyebrow eyebrow">Podejście</p>
+
+  <div class="approach__intro split-golden">
+    <div class="approach__copy">
+      <h2>Nie zaczynamy od gotowej odpowiedzi.</h2>
+      <div class="approach__body">
+        <p>{plNoBreak('Każdy projekt poprzedzamy analizą miejsca, potrzeb użytkowników, możliwości działki i charakteru inwestycji.')}</p>
+        <p>{plNoBreak('Szukamy rozwiązań, które mają swoje uzasadnienie — funkcjonalne, przestrzenne i estetyczne. Dzięki temu projekt nie jest przypadkowym zestawem pomieszczeń i materiałów, ale spójną przestrzenią stworzoną z myślą o jej przyszłych użytkownikach.')}</p>
+      </div>
+    </div>
+
+    <p class="approach__callout">Dobra architektura zaczyna się od zrozumienia</p>
+  </div>
+
+  <ul class="approach__pillars">
+    {pillars.map((pillar, i) => (
+      <li class="approach__pillar">
+        <span class="approach__num">{String(i + 1).padStart(2, '0')}</span>
+        <h3>{pillar.title}</h3>
+        <p>{plNoBreak(pillar.text)}</p>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .approach {
+    padding-top: 145px;
+    padding-bottom: 135px;
+  }
+
+  .approach__eyebrow {
+    margin-bottom: 65px;
+  }
+
+  .approach__copy h2 {
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--ls-h3);
+  }
+
+  .approach__body {
+    max-width: 48ch;
+    margin-top: 32px;
+    color: var(--c-muted);
+  }
+
+  .approach__body p + p {
+    margin-top: 18px;
+  }
+
+  .approach__callout {
+    font-family: var(--ff-heading);
+    font-size: clamp(3rem, 5.5vw, 6.2rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    text-align: right;
+  }
+
+  .approach__pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 100px;
+    border-top: 1px solid var(--c-line);
+  }
+
+  .approach__pillar {
+    min-height: 230px;
+    padding: 32px;
+    border-right: 1px solid var(--c-line);
+  }
+
+  .approach__pillar:last-child {
+    border-right: 0;
+  }
+
+  .approach__num {
+    color: var(--c-gray);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .approach__pillar h3 {
+    margin-top: 42px;
+  }
+
+  .approach__pillar p {
+    max-width: 42ch;
+    margin-top: 12px;
+    color: var(--c-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .approach {
+      padding-top: 105px;
+      padding-bottom: 100px;
+    }
+
+    .approach__pillars {
+      margin-top: 75px;
+    }
+
+  }
+
+  @media (max-width: 768px) {
+    .approach {
+      padding-top: 80px;
+      padding-bottom: 75px;
+    }
+
+    .approach__pillars {
+      grid-template-columns: 1fr;
+    }
+
+    .approach__eyebrow {
+      margin-bottom: 40px;
+    }
+
+    .approach__pillars {
+      margin-top: 55px;
+    }
+
+    .approach__pillar,
+    .approach__pillar + .approach__pillar {
+      min-height: 0;
+      padding: 32px;
+      border-right: 0;
+      border-bottom: 1px solid var(--c-line);
+    }
+
+    .approach__pillar:last-child {
+      border-bottom: 0;
+    }
+
+    .approach__pillar h3 {
+      margin-top: 24px;
+    }
+  }
+</style>

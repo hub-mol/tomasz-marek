@@ -22,17 +22,7 @@ projekt domu" dominuje całą branżę, więc musi być pierwsza.
 6. **Czy zajmujesz się formalnościami i złożeniem wniosku o pozwolenie na budowę?**
 7. **Czy zaprojektujesz dom na wąskiej, pochyłej lub trudnej działce?**
 8. **Co, jeśli będę chciał zmienić coś już po uzyskaniu pozwolenia?**
-9. **Czy adaptujesz gotowe projekty katalogowe?**
-
-**Dlaczego pytanie 4 jest teraz najważniejsze po cenie.** Nowe Warunki Techniczne
-obowiązują wnioski składane **po 20 września 2026**, czyli za około sześć tygodni.
-Wnioski złożone wcześniej idą na starych, łagodniejszych zasadach. Szacowany wzrost
-kosztów budowy to 10–15%, dla przeciętnego domu 35 000–60 000 zł. To pytanie ma
-teraz krótkie okno wysokiej wartości i wyprzedza konkurencję, która go jeszcze nie
-opisała. Po wrześniu trzeba je przeredagować albo usunąć.
-
-**Uwaga do pytania 9.** Odpowiedź „nie" też jest dobra — filtruje zapytania,
-na które i tak nie chcesz odpowiadać, a fraza „adaptacja projektu" ma duży wolumen.
+9. **Czy adaptujesz gotowe projekty katalogowe?** Odpowiedź „nie" też jest dobra, fraza „adaptacja projektu" ma duży wolumen.
 
 ---
 

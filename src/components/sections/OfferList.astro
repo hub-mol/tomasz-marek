@@ -1,187 +1,194 @@
 ---
-interface Item {
-  label: string;
-  img: string;
-  href?: string;
-}
+import { plNoBreak } from '../../utils/typography';
 
-interface Props {
-  id?: string;
-  title?: string;
-  items?: Item[];
-}
-
-const {
-  id = 'zakres',
-  title = 'Pełny zakres współpracy',
-  items = [
-    { label: 'Analizy przedprojektowe', img: '/img/tm-1.jpg' },
-    { label: 'Koncepcje architektoniczne', img: '/img/tm-2.jpg' },
-    { label: 'Pozwolenie na budowę', img: '/img/tm-3.jpg' },
-    { label: 'Projekty techniczne', img: '/img/tm-4.jpg' },
-    { label: 'Koordynacja międzybranżowa', img: '/img/tm-5.jpg' },
-    { label: 'Nadzór autorski', img: '/img/tm-6.jpg' },
-  ],
-} = Astro.props;
+const offers = [
+  {
+    title: 'Klienci indywidualni',
+    sections: [
+      {
+        title: 'Architektura',
+        text: 'Indywidualne projekty domów i rezydencji — od koncepcji po projekt budowlany, techniczny, koordynację branż i nadzór autorski.',
+      },
+      {
+        title: 'Wnętrza',
+        text: 'Kompleksowe projekty wnętrz prywatnych — od układu funkcjonalnego i koncepcji po materiały, wizualizacje oraz dokumentację wykonawczą.',
+      },
+    ],
+  },
+  {
+    title: 'Biznes',
+    sections: [
+      {
+        title: 'Architektura',
+        text: 'Projekty obiektów usługowych, komercyjnych i mieszkaniowych — od koncepcji po dokumentację, koordynację branż oraz nadzór realizacji.',
+      },
+      {
+        title: 'Wnętrza',
+        text: 'Projekty biur, gastronomii, lokali usługowych i innych wnętrz komercyjnych — funkcjonalnych, spójnych i zgodnych z charakterem marki.',
+      },
+    ],
+  },
+  {
+    title: 'Doradztwo',
+    sections: [
+      {
+        title: 'Analizy',
+        text: 'Analizujemy możliwości zabudowy, zapisy MPZP lub WZ oraz potencjał działki albo nieruchomości przed zakupem i rozpoczęciem inwestycji.',
+      },
+      {
+        title: 'Konsultacje',
+        text: 'Doradzamy przed zakupem działki lub nieruchomości, pomagamy ocenić planowane zamierzenie i wspieramy proces uzyskania warunków zabudowy.',
+      },
+    ],
+  },
+];
 ---
 
-<section class="section offer split-golden" id={id}>
-  <h2 class="offer__title">{title}</h2>
+<section class="section offer" id="oferta">
+  <header class="offer__head split-golden">
+    <p class="offer__eyebrow eyebrow">Oferta</p>
+    <h2>Zakres współpracy</h2>
+  </header>
 
-  <ul class="offer__list">
-    {
-      items.map((item, i) => (
-        <li class="offer__item">
-          <a class="offer__link" href={item.href ?? '#'}>
-            <span class="offer__label">
-              {item.label}
-              <span class="offer__num">{String(i + 1).padStart(2, '0')}</span>
-            </span>
-            <img
-              class="offer__preview"
-              src={item.img}
-              alt=""
-              width="502"
-              height="277"
-              loading="lazy"
-            />
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+  <ol class="offer__grid">
+    {offers.map((offer, i) => (
+      <li class="offer__item">
+        <span class="offer__num">{String(i + 1).padStart(2, '0')}</span>
+        <h3 class="offer__title">{offer.title}</h3>
+
+        <div class="offer__sections">
+          {offer.sections.map((section) => (
+            <section class="offer__section">
+              <h4>{section.title}</h4>
+              <p>{plNoBreak(section.text)}</p>
+            </section>
+          ))}
+        </div>
+      </li>
+    ))}
+  </ol>
 </section>
 
 <style>
   .offer {
-    position: relative;
     padding-top: 135px;
-    padding-bottom: calc(135px + var(--sec-y));
+    padding-bottom: 145px;
+    background: var(--c-bg-alt);
   }
 
-  .offer__title {
-    align-self: start;
-    position: sticky;
-    top: 40px;
+  .offer__head {
+    margin-bottom: 75px;
   }
 
-  .offer__list {
-    position: relative;
-    border-top: 1px solid var(--c-line);
+  .offer__eyebrow {
+    padding-top: 8px;
+  }
+
+  .offer__head h2 {
+    justify-self: end;
+    font-size: clamp(2.7rem, 5vw, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    text-align: right;
+  }
+
+  .offer__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 0;
+    border: 1px solid var(--c-line);
   }
 
   .offer__item {
-    border-bottom: 1px solid var(--c-line);
+    display: grid;
+    grid-template-rows: 65px 145px repeat(2, minmax(190px, 1fr));
+    border-right: 1px solid var(--c-line);
   }
 
-  .offer__link {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    min-height: 92px;
-    padding-block: 20px;
-    transition: color 0.35s ease;
-  }
-
-  .offer__label {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 24px;
-    width: 100%;
-    font-family: var(--ff-heading);
-    font-size: clamp(1.75rem, 3vw, 3rem);
-    line-height: 1.08;
-    letter-spacing: -0.025em;
+  .offer__item:last-child {
+    border-right: 0;
   }
 
   .offer__num {
-    display: inline-block;
-    order: -1;
-    min-width: 34px;
-    margin: 0;
-    font-family: var(--ff);
-    font-size: 15px;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 1;
-    letter-spacing: normal;
-    text-transform: none;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
+    display: block;
+    padding: 32px;
     color: var(--c-gray);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
   }
 
-  .offer__preview {
-    position: absolute;
-    right: 48px;
-    bottom: calc(100% - 10px);
-    z-index: 2;
-    width: 240px;
-    height: 150px;
-    object-fit: cover;
-    opacity: 0;
-    transform: translateX(20px) scale(0.94);
-    transition:
-      opacity 0.35s ease,
-      transform 0.35s cubic-bezier(0.16, 0.48, 0.36, 1);
-    pointer-events: none;
+  .offer__title {
+    display: flex;
+    align-items: flex-end;
+    margin: 0;
+    padding: 32px;
+    border-bottom: 1px solid var(--c-line);
+    font-size: clamp(1.8rem, 2.5vw, 3rem);
+    line-height: 1.05;
   }
 
-  .offer__link:hover .offer__preview,
-  .offer__link:focus-visible .offer__preview {
-    opacity: 1;
-    transform: translateX(0) scale(1);
+  .offer__sections {
+    display: contents;
+  }
+
+  .offer__section {
+    padding: 32px;
+  }
+
+  .offer__section + .offer__section {
+    margin: 0;
+    border-top: 1px solid var(--c-line);
+  }
+
+  .offer__section h4 {
+    font-family: var(--ff);
+    font-size: 13px;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .offer__section p {
+    margin-top: 12px;
+    color: var(--c-muted);
   }
 
   @media (max-width: 1024px) {
     .offer {
       padding-top: 100px;
-      padding-bottom: calc(100px + var(--sec-y));
+      padding-bottom: 105px;
     }
 
-    .offer__title {
-      position: static;
+    .offer__grid {
+      grid-template-columns: 1fr;
     }
 
+    .offer__item,
+    .offer__item + .offer__item {
+      display: grid;
+      grid-template-rows: 60px 120px repeat(2, minmax(150px, auto));
+      border-right: 0;
+      border-bottom: 1px solid var(--c-line);
+    }
+
+    .offer__item:last-child {
+      border-bottom: 0;
+    }
   }
 
   @media (max-width: 768px) {
     .offer {
-      padding-top: 70px;
-      padding-bottom: calc(70px + var(--sec-y));
+      padding-top: 75px;
+      padding-bottom: 80px;
     }
 
-    .offer__link {
-      flex-wrap: wrap;
-      min-height: 0;
-      padding-block: 1.5rem;
+    .offer__head {
+      margin-bottom: 50px;
     }
 
-    .offer__label {
-      flex: 1 1 100%;
-      justify-content: flex-start;
-    }
-
-    .offer__num {
-      margin-top: 0;
-      margin-right: 0;
-      vertical-align: baseline;
-    }
-
-    .offer__preview {
-      position: static;
-      flex-basis: 100%;
-      width: 100%;
-      height: 160px;
-      margin-top: 14px;
-      opacity: 1;
-      transform: none;
-    }
-
-    .offer__list:hover .offer__link {
-      color: var(--c-fg);
+    .offer__item,
+    .offer__item + .offer__item {
+      grid-template-rows: 55px auto repeat(2, auto);
     }
   }
 </style>

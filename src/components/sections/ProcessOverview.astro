@@ -1,5 +1,6 @@
 ---
 import type { AccordionItem } from './Accordion.astro';
+import { plNoBreak } from '../../utils/typography';
 
 interface Props {
   architecture: AccordionItem[];
@@ -17,7 +18,7 @@ const groups = [
 <section class="section process" id="proces">
   <header class="process__head split-golden">
     <p class="process__eyebrow eyebrow">Proces</p>
-    <h2>Od pierwszej rozmowy do realizacji</h2>
+    <h2>Rozmowa&ensp;⁄&ensp;Realizacja</h2>
   </header>
 
   <div class="process__groups">
@@ -31,11 +32,11 @@ const groups = [
               <details class="process__item" name={`process-${group.title}`}>
                 <summary class="process__summary">
                   <span class="process__num">{String(i + 1).padStart(2, '0')}</span>
-                  <span class="process__label">{item.title}</span>
+                  <span class="process__label">{plNoBreak(item.title)}</span>
                   <span class="process__mark" aria-hidden="true">+</span>
                 </summary>
                 <div class="process__body">
-                  <p>{item.body}</p>
+                  <p>{plNoBreak(item.body)}</p>
                 </div>
               </details>
             ))}
@@ -55,6 +56,10 @@ const groups = [
   }
 
   .process__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
     margin-bottom: 78px;
   }
 
@@ -64,10 +69,12 @@ const groups = [
   }
 
   .process__head h2 {
-    max-width: 720px;
-    font-size: clamp(2.3rem, 4.2vw, 4.4rem);
-    line-height: 1.04;
-    letter-spacing: -0.035em;
+    justify-self: end;
+    font-size: clamp(2.7rem, 5vw, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    text-align: right;
+    white-space: nowrap;
   }
 
   .process__groups {
@@ -149,7 +156,6 @@ const groups = [
     }
 
     .process__head {
-      --split-gap-tablet: 16px;
       margin-bottom: 60px;
     }
   }
@@ -166,7 +172,14 @@ const groups = [
     }
 
     .process__head {
+      flex-direction: column;
+      gap: 24px;
       margin-bottom: 50px;
+    }
+
+    .process__head h2 {
+      align-self: flex-end;
+      font-size: clamp(1.7rem, 8vw, 2.3rem);
     }
 
     .process__body {

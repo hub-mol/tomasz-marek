@@ -1,163 +1,274 @@
 # FAQ — research i propozycja pytań
 
-**Data:** 04.08.2026
-**Status:** propozycja do akceptacji, nic nie wdrożone na stronie
+**Data:** 05.08.2026
+**Status:** propozycja do akceptacji
 
 ---
 
-## 1. Rzecz, którą trzeba wiedzieć przed optymalizacją
+## 1. Wpływ
 
-**Google wyłączył rich results dla FAQ 7 maja 2026.** Rozwijane pytania pod wynikiem
-wyszukiwania nie pojawiają się już dla praktycznie żadnej strony — wcześniej, od końca
-2023, były ograniczone do serwisów rządowych i zdrowotnych. Google potwierdził, że
-**rankingi się przez to nie zmieniły**, bo to zmiana prezentacji, a nie algorytmu.
-
-Co to oznacza dla nas w praktyce:
-
-- znika dawny główny powód robienia FAQ, czyli zajęcie większej powierzchni w wynikach,
-- **nie znika** wartość SEO samej treści — pytanie w FAQ nadal łapie zapytanie
-  długiego ogona, jeśli jest sformułowane tak, jak ludzie wpisują je w Google,
-- rośnie znaczenie **AI Overviews i wyszukiwarek AI** — te cytują czyste bloki
-  pytanie–odpowiedź, przy czym Google wprost pisze, że nie wymaga do tego żadnej
-  specjalnej schemy,
-- `FAQPage` w structured data zostawiamy: nie zaszkodzi i ułatwia maszynom parsowanie,
-  ale nie liczmy na wizualny efekt w SERP-ie.
-
-**Wniosek:** optymalizujemy pod dopasowanie do realnych zapytań i pod cytowalność
-pierwszego zdania odpowiedzi, a nie pod znaczniki.
+- FAQ odpowiada na konkretne obawy przed kontaktem i może wzmacniać tematykę strony,
+- pytania warto formułować językiem używanym przez klientów, ale nie kosztem naturalności,
+- Google nie pokazuje już FAQ rich results dla zwykłych stron firmowych; samo oznaczenie
+  `FAQPage` nie daje dziś widocznej przewagi,
+- nie ma osobnej optymalizacji pod AI Overviews — liczy się użyteczna, jednoznaczna i
+  wiarygodna odpowiedź oparta na realnym sposobie pracy Tomasza.
 
 ---
 
-## 2. Zasady, które zastosowałem
+## 2. Zasady
 
 1. **Pytanie = zapytanie.** „Ile kosztuje projekt domu jednorodzinnego?" zamiast
-   „Jak kształtuje się wycena?". Frazę kluczową dajemy na początek.
-2. **Jedno pytanie = jedna intencja.** Obecne FAQ ma trzy pytania o zmiany w projekcie
-   (nie spodoba się / ile poprawek / na jakim etapie) — kanibalizują się nawzajem.
-   Scalam je w jedno.
-3. **Odpowiedź w pierwszym zdaniu.** AI Overviews i snippety biorą początek akapitu.
-   Konkret najpierw, uzasadnienie potem.
-4. **Liczby zamiast ogólników.** Widełki cenowe i terminy są cytowane, „to zależy" nie.
-5. **Geografia.** Trójmiasto, Gdańsk, Gdynia, Sopot, pomorskie — pod SEO lokalne.
+   „Jak kształtuje się wycena?".
+2. **Jedno pytanie = jedna intencja.**
+3. **Odpowiedź w pierwszym zdaniu.** Konkret najpierw, uzasadnienie potem.
+4. **Liczby zamiast ogólników — po potwierdzeniu.** Publikujemy ceny Tomasza, realne
+   terminy i liczbę wariantów lub tur zmian. Widełki rynkowe służą tylko jako research.
+5. **Geografia po potwierdzeniu z Tomaszem.** Sama nazwa miasta w FAQ nie zastąpi
+   podstrony usługi, realizacji z regionu i uzupełnionej wizytówki Google.
 6. **Pokrycie lejka:** pieniądze → czas → zakres → różnice → obawy.
+7. **Długość odpowiedzi:** 2–4 zdania. Pierwsze zdanie odpowiada wprost.
+8. **Nie dodawać** pytań, na które odpowiedź brzmi „to zależy" bez liczby lub konkretu.
 
 ---
 
-## 3. Czego brakuje w obecnym FAQ
+## 3. Sprawdzenie języka wyszukiwań w Google.pl
 
-Obecne sześć pytań pomija **najczęściej wyszukiwaną frazę w całej branży — cenę.**
-„Ile kosztuje projekt domu" to zapytanie o największym wolumenie w tym temacie,
-a nie mamy na nie odpowiedzi. Do tego trzy z sześciu pytań dotyczą tego samego
-(wprowadzania zmian), więc realnie pokrywamy cztery tematy zamiast sześciu.
+Sprawdzone 05.08.2026 w niespersonalizowanych wynikach Google.pl: autouzupełnianie,
+„Więcej pytań” i zapytania powiązane. To pokazuje realne sformułowania i intencje,
+ale **nie jest pomiarem miesięcznego wolumenu**. Do porównania wolumenów potrzebny
+jest Google Keyword Planner, Search Console po publikacji lub płatne narzędzie SEO.
+
+### Domy
+
+- autouzupełnianie: „projekt indywidualny domu cena”, „projekt indywidualny domu
+  co zawiera” oraz warianty lokalne,
+- „Więcej pytań”: „Ile czasu zajmuje architektowi zaprojektowanie domu?”,
+  „Ile architekt bierze za projekt domu?”, „Czy opłaca się kupować gotowy projekt domu?”,
+- powiązane: „ile kosztuje projekt domu u architekta”, „ile kosztuje adaptacja projektu”.
+
+**Wniosek:** cena, dokładny zakres, czas oraz porównanie projektu indywidualnego z
+gotowym powinny zostać wysoko w FAQ. Pytanie „co zawiera” jest mocniejsze niż czasowe
+pytanie o Warunki Techniczne 2026.
+
+### Wnętrza
+
+- autouzupełnianie: „projekt wnętrz cena”, „projekt wnętrz cena za m2”, „projekt
+  wnętrz online”, „kompleksowy projekt wnętrz cena”,
+- „Więcej pytań”: „Co zawiera projekt kompleksowy?”, „Z czego składa się projekt
+  wnętrza?”, „Co obejmuje projektowanie wnętrz?”.
+
+**Wniosek:** jedno mocne pytanie o zakres powinno objąć wizualizacje, dokumentację
+techniczną i listę produktów. Rozbijanie tych elementów na trzy pytania rozwadnia temat.
+
+### Lokale usługowe
+
+- autouzupełnianie: „ile kosztuje projekt lokalu usługowego”, „projekt lokalu
+  użytkowego”,
+- zapytania powiązane: „projekt wnętrza restauracji cena”,
+- „Więcej pytań”: „Jakie warunki musi spełniać lokal usługowy?” oraz „Ile kosztuje
+  projekt lokalu?”.
+
+**Wniosek:** największy potencjał mają cena, wymagania formalne i pytanie o termin
+otwarcia. Frazy dotyczące sanepidu, zmiany sposobu użytkowania i projektu
+technologicznego są węższe, ale mają wysoką intencję zakupową.
+
+### Analiza działki
+
+- autouzupełnianie: „sprawdzenie działki przed zakupem”, „sprawdzenie działki
+  budowlanej”, „sprawdzenie działki geoportal”,
+- „Więcej pytań”: „Ile kosztuje sprawdzenie działki przed zakupem?”,
+- powiązane: „analiza działki przed zakupem”, „weryfikacja działki przed zakupem”,
+  „audyt działki budowlanej cena”.
+
+**Wniosek:** w tytule usługi można używać profesjonalnego określenia „analiza
+działki”, ale pytania powinny zawierać także prostsze słowo „sprawdzenie”.
+
+### Proces
+
+- autouzupełnianie: „jak wygląda współpraca z architektem”, „współpraca z
+  architektem projekt domu”,
+- „Więcej pytań”: „Jak zacząć rozmowę z architektem?” i „Jak architekt współpracuje
+  z klientem?”.
+
+**Wniosek:** temat jest wyszukiwany, ale lepiej odpowiedzieć na niego pełną sekcją
+Proces niż powtarzać ten sam materiał w FAQ. Osobny artykuł może celować we frazę
+„jak wygląda współpraca z architektem”.
+
+### Uzupełnienie: Google Trends
+
+Sprawdzone 05.08.2026 dla Polski, wyszukiwarki Google i ostatnich 5 lat. Indeks
+Trendów jest względny w obrębie jednego porównania (0–100), dlatego **nie jest liczbą
+wyszukiwań** i nie wolno porównywać wartości pochodzących z dwóch różnych wykresów.
+Wartość 0 może oznaczać zbyt mało danych do raportowania, a nie całkowity brak zapytań.
+
+- Domy: w porównaniu „projekt domu” / „projekt indywidualny domu” / „projekt domu
+  cena” / „ile kosztuje projekt domu” / „projekt gotowy” średnie indeksy wyniosły
+  odpowiednio **51 / 0 / 1 / 1 / 1**. Szeroka fraza „projekt domu” jest wystarczająco
+  duża do analizy trendu, ale długie pytania wymagają Keyword Plannera.
+- Wnętrza: „projekt wnętrz” / „projektowanie wnętrz” / „architekt wnętrz” /
+  „projektant wnętrz” / „aranżacja wnętrz” osiągnęły średnio **11 / 52 / 34 / 31 / 11**.
+  Najmocniejszym określeniem kategorii jest „projektowanie wnętrz”, a następnie
+  „architekt wnętrz” i „projektant wnętrz”.
+- W przekrojowym porównaniu „projekt domu” wyraźnie zdominował „projekt wnętrz”,
+  „projekt lokalu usługowego”, „analizę działki” i „współpracę z architektem”. Trzy
+  ostatnie frazy miały zbyt mało danych, aby wyciągać z Trendów wniosek o ich wolumenie.
+- Trend „projekt domu” jest po spadku z poziomu z 2021 roku względnie stabilny:
+  średnia roczna utrzymuje się w okolicy 48–51 od 2022 do 2026. „Projektowanie
+  wnętrz” również pozostaje stabilne, w przedziale ok. 48–55.
+
+**Wniosek wdrożeniowy:** szerokich fraz użyć w tytułach, nagłówkach i opisach
+landing pages. Pytań FAQ nie upraszczać wyłącznie pod Trends — ich warianty cenowe,
+zakresowe i formalne porównamy w Keyword Plannerze. Będzie on szczególnie ważny dla
+lokali usługowych, analizy działki i pytań o proces, których Trends nie mierzy
+wystarczająco dokładnie.
 
 ---
 
-## 4. FAQ ogólne — strona główna (9 propozycji, do wyboru 7)
+## 4. FAQ ogólne — strona główna (9 pytań, w tym 2 opcjonalne)
 
 ### 1. Ile kosztuje projekt domu jednorodzinnego?
-Najwyższy wolumen wyszukiwań w całej kategorii. Odpowiedź musi zawierać liczbę.
-Rynkowo: projekt indywidualny od ok. 15 000 zł, stawki 100–400 zł/m² albo 2–8%
-wartości budowy. **Tomasz musi podać własne widełki — nie wolno tego zmyślać.**
+Jedna z najmocniejszych intencji zakupowych w kategorii. Odpowiedź powinna zawierać
+model wyceny i potwierdzone widełki Tomasza, nie średnią rynkową.
 
 ### 2. Ile trwa projekt domu od pierwszej rozmowy do pozwolenia na budowę?
-Druga najczęstsza obawa po cenie. Warto rozbić na: praca projektowa + czas urzędu,
-bo to drugie nie zależy od architekta.
+Jedna z głównych obaw obok ceny. Warto rozbić na: praca projektowa + czas urzędu.
 
-### 3. Czym różni się projekt indywidualny od gotowego?
-Kluczowe pytanie sprzedażowe — klient porównuje 3 000 zł za katalog z 20 000 zł
-za projekt indywidualny i musi zrozumieć, za co płaci. Jednocześnie mocna fraza SEO.
+### 3. Czym różni się projekt indywidualny od gotowego? **(opcjonalne)**
+Kluczowe pytanie sprzedażowe: klient porównuje niższą cenę projektu katalogowego z
+projektem tworzonym dla konkretnej działki, potrzeb i budżetu i musi zrozumieć różnicę.
 
 ### 4. Kiedy skontaktować się z architektem — przed czy po zakupie działki?
 Wysoka intencja zakupowa. Naturalnie prowadzi do usługi Doradztwo.
 
 ### 5. Co dokładnie otrzymuję w ramach projektu?
-Rozbraja obawę o niejasny zakres, którą wskazałeś w briefie. Wymienić konkretne
-opracowania: PZT, PB, PT, wizualizacje, zestawienia.
+Na stronie głównej zostawić roboczo, ale odpowiedź musi rozróżnić zakres według usługi:
+dom (koncepcja, PZT, PB, PT, koordynacja branż i formalności), wnętrza (układy,
+moodboard, wizualizacje, dokumentacja techniczna i zestawienie produktów) oraz lokal
+usługowy (zakres architektoniczny, wnętrzarski i wymagane uzgodnienia — zależnie od
+zlecenia). Na osobnych landing pages zastąpić je precyzyjnymi pytaniami o daną usługę.
 
 ### 6. Ile poprawek mogę wprowadzić i na jakim etapie?
-**Scala trzy obecne pytania w jedno.** Odpowiedź: na etapie koncepcji zmiany są
-częścią procesu warsztatowego, po złożeniu do pozwolenia rosną koszty i czas.
 
 ### 7. Co, jeśli wizja architekta okaże się inna niż moja?
-Zostawiam z obecnego zestawu — to realna obawa, a odpowiedź jest wyróżnikiem
-(proces warsztatowy, decyzje wspólne, warianty przed dokumentacją).
 
 ### 8. Czy prowadzisz nadzór autorski na budowie?
 Domyka lejek: klient chce wiedzieć, czy zostanie sam z papierami.
 
-### 9. Gdzie projektujesz i czy pracujesz zdalnie?
-Jedyne pytanie pod SEO lokalne. Wymienić Trójmiasto i województwo pomorskie,
-zaznaczyć pracę zdalną w pozostałej części kraju.
-
-**Które dwa wyciąć, jeśli zostaje 7:** rekomenduję **8** (nadzór autorski i tak
-opisuje sekcja Proces) oraz **3** albo **7** — oba są argumentacją sprzedażową,
-a nie realnym pytaniem, i częściowo dubluje je sekcja o procesie warsztatowym.
+### 9. Gdzie projektujesz i czy pracujesz zdalnie? **(opcjonalne)**
+Zostawić, bo klient realnie może o to zapytać i pytanie usuwa barierę przed kontaktem.
+Obszar działania i zasady współpracy zdalnej trzeba potwierdzić z Tomaszem; nie traktować
+tego pytania jako samodzielnej strategii lokalnego SEO.
 
 ---
 
-## 5. FAQ dla czterech ofert (po 5 propozycji)
+## 5. FAQ dla czterech ofert
 
 ### Domy
-1. Ile kosztuje indywidualny projekt domu?
-2. Czy projekt obejmuje uzyskanie pozwolenia na budowę?
-3. Czym jest projekt techniczny i czy jest obowiązkowy?
-4. Czy zaprojektujesz dom na wąskiej lub trudnej działce?
-5. Czy mogę wprowadzić zmiany już w trakcie budowy?
+
+Wyniki są mocno konkurencyjne i mieszają projekty katalogowe z usługą indywidualnego
+projektowania. Pytania muszą jasno pokazać, której usługi dotyczy odpowiedź.
+
+1. Ile kosztuje indywidualny projekt domu jednorodzinnego?
+2. Co zawiera indywidualny projekt domu?
+   *(W odpowiedzi rozróżnić koncepcję, PZT, PB, PT, projekty branżowe, formalności
+   i nadzór oraz jasno wskazać, które elementy są w podstawowym zakresie Tomasza.)*
+3. Czym różni się projekt indywidualny od gotowego z katalogu?
+4. Ile trwa projekt domu od pierwszej rozmowy do pozwolenia na budowę?
+5. Czy zajmujesz się formalnościami i złożeniem wniosku o pozwolenie na budowę?
+6. Czym różni się projekt budowlany od projektu technicznego?
+7. Czy zaprojektujesz dom na wąskiej, pochyłej lub trudnej działce?
+8. Co, jeśli będę chciał zmienić coś już po uzyskaniu pozwolenia? **(opcjonalne)**
+9. Czy adaptujesz gotowe projekty katalogowe? **(opcjonalne — zależy od zakresu oferty)**
 
 ### Wnętrza
+
+Tu wyszukiwania są mniej formalne, bardziej praktyczne.
+
 1. Ile kosztuje projekt wnętrza za metr kwadratowy?
-   *(rynkowo 70–300 zł/m² zależnie od zakresu; kompleksowy średnio ok. 300 zł/m² netto)*
-2. Ile trwa projekt wnętrza mieszkania?
-   *(dla 50–70 m² rynkowo ok. 8 tygodni: brief, układy, wizualizacje, dokumentacja)*
-3. Czym różni się projekt koncepcyjny od wykonawczego?
-4. Czy projekt zawiera wizualizacje 3D?
-5. Czy dostanę zestawienie materiałów i wyposażenia z konkretnymi produktami?
+   *(Uzupełnić modelem rozliczenia i cenami Tomasza.)*
+2. Ile trwa projekt wnętrza mieszkania lub domu?
+   *(Uzupełnić realnym terminem Tomasza i czynnikami, które go zmieniają.)*
+3. Co dokładnie zawiera kompleksowy projekt wnętrza?
+   *(W jednej odpowiedzi: układy funkcjonalne, moodboard, wizualizacje 3D,
+   dokumentacja techniczna oraz zestawienie materiałów, wyposażenia i produktów.)*
+4. Czym różni się projekt koncepcyjny od wykonawczego?
+5. Na czym polega nadzór autorski przy realizacji wnętrza i czy go potrzebuję?
+6. Czy projektujesz wnętrza zdalnie, bez wizyty na miejscu? **(opcjonalne)**
+7. Czy polecasz wykonawców i pomagasz w kontakcie z ekipą? **(opcjonalne — zależy od zakresu oferty)**
 
 ### Usługi
-1. Czy projekt lokalu usługowego wymaga projektu technologicznego do sanepidu?
-2. Ile kosztuje projekt wnętrza kawiarni, gabinetu lub salonu?
-   *(rynkowo 80–250 zł/m² za wnętrze, 2 000–6 000 zł netto za projekt technologiczny)*
-3. Ile trwa przygotowanie lokalu do odbioru sanepidu?
-   *(od złożenia wniosku zwykle 2–8 tygodni)*
-4. Czy projekt uwzględnia wymogi przeciwpożarowe i BHP?
-5. Czy dostosujesz projekt do wytycznych wynajmującego lub galerii handlowej?
+
+Zapytania są bardziej rozproszone niż przy domach i mieszają wnętrza lokali z projektami
+całych budynków usługowych. Klient otwierający lokal ma jednak twardy termin i realne
+ryzyko formalne, więc pytania są blisko decyzji zakupowej.
+
+1. Ile kosztuje projekt wnętrza kawiarni, gabinetu lub salonu?
+   *(Uzupełnić cenami Tomasza i jasno rozdzielić projekt wnętrza od dodatkowych opracowań.)*
+2. Czy projekt lokalu usługowego wymaga projektu technologicznego do sanepidu?
+3. Ile trwa przygotowanie lokalu do odbioru przez sanepid?
+   *(Termin podać dopiero po potwierdzeniu zakresu odpowiedzialności Tomasza i
+   aktualnej praktyki właściwego urzędu.)*
+4. Czy zmiana lokalu na gastronomię lub gabinet wymaga zmiany sposobu użytkowania?
+5. Czy projekt uwzględnia wymogi przeciwpożarowe, BHP i dostępności?
+6. Ile trwa projekt lokalu i czy zdążę przed planowanym otwarciem?
+7. Czy dostosujesz projekt do wytycznych wynajmującego lub galerii handlowej? **(opcjonalne)**
+8. Czy projekt obejmuje układ technologiczny kuchni i zaplecza? **(opcjonalne — zależy od zakresu oferty)**
+9. Czy pomożesz przy odbiorach i kontaktach z urzędami? **(opcjonalne — zależy od zakresu oferty)**
 
 ### Doradztwo
+
+Kategoria najwyżej w lejku: klient jeszcze nie ma działki ani projektu. Pytania mają
+charakter poradnikowy, więc dobrze łapią ruch informacyjny
+
 1. Co obejmuje analiza działki przed zakupem?
-2. Czym różni się miejscowy plan zagospodarowania od warunków zabudowy?
-3. Czy sprawdzisz, czy na tej działce zmieści się dom, który chcę zbudować?
-4. Ile kosztuje konsultacja architektoniczna?
-5. Czy sprawdzisz projekt katalogowy, który już kupiłem?
+   *(Połączyć w jednej odpowiedzi: MPZP lub WZ, stan i ograniczenia działki, dostęp
+   do drogi, media, możliwą zabudowę oraz wskazanie, kiedy potrzebne są badania
+   geotechniczne. Wyraźnie oddzielić analizę architektoniczną od badania prawnego.)*
+2. Czy sprawdzisz, czy na tej działce zmieści się dom, który chcę zbudować?
+3. Ile kosztuje sprawdzenie działki przed zakupem?
+4. Czym różni się miejscowy plan zagospodarowania od warunków zabudowy?
+5. Czy sprawdzisz projekt katalogowy, który już kupiłem? **(opcjonalne — zależy od zakresu oferty)**
+6. Czy pomożesz porównać kilka działek przed decyzją? **(opcjonalne)**
+7. Czy doradzasz przy zakupie domu lub mieszkania z rynku wtórnego? **(opcjonalne — zależy od zakresu oferty)**
 
 ---
 
-## 6. FAQ dla sekcji Proces (opcjonalnie, 4)
+## 6. Pytania związane z Procesem — materiał do treści, nie osobne FAQ w MVP
 
 1. Jak przygotować się do pierwszego spotkania z architektem?
-2. Na czym polega koncepcja warsztatowa?
-3. Kto koordynuje konstruktora i branże instalacyjne?
-4. Co dokładnie obejmuje nadzór autorski?
+2. Na czym polega koncepcja warsztatowa? **(opcjonalne)**
+3. Kto koordynuje konstruktora i branże instalacyjne? **(opcjonalne)**
+4. Co dokładnie obejmuje nadzór autorski? **(opcjonalne)**
 
-Te pytania są bardziej „poradnikowe" niż sprzedażowe — sprawdzą się lepiej jako
-wpisy blogowe niż jako FAQ. Sekcja Proces sama w sobie odpowiada już na większość.
+Fraza „jak wygląda współpraca z architektem” jest wyszukiwana, ale sekcja Proces
+powinna odpowiedzieć na nią pełniej niż accordion FAQ. W MVP nie wdrażać osobnego
+FAQ dla Procesu. Pytanie nr 1 może stać się artykułem, a pozostałe są checklistą
+informacji do dopisania do etapów współpracy.
 
 ---
 
-## 7. Uwagi wdrożeniowe
+## 7. Dane potrzebne od Tomasza przed napisaniem odpowiedzi
 
-- **Ceny muszą pochodzić od Tomasza.** Widełki w tym dokumencie to dane rynkowe
-  z researchu, nie jego cennik. Publikacja cudzych stawek jako własnych to
-  wprowadzanie klienta w błąd.
-- **Głos:** cały dokument w pierwszej osobie liczby pojedynczej, spójnie z resztą serwisu.
-- **Długość odpowiedzi:** 2–4 zdania. Pierwsze zdanie odpowiada wprost.
-- **Nie dodawać** pytań, na które odpowiedź brzmi „to zależy" bez liczby lub konkretu.
+Każda odpowiedź powinna opierać się na jego rzeczywistej ofercie, a nie na ogólnych
+średnich z internetu. Do potwierdzenia:
+
+1. zakres każdego pakietu i lista dokumentów przekazywanych klientowi,
+2. realne terminy dla domu, wnętrza, lokalu usługowego i analizy działki,
+3. liczba przedstawianych wariantów, tur zmian lub zasada rozliczania zmian,
+4. sposób współpracy: spotkania, ankiety, warsztaty, kontakt i akceptacje,
+5. zakres formalności, koordynacji branżowej i nadzoru autorskiego,
+6. przykłady z realizacji, które potwierdzają odpowiedzi,
+7. ceny Tomasza: widełki, stawka za m² lub sposób indywidualnej wyceny oraz informacja,
+   co jest w cenie, a co stanowi usługę dodatkową.
 
 ---
 
 ## Źródła
 
+- [Google Search ranking updates — FAQ rich results update](https://developers.google.com/search/updates)
+- [AI features and your website — Google Search Central](https://developers.google.com/search/docs/appearance/ai-features)
 - [Google Drops FAQ Rich Results From Search — Search Engine Journal](https://www.searchenginejournal.com/google-drops-faq-rich-results-from-search/574429/)
-- [Google Killed FAQ Rich Results: Why Your FAQ Content Still Matters — The HOTH](https://www.thehoth.com/blog/google-faq-rich-results-deprecated/)
 - [Ceny u architektów — ile kosztuje projekt domu — Z500](https://z500.pl/ceny-u-architektow-zaskakuja-ile-kosztuje-projekt-domu)
 - [Ile kosztuje projekt domu jednorodzinnego w 2026 — DA Architekci](https://da-architekci.pl/publikacje/ile-kosztuje-projekt-domu-jednorodzinnego-w-2026-roku/)
 - [FAQ — A8 Architektura](https://a8architektura.pl/aktualnosci/faq-architektura)

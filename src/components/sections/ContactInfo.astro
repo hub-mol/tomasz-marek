@@ -1,5 +1,6 @@
 ---
 import ArrowLink from '../ArrowLink.astro';
+import { plNoBreak } from '../../utils/typography';
 
 const email = 'biuro@tomaszmarek.com';
 const phoneLabel = '+48 696 995 899';
@@ -10,10 +11,7 @@ const phoneHref = '+48696995899';
   <div class="contact__inner split-golden">
     <h2 class="contact__title">Porozmawiajmy o Twoim projekcie</h2>
 
-    <p>
-      Planujesz budowę, przebudowę albo nowe wnętrze? Opowiedz mi o swojej
-      inwestycji. Podczas pierwszej rozmowy sprawdzimy, w jakim zakresie mogę Ci pomóc.
-    </p>
+    <p>{plNoBreak('Planujesz budowę, przebudowę albo nowe wnętrze? Opowiedz mi o swojej inwestycji. Podczas pierwszej rozmowy sprawdzimy, w jakim zakresie mogę Ci pomóc.')}</p>
 
     <div class="contact__details">
       <a class="link-btn" href={`mailto:${email}`}>{email}</a>
@@ -50,6 +48,7 @@ const phoneHref = '+48696995899';
   .contact__inner > p {
     max-width: 600px;
     color: #bcbcbc;
+    text-wrap: balance;
   }
 
   /* linki w zdaniu: podkreślenie, bez wersalików z .link-btn */

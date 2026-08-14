@@ -1,0 +1,14 @@
+{
+  // Konfiguracja wdrożenia na Cloudflare Workers.
+  // Bez tego pliku `npx wrangler deploy` z panelu nie ma czego wdrożyć.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tomasz-marek",
+  "compatibility_date": "2026-08-04",
+
+  // Strona jest w całości prerenderowana (Astro w trybie static), więc
+  // nie ma pola "main" — nie potrzebujemy kodu Workera ani adaptera.
+  // Serwujemy sam katalog wyjściowy builda.
+  "assets": {
+    "directory": "./dist"
+  }
+}

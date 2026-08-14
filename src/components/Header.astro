@@ -3,7 +3,7 @@ interface Props {
   // overlay — przezroczysty, biały, nałożony na hero (strona główna)
   // solid   — jasne tło, czarny tekst, w normalnym przepływie (podstrony)
   variant?: 'overlay' | 'solid';
-  // logo rozbite na części, bo gwiazdka w środku ma własny kolor
+  logo?: string;
   logoStart?: string;
   logoEnd?: string;
   /** dopisek za logo, składany cieńszą grubością */
@@ -12,18 +12,18 @@ interface Props {
 
 const {
   variant = 'solid',
-  logoStart = 'to',
-  logoEnd = 'masz.studio',
-  logoSuffix,
+  logo = 'TMA',
+  logoStart,
+  logoEnd,
+  logoSuffix = 'Tomasz Marek Architekt',
 } = Astro.props;
 
 const menu = [
-  { label: 'Projekty', href: '/#projekty' },
+  { label: 'Portfolio', href: '/#projekty' },
   { label: 'Oferta', href: '/#oferta' },
   { label: 'Proces', href: '/#proces' },
-  { label: 'O mnie', href: '/#o-mnie' },
-  { label: 'FAQ', href: '/#faq' },
   { label: 'Kontakt', href: '/#kontakt' },
+  { label: 'Umów spotkanie', href: 'mailto:biuro@tomaszmarek.com?subject=Spotkanie z architektem' },
 ];
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -38,7 +38,12 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     przy otwartym menu nie łapie przygaszenia nakładanego na resztę strony. */}
 <nav class:list={['hdr', `hdr--${variant}`]} aria-label="Główna">
   <div class="hdr__inner">
-    <a class="hdr__logo" href="/">{logoStart}<span class="hdr__star">*</span>{logoEnd}{logoSuffix && <span class="hdr__logo-suffix"> {logoSuffix}</span>}</a>
+    <a class="hdr__logo" href="/">
+      {logoStart && logoEnd ? (
+        <>{logoStart}<span class="hdr__star">*</span>{logoEnd}</>
+      ) : logo}
+      {logoSuffix && <span class="hdr__logo-suffix"> {logoSuffix}</span>}
+    </a>
 
     <ul class="hdr__menu">
       {
@@ -109,7 +114,6 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     font-size: 1rem;
     font-weight: 700;
     letter-spacing: 0.02em;
-    text-transform: lowercase;
   }
 
   .hdr__star {

@@ -4,19 +4,12 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 import Hero from '../components/sections/Hero.astro';
-import Statement from '../components/sections/Statement.astro';
-import Services from '../components/sections/Services.astro';
+import Approach from '../components/sections/Approach.astro';
 import ProjectsGrid from '../components/sections/ProjectsGrid.astro';
 import OfferList from '../components/sections/OfferList.astro';
 import Accordion from '../components/sections/Accordion.astro';
 import ProcessOverview from '../components/sections/ProcessOverview.astro';
-import MakingSure from '../components/sections/MakingSure.astro';
-import ParallaxBanner from '../components/sections/ParallaxBanner.astro';
 import AboutHero from '../components/sections/AboutHero.astro';
-import Counters from '../components/sections/Counters.astro';
-import Testimonials from '../components/sections/Testimonials.astro';
-import BlogList from '../components/sections/BlogList.astro';
-import ContactInfo from '../components/sections/ContactInfo.astro';
 
 import { procesArchitektura, procesWnetrza, faq } from '../data/home';
 ---
@@ -30,13 +23,9 @@ import { procesArchitektura, procesWnetrza, faq } from '../data/home';
   <main>
     <Hero />
 
-    <Statement
-      text="Dobra i przemyślana architektura jest efektem procesu i wielu świadomych decyzji. Proces projektowy prowadzę warsztatowo — wspólnie weryfikujemy różne warianty i wprowadzamy zmiany."
-    />
+    <Approach />
 
     <ProjectsGrid />
-
-    <Services />
 
     <OfferList />
 
@@ -45,37 +34,27 @@ import { procesArchitektura, procesWnetrza, faq } from '../data/home';
       interiors={procesWnetrza}
     />
 
-    <MakingSure />
-
-    <ParallaxBanner
-      title={'Architektura + wnętrza.\nOd pustej działki po ostatni detal.'}
+    <AboutHero
+      id="o-mnie"
+      title={'Cześć! Tu Tomek.\nSpecjalizuję się w tworzeniu indywidualnych projektów architektury i wnętrz.'}
+      leadFirst={false}
+      paragraphs={[
+        'Posiadam uprawnienia budowlane do projektowania bez ograniczeń w specjalności architektonicznej i jestem członkiem Pomorskiej Izby Architektów RP.',
+        'Studiowałem na Wydziale Architektury i Urbanistyki Politechniki Gdańskiej oraz na Faculty of Architecture and Urban Design Politecnico di Milano.',
+        'Doświadczenie zdobywałem w pracowniach architektonicznych i wnętrzarskich w Tallinie, Paryżu i Trójmieście.',
+      ]}
       img="/img/tm-7.jpg"
     />
 
-    <AboutHero
-      id="o-mnie"
-      title="Tomasz Marek"
-      text="Architekt IARP. Absolwent Politechniki Gdańskiej i Politecnico di Milano. Doświadczenie zdobywał w pracowniach architektonicznych i wnętrzarskich w Tallinie, Paryżu i Trójmieście."
-      img="/img/team-image-05.jpg"
-    />
-
-    <Counters note="Liczby demonstracyjne" />
-
-    <Testimonials demo />
-
     <Accordion
       id="faq"
+      eyebrow="FAQ"
       title="Pytania przed rozpoczęciem współpracy"
       items={faq}
       numbered
       alt
     />
-
-    <BlogList />
-
-    <ContactInfo />
-
   </main>
 
-  <Footer />
+  <Footer id="kontakt" />
 </Base>

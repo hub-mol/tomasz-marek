@@ -1,4 +1,6 @@
 ---
+import { plNoBreak } from '../../utils/typography';
+
 // Jeden komponent w dwóch trybach:
 //   interactive — rozwijany <details>, do FAQ
 //   static      — wszystkie panele otwarte, bez strzałki i bez interakcji (proces)
@@ -9,6 +11,7 @@ export interface AccordionItem {
 
 interface Props {
   id?: string;
+  eyebrow?: string;
   title: string;
   items: AccordionItem[];
   variant?: 'interactive' | 'static';
@@ -18,6 +21,7 @@ interface Props {
 
 const {
   id,
+  eyebrow,
   title,
   items,
   variant = 'interactive',
@@ -30,7 +34,8 @@ const isStatic = variant === 'static';
 
 <section class:list={['section', 'accordion-sec', 'split-golden', { 'section--alt': alt }]} id={id}>
   <div class="accordion-sec__col">
-    <h2 class="accordion-sec__title">{title}</h2>
+    {eyebrow && <p class="accordion-sec__eyebrow eyebrow">{plNoBreak(eyebrow)}</p>}
+    <h2 class="accordion-sec__title">{plNoBreak(title)}</h2>
   </div>
 
   <div class="accordion-sec__col accordion">
@@ -42,17 +47,17 @@ const isStatic = variant === 'static';
           <div class="accordion__item">
             <div class="accordion__head">
               {num && <span class="accordion__num">{num}</span>}
-              <span class="accordion__label">{item.title}</span>
+              <span class="accordion__label">{plNoBreak(item.title)}</span>
             </div>
             <div class="accordion__body">
-              <p>{item.body}</p>
+              <p>{plNoBreak(item.body)}</p>
             </div>
           </div>
         ) : (
           <details class="accordion__item" name={id ?? 'accordion'}>
             <summary class="accordion__head">
               {num && <span class="accordion__num">{num}</span>}
-              <span class="accordion__label">{item.title}</span>
+              <span class="accordion__label">{plNoBreak(item.title)}</span>
               <span class="accordion__mark" aria-hidden="true">
                 <svg width="11" height="14" viewBox="0 0 10.94 13.423">
                   <path d="M5.516 0v12.51" />
@@ -61,7 +66,7 @@ const isStatic = variant === 'static';
               </span>
             </summary>
             <div class="accordion__body">
-              <p>{item.body}</p>
+              <p>{plNoBreak(item.body)}</p>
             </div>
           </details>
         );
@@ -73,8 +78,12 @@ const isStatic = variant === 'static';
 <style>
   /* dwie kolumny — tytuł po lewej, pozycje po prawej */
   .accordion-sec {
-    padding-top: calc(125px + var(--sec-y));
+    padding-top: 125px;
     padding-bottom: 120px;
+  }
+
+  .accordion-sec__eyebrow {
+    margin-bottom: 14px;
   }
 
   .accordion-sec__title {
@@ -146,15 +155,24 @@ const isStatic = variant === 'static';
     color: var(--c-muted);
   }
 
+  .accordion__body p {
+    max-width: 62ch;
+    text-wrap: balance;
+  }
+
   @media (max-width: 1024px) {
     .accordion-sec {
       --split-gap-tablet: 40px;
-      padding-top: calc(100px + var(--sec-y));
+      padding-top: 100px;
       padding-bottom: 90px;
     }
   }
 
   @media (max-width: 768px) {
+    .accordion-sec {
+      padding-top: 75px;
+    }
+
     .accordion__body {
       padding-inline: 0;
     }

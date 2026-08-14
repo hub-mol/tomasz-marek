@@ -79,7 +79,7 @@
   --hdr-h: 80px;
 
   /* wysokość hero; ten sam wymiar bierze rozwinięty panel menu */
-  --hero-h: 75svh;
+  --hero-h: 100svh;
 }
 
 @media (max-width: 1024px) {

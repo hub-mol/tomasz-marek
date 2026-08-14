@@ -2,86 +2,77 @@ import type { AccordionItem } from '../components/sections/Accordion.astro';
 
 export const procesArchitektura: AccordionItem[] = [
   {
-    title: 'Spotkanie zapoznawcze i ankieta funkcjonalno-stylistyczna',
-    body: 'Rozmawiamy o inwestycji, sposobie życia, oczekiwaniach, budżecie i harmonogramie. Zbieram materiały oraz informacje potrzebne do rozpoczęcia pracy.',
+    title: 'Spotkanie zapoznawcze',
+    body: 'Rozmawiamy o inwestycji, sposobie życia, oczekiwaniach, budżecie i harmonogramie. Zbieramy materiały oraz informacje potrzebne do rozpoczęcia pracy.',
   },
   {
-    title: 'Koncepcja warsztatowa',
-    body: 'Wspólnie sprawdzamy pierwsze kierunki, układy i warianty. To etap swobodnej pracy, na którym można porównywać rozwiązania bez kosztownych konsekwencji dla dokumentacji.',
+    title: 'Koncepcja architektoniczna',
+    body: 'Analizujemy działkę i jej otoczenie, a następnie porównujemy warianty funkcjonalne oraz przestrzenne. Wybrany kierunek rozwijamy w spójną koncepcję budynku.',
   },
   {
-    title: 'Koncepcja zaawansowana',
-    body: 'Rozwijam wybrany wariant, dopracowując funkcję, bryłę, relacje z otoczeniem oraz najważniejsze rozwiązania materiałowe i techniczne.',
+    title: 'Projekt budowlany',
+    body: 'Na podstawie zaakceptowanej koncepcji przygotowujemy projekt zagospodarowania terenu i projekt architektoniczno-budowlany wymagany do uzyskania pozwolenia na budowę.',
   },
   {
-    title: 'Koncepcja finalna',
-    body: 'Zamykamy kluczowe decyzje i przygotowujemy spójną podstawę do opracowania dokumentacji formalnej oraz technicznej.',
-  },
-  {
-    title: 'Projekt budowlany (PB) i projekt zagospodarowania terenu (PZT)',
-    body: 'Przygotowuję dokumentację wymaganą do uzyskania pozwolenia na budowę i prowadzę proces formalny związany ze złożeniem projektu.',
-  },
-  {
-    title: 'Projekt techniczny (PT) i koordynacja międzybranżowa',
-    body: 'Koordynuję rozwiązania architektoniczne z konstrukcją i instalacjami, aby dokumentacja tworzyła jedną możliwą do realizacji całość.',
+    title: 'Projekty techniczne',
+    body: 'Rozwijamy rozwiązania architektoniczne, konstrukcyjne i instalacyjne. Koordynujemy dokumentację branżową, aby tworzyła jedną możliwą do realizacji całość.',
   },
   {
     title: 'Nadzór autorski',
-    body: 'Na etapie budowy wyjaśniam rozwiązania projektowe i w uzgodnionym zakresie kontroluję zgodność realizacji z projektem.',
+    body: 'Na etapie budowy wyjaśniamy rozwiązania projektowe i w uzgodnionym zakresie kontrolujemy zgodność realizacji z dokumentacją.',
   },
 ];
 
 export const procesWnetrza: AccordionItem[] = [
   {
-    title: 'Spotkanie zapoznawcze i ankieta funkcjonalno-stylistyczna',
-    body: 'Poznaję potrzeby użytkowników, charakter wnętrza, inspiracje, budżet i oczekiwany zakres opracowania.',
+    title: 'Spotkanie zapoznawcze',
+    body: 'Poznajemy potrzeby użytkowników, charakter wnętrza, inspiracje, budżet i oczekiwany zakres opracowania.',
   },
   {
-    title: 'Układy funkcjonalne i moodboard',
-    body: 'Porównujemy warianty układu oraz określamy kierunek estetyczny za pomocą materiałów, kolorów, światła i referencji.',
+    title: 'Układy funkcjonalne',
+    body: 'Przygotowujemy i porównujemy warianty rozmieszczenia pomieszczeń, wyposażenia oraz najważniejszych stref funkcjonalnych.',
   },
   {
-    title: 'Koncepcja wnętrz głównych pomieszczeń',
-    body: 'Dopracowuję najważniejsze strefy, pokazując ich układ, wyposażenie, materiały i atmosferę na wizualizacjach.',
+    title: 'Koncepcja',
+    body: 'Określamy charakter wnętrza, materiały, kolorystykę, oświetlenie i wyposażenie. Najważniejsze rozwiązania przedstawiamy na wizualizacjach.',
   },
   {
-    title: 'Koncepcja wnętrz pozostałych pomieszczeń',
-    body: 'Rozwijam przyjęty język projektu w pozostałych wnętrzach, dbając o funkcjonalną i wizualną spójność całej przestrzeni.',
-  },
-  {
-    title: 'Dokumentacja techniczna i zestawienie produktowe',
-    body: 'Przygotowuję rysunki dla wykonawców oraz zestawienie materiałów, elementów wyposażenia i produktów potrzebnych do realizacji.',
+    title: 'Dokumentacja techniczna',
+    body: 'Przygotowujemy rysunki dla wykonawców oraz zestawienie materiałów, elementów wyposażenia i produktów potrzebnych do realizacji.',
   },
   {
     title: 'Nadzór autorski',
-    body: 'Pomagam rozwiązywać pytania wykonawcze i w ustalonym zakresie czuwam nad zgodnością realizacji z założeniami projektu.',
+    body: 'Pomagamy rozwiązywać pytania wykonawcze i w ustalonym zakresie czuwamy nad zgodnością realizacji z założeniami projektu.',
   },
 ];
 
-// Odpowiedzi są robocze i wymagają potwierdzenia przez klienta.
 export const faq: AccordionItem[] = [
   {
-    title: 'Co, jeśli projekt mi się nie spodoba albo wizja architekta będzie inna niż moja?',
-    body: 'Projekt powstaje warsztatowo, a nie jako jedna zamknięta propozycja. Zaczynamy od poznania Twoich potrzeb, porównujemy warianty i podejmujemy decyzje wspólnie, zanim przejdziemy do dokumentacji.',
+    title: 'Ile kosztuje indywidualny projekt domu?',
+    body: 'Cena zależy przede wszystkim od powierzchni, stopnia skomplikowania budynku, uwarunkowań działki oraz zakresu opracowania. Po poznaniu podstawowych założeń inwestycji przygotowujemy indywidualną wycenę.',
   },
   {
-    title: 'Ile trwa proces od rozpoczęcia współpracy do budowy?',
-    body: 'Termin zależy od skali inwestycji, zakresu projektu, tempa podejmowania decyzji i procedur urzędowych. Po zapoznaniu się z inwestycją przygotowuję harmonogram obejmujący pracę projektową oraz przewidywany czas formalności.',
+    title: 'Co obejmuje kompleksowy projekt domu?',
+    body: 'Kompleksowy projekt domu obejmuje projekt koncepcyjny, projekt zagospodarowania terenu, projekt architektoniczno-budowlany, projekt techniczny, zastępstwo w procesie uzyskiwania pozwolenia na budowę oraz koordynację opracowań konstrukcyjnych i instalacyjnych. Szczegółowy zakres każdorazowo określamy w ofercie.',
   },
   {
-    title: 'Ile poprawek mogę wprowadzić?',
-    body: 'Na etapie koncepcji zmiany są naturalną częścią procesu warsztatowego. Dokładny sposób zgłaszania uwag i liczbę tur zmian na późniejszych etapach ustalamy przed rozpoczęciem współpracy.',
+    title: 'Ile trwa zaprojektowanie domu?',
+    body: 'Projekt indywidualny jest procesem obejmującym kilka etapów — od koncepcji po dokumentację techniczną. Czas zależy między innymi od skali inwestycji, sprawności podejmowania decyzji, wymaganych uzgodnień i procedur administracyjnych.',
   },
   {
-    title: 'Na jakim etapie możliwe są zmiany w projekcie?',
-    body: 'Największą swobodę mamy podczas pracy nad koncepcją. Późniejsze zmiany również są możliwe, ale mogą wpływać na dokumentację, uzgodnienia, koszt oraz harmonogram inwestycji.',
+    title: 'Jak wygląda współpraca z architektem?',
+    body: 'Rozpoczynamy od rozmowy i poznania potrzeb inwestora. Następnie analizujemy działkę i przygotowujemy koncepcję, która jest najważniejszym etapem współpracy. Na bazie zaakceptowanej koncepcji przechodzimy do kolejnych opracowań, między innymi projektu budowlanego, PZT oraz opracowań branżowych i koordynacji.',
   },
   {
-    title: 'Czy mogę skonsultować działkę lub nieruchomość przed zakupem?',
-    body: 'Tak. Analiza przedprojektowa pozwala wstępnie sprawdzić potencjał nieruchomości, najważniejsze ograniczenia i możliwość realizacji planowanej inwestycji.',
+    title: 'Czy zajmujecie się formalnościami i pozwoleniem na budowę?',
+    body: 'W ramach kompleksowej współpracy możemy przygotować wymaganą dokumentację oraz prowadzić proces formalny związany z uzyskaniem pozwolenia na budowę lub dokonaniem odpowiedniej procedury administracyjnej.',
   },
   {
-    title: 'Czy mogę zlecić razem projekt budynku i wnętrz?',
-    body: 'Tak. Połączenie architektury i wnętrz pozwala prowadzić projekt jako jedną spójną całość — od usytuowania budynku i układu funkcjonalnego po materiały, wyposażenie i detal.',
+    title: 'Czy podczas projektowania można wprowadzać zmiany?',
+    body: 'Tak. Projekt koncepcyjny powstaje we współpracy z inwestorem i to właśnie na tym etapie wspólnie dopracowujemy najważniejsze rozwiązania funkcjonalne i architektoniczne.',
+  },
+  {
+    title: 'Czy przed zakupem działki warto skonsultować się z architektem?',
+    body: 'Tak. Analiza przed zakupem pozwala sprawdzić możliwości zabudowy, najważniejsze ograniczenia oraz potencjał nieruchomości jeszcze przed podjęciem decyzji inwestycyjnej.',
   },
 ];

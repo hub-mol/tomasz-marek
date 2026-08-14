@@ -1,10 +1,14 @@
 ---
+import { plNoBreak } from '../../utils/typography';
+
 // Edytorialny blok o pracowni: tekstowa kolumna i dominujące zdjęcie.
 interface Props {
   id?: string;
   eyebrow?: string;
   title?: string;
   text?: string;
+  paragraphs?: string[];
+  leadFirst?: boolean;
   img?: string;
 }
 
@@ -13,8 +17,12 @@ const {
   eyebrow = 'O mnie',
   title = 'ArhiconStudio',
   text = 'We reach beyond established trends and apply new creative solutions. Right place for achieving top results.',
+  paragraphs,
+  leadFirst = true,
   img = '/img/tm-5.jpg',
 } = Astro.props;
+
+const copy = paragraphs ?? [text];
 ---
 
 <section class="about-hero" id={id}>
@@ -22,11 +30,15 @@ const {
     <div class="about-hero__col about-hero__col--text">
       <div>
         {eyebrow && <p class="about-hero__eyebrow eyebrow">{eyebrow}</p>}
-        <h2 class="about-hero__title type-lead">{title}</h2>
+        <h2 class="about-hero__title type-lead">{plNoBreak(title)}</h2>
       </div>
 
       <div class="about-hero__intro">
-        <p class="about-hero__lead">{text}</p>
+        {copy.map((paragraph, i) => (
+          <p class:list={['about-hero__paragraph', { 'about-hero__lead': leadFirst && i === 0 }]}>
+            {plNoBreak(paragraph)}
+          </p>
+        ))}
       </div>
     </div>
 
@@ -52,9 +64,12 @@ const {
 
   .about-hero__inner {
     min-height: inherit;
+    grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
   }
 
   .about-hero__col--text {
+    grid-column: 1;
+    grid-row: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -68,6 +83,10 @@ const {
 
   .about-hero__title {
     margin: 0;
+    font-size: clamp(2.5rem, 3.8vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    white-space: pre-line;
   }
 
   .about-hero__intro {
@@ -77,13 +96,28 @@ const {
 
   .about-hero__lead {
     max-width: 560px;
-    margin-top: 28px;
     font-size: clamp(1.5rem, 2.2vw, 2.2rem);
     line-height: 1.12;
     letter-spacing: -0.025em;
   }
 
+  .about-hero__paragraph {
+    max-width: 60ch;
+    color: rgba(255, 255, 255, 0.7);
+    text-wrap: balance;
+  }
+
+  .about-hero__paragraph + .about-hero__paragraph {
+    margin-top: 16px;
+  }
+
+  .about-hero__paragraph.about-hero__lead {
+    color: #fff;
+  }
+
   .about-hero__col--media {
+    grid-column: 2;
+    grid-row: 1;
     position: relative;
     width: calc(100% + var(--gutter));
     min-height: inherit;
@@ -107,14 +141,21 @@ const {
 
     .about-hero__inner {
       min-height: 0;
+      grid-template-columns: 1fr;
     }
 
     .about-hero__col--text {
+      grid-column: 1;
+      grid-row: 1;
       padding-block: 55px 60px;
     }
 
     .about-hero__col--media {
+      grid-column: 1;
+      grid-row: 2;
+      width: calc(100% + 2 * var(--gutter));
       min-height: 420px;
+      margin-inline: calc(-1 * var(--gutter));
     }
   }
 
@@ -128,9 +169,7 @@ const {
     }
 
     .about-hero__col--media {
-      width: calc(100% + 2 * var(--gutter));
       min-height: 320px;
-      margin-inline: calc(-1 * var(--gutter));
     }
   }
 </style>

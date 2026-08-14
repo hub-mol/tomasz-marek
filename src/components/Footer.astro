@@ -1,42 +1,190 @@
 ---
+import ArrowLink from './ArrowLink.astro';
+import { plNoBreak } from '../utils/typography';
+
+interface Props {
+  id?: string;
+}
+
+const { id } = Astro.props;
 const year = new Date().getFullYear();
+const email = 'biuro@tomaszmarek.com';
+const phoneLabel = '+48 696 995 899';
+const phoneHref = '+48696995899';
 ---
 
-<footer class="section ftr">
-  <a class="ftr__logo" href="/">tma<span class="ftr__star">*</span> studio</a>
-  <p class="ftr__copy">&copy; {year} tma* studio</p>
+<footer class="ftr" id={id}>
+  <section class="section ftr__contact">
+    <p class="ftr__eyebrow eyebrow">Kontakt</p>
+
+    <div class="ftr__intro">
+      <h2>Porozmawiajmy o Twoim projekcie</h2>
+      <p>{plNoBreak('Planujesz budowę, przebudowę albo nowe wnętrze? Opowiedz nam o swojej inwestycji. Podczas pierwszej rozmowy sprawdzimy, w jakim zakresie możemy Ci pomóc.')}</p>
+      <ArrowLink href={`mailto:${email}?subject=Spotkanie z architektem`}>
+        Umów spotkanie z&nbsp;architektem
+      </ArrowLink>
+    </div>
+  </section>
+
+  <div class="section ftr__details">
+    <div class="ftr__brand">
+      <a class="ftr__logo" href="/">TMA</a>
+      <p>Tomasz Marek Architekt</p>
+    </div>
+
+    <address class="ftr__block">
+      <p class="ftr__label">Pracownia</p>
+      <p class="ftr__entity">TMA Tomasz Marek Architekt</p>
+      <p>ul. Magellana 2/29</p>
+      <p>80-288 Gdańsk</p>
+    </address>
+
+    <address class="ftr__block">
+      <p class="ftr__label">Działalność</p>
+      <p>Stary Grabiąż 6A</p>
+      <p>78-460 Stary Grabiąż</p>
+      <p class="ftr__spacer">NIP: 6731917259</p>
+      <p>REGON: 528600458</p>
+    </address>
+
+    <div class="ftr__block">
+      <p class="ftr__label">Kontakt</p>
+      <p><a href={`mailto:${email}`}>{email}</a></p>
+      <p><a href={`tel:${phoneHref}`}>{phoneLabel}</a></p>
+      <p class="ftr__spacer">
+        <a href="https://www.instagram.com/studjo.biuro/" target="_blank" rel="noreferrer">Instagram</a>
+      </p>
+      <p>
+        <a href="https://www.facebook.com/people/studjobiuro/100078056002732/" target="_blank" rel="noreferrer">Facebook</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="section ftr__bottom">
+    <p>&copy; {year} TMA Tomasz Marek Architekt</p>
+  </div>
 </footer>
 
 <style>
   .ftr {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    min-height: var(--hdr-h);
-    border-top: 1px solid var(--c-line);
+    background: #171816;
+    color: #fff;
+  }
+
+  .ftr__contact {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(0, 1.6fr);
+    gap: clamp(60px, 8vw, 150px);
+    padding-top: 130px;
+    padding-bottom: 125px;
+  }
+
+  .ftr__eyebrow {
+    padding-top: 8px;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .ftr__intro h2 {
+    max-width: 860px;
+    font-size: clamp(2.7rem, 5vw, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+
+  .ftr__intro > p {
+    max-width: 60ch;
+    margin-top: 35px;
+    color: rgba(255, 255, 255, 0.67);
+    text-wrap: balance;
+  }
+
+  .ftr__intro :global(.arrow-link) {
+    margin-top: 30px;
+  }
+
+  .ftr__details {
+    display: grid;
+    grid-template-columns: 1.25fr repeat(3, minmax(180px, 1fr));
+    gap: 45px;
+    padding-top: 50px;
+    padding-bottom: 70px;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
   }
 
   .ftr__logo {
     font-family: var(--ff-heading);
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    text-transform: lowercase;
+    font-size: clamp(2.4rem, 4vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
   }
 
-  .ftr__star {
+  .ftr__brand p {
+    margin-top: 12px;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .ftr__block {
+    font-style: normal;
+  }
+
+  .ftr__label {
+    margin-bottom: 18px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ftr__spacer {
+    margin-top: 16px;
+  }
+
+  .ftr__entity {
+    margin-bottom: 16px;
+  }
+
+  .ftr__block a {
+    transition: color 0.25s ease;
+  }
+
+  .ftr__block a:hover {
     color: var(--c-accent);
   }
 
-  .ftr__copy {
-    color: var(--c-muted);
+  .ftr__bottom {
+    padding-top: 22px;
+    padding-bottom: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+  }
+
+  @media (max-width: 1024px) {
+    .ftr__contact {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding-top: 100px;
+      padding-bottom: 95px;
+    }
+
+    .ftr__details {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 60px 40px;
+    }
   }
 
   @media (max-width: 768px) {
-    .ftr {
-      flex-direction: column;
-      align-items: flex-start;
+    .ftr__contact {
+      gap: 28px;
+      padding-top: 75px;
+      padding-bottom: 75px;
+    }
+
+    .ftr__details {
+      grid-template-columns: 1fr;
+      gap: 45px;
+      padding-top: 45px;
+      padding-bottom: 55px;
     }
   }
 </style>
