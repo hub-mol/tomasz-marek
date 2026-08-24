@@ -22,7 +22,7 @@ const items = [
       items.map((title, i) => (
         <li class={`timeline__item timeline__item--${i % 2 === 0 ? 'up' : 'down'}`}>
           <div class="timeline__card">
-            <h3>{title}</h3>
+            <h3 class="type-heading-lg">{title}</h3>
             <p>{text}</p>
           </div>
           <div class="timeline__axis">

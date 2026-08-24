@@ -53,13 +53,13 @@ const offers = [
   <ol class="offer__grid">
     {offers.map((offer, i) => (
       <li class="offer__item">
-        <span class="offer__num">{String(i + 1).padStart(2, '0')}</span>
-        <h3 class="offer__title">{offer.title}</h3>
+        <span class="offer__num type-body-sm">{String(i + 1).padStart(2, '0')}</span>
+        <h3 class="offer__title type-h3">{offer.title}</h3>
 
         <div class="offer__sections">
           {offer.sections.map((section) => (
             <section class="offer__section">
-              <h4>{section.title}</h4>
+              <h3 class="tagline">{section.title}</h3>
               <p>{plNoBreak(section.text)}</p>
             </section>
           ))}
@@ -99,8 +99,6 @@ const offers = [
     display: block;
     padding: var(--space-8);
     color: var(--c-gray);
-    font-size: var(--text-sm);
-    font-variant-numeric: tabular-nums;
   }
 
   .offer__title {
@@ -109,8 +107,6 @@ const offers = [
     margin: 0;
     padding: var(--space-8);
     border-bottom: 1px solid var(--c-line);
-    font-size: var(--h3);
-    line-height: 1.05;
   }
 
   .offer__sections {
@@ -127,11 +123,7 @@ const offers = [
   }
 
   .offer__section h4 {
-    font-family: var(--ff-body);
-    font-size: var(--text-sm);
-    line-height: 1.3;
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
+    margin-bottom: 0;
   }
 
   .offer__section p {

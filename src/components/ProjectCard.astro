@@ -12,7 +12,7 @@ const { project, variant = 'featured', prominent = false } = Astro.props;
 const isGrid = variant === 'grid';
 ---
 
-<a class:list={['project-card', `project-card--${variant}`, { 'project-card--prominent': prominent }]} href={`/portfolio/${project.slug}`}>
+<a class:list={['project-card', `project-card--${variant}`, `project-card--${project.cardTone}`, { 'project-card--prominent': prominent }]} href={`/portfolio/${project.slug}`}>
   <span class="project-card__media">
     <Image
       src={project.img}
@@ -26,27 +26,47 @@ const isGrid = variant === 'grid';
     />
   </span>
 
-  {isGrid ? (
-    <>
+  <div class="project-card__content">
+    {isGrid ? (
       <span class="project-card__category tagline">{project.category}</span>
-      <span class="project-card__title type-h4">{project.title}</span>
-      <span class="project-card__detail">{project.location}{project.surface && ` · ${project.surface}`}</span>
-    </>
-  ) : (
-    <>
+    ) : (
       <span class="project-card__meta tagline">
         <span>{project.category}</span>
+        <span aria-hidden="true">·</span>
         <span class="project-card__location">{project.location}</span>
       </span>
-      <span class="project-card__title type-h4">{project.title}</span>
-    </>
-  )}
+    )}
+
+    <span class="project-card__title-row type-h3">
+      <span class="project-card__title">{project.title}</span>
+      <svg class="project-card__arrow" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M1.25 14.75 14.75 1.25" />
+        <path d="M4.125 1.25H14.75v10.625" />
+      </svg>
+    </span>
+
+    {isGrid && <span class="project-card__detail type-body-md">{project.location}{project.surface && ` · ${project.surface}`}</span>}
+  </div>
 </a>
 
 <style>
-  .project-card,
+  .project-card {
+    --card-fg: var(--c-fg);
+    --card-glass: rgba(255, 255, 255, 0.82);
+    position: relative;
+    display: block;
+    overflow: hidden;
+    color: var(--card-fg);
+  }
+
+  .project-card--dark {
+    --card-fg: #fff;
+    --card-glass: rgba(7, 8, 7, 0.78);
+  }
+
   .project-card__media,
   .project-card__category,
+  .project-card__title-row,
   .project-card__title,
   .project-card__detail {
     display: block;
@@ -54,6 +74,29 @@ const isGrid = variant === 'grid';
 
   .project-card__media {
     overflow: hidden;
+  }
+
+  .project-card__content {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 1;
+    width: 100%;
+    padding: var(--space-6);
+    isolation: isolate;
+  }
+
+  .project-card__content::before {
+    content: '';
+    position: absolute;
+    inset: -100% 0 0;
+    z-index: -1;
+    overflow: visible;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, var(--card-glass) 100%);
+    -webkit-backdrop-filter: blur(1.5rem);
+    backdrop-filter: blur(1.5rem);
+    -webkit-mask-image: linear-gradient(#0000, #000000c7 50%, #000 100%);
+    mask-image: linear-gradient(#0000, #000000c7 50%, #000 100%);
   }
 
   .project-card__media :global(img) {
@@ -79,33 +122,42 @@ const isGrid = variant === 'grid';
   .project-card__meta {
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-2);
+    gap: 0.5ch;
+    text-align: left;
   }
 
   .project-card__meta,
   .project-card__category {
-    margin-top: var(--space-6);
+    margin-top: 0;
     margin-bottom: 0;
+    color: inherit;
   }
 
-  .project-card__title {
+  .project-card__title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    width: 100%;
     margin-top: var(--space-1);
-    transition: color 0.3s ease;
   }
 
-  .project-card--grid .project-card__title {
+  .project-card--grid .project-card__title-row {
     margin-top: 0;
   }
 
-  .project-card:hover .project-card__title {
-    color: var(--c-accent);
+  .project-card__arrow {
+    flex: 0 0 auto;
+    width: 0.66em;
+    height: 0.66em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5px;
+    stroke-linejoin: round;
   }
 
   .project-card__detail {
     margin-top: var(--space-1);
-    font-size: var(--text-md);
-    line-height: var(--leading-md);
-    letter-spacing: var(--tracking-tight);
   }
+
 </style>

@@ -21,7 +21,7 @@ const { title, heading, description, wide = false } = Astro.props;
     {
       heading && (
         <div class={wide ? 'section' : 'container'}>
-          <h1 class="page__title">{heading}</h1>
+          <h1 class="page__title type-h3">{heading}</h1>
         </div>
       )
     }
@@ -34,10 +34,6 @@ const { title, heading, description, wide = false } = Astro.props;
 <style>
   .page__title {
     margin-bottom: var(--space-16);
-    font-size: var(--h3);
-    line-height: 1.125;
-    letter-spacing: var(--tracking-heading);
-    font-weight: 400;
   }
 
   @media (max-width: 1024px) {

@@ -32,7 +32,7 @@ const items = [
 ];
 ---
 
-<section class="section section--alt making">
+<section class="section section-spaced section--alt making">
   <div class="making__aside">
     <h2 class="making__title">
       Prowadzi nas proces.
@@ -45,7 +45,7 @@ const items = [
       items.map((item) => (
         <li class="making__item">
           <img class="making__icon" src={item.icon} alt="" width="48" height="56" />
-          <h3 class="making__name">{item.title}</h3>
+          <h3 class="making__name type-heading-lg">{item.title}</h3>
           <p class="making__text">{item.text}</p>
         </li>
       ))
@@ -55,7 +55,6 @@ const items = [
 
 <style>
   .making {
-    padding-block: 7.8125rem 8.4375rem;
   }
 
   .making__aside {
@@ -92,7 +91,6 @@ const items = [
 
   .making__name {
     margin-top: var(--space-4);
-    line-height: var(--leading-md);
   }
 
   .making__text {
@@ -101,7 +99,6 @@ const items = [
 
   @media (max-width: 1024px) {
     .making {
-      padding-block: 6.25rem;
     }
 
     .making__grid {

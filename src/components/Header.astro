@@ -50,7 +50,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
         menu.map((item) => (
           <li>
             <a
-              class:list={['hdr__link', { 'is-current': isCurrent(item.href) }]}
+              class:list={['hdr__link', 'type-nav', { 'is-current': isCurrent(item.href) }]}
               href={item.href}
             >
               {item.label}
@@ -141,10 +141,6 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
   .hdr__link {
     position: relative;
     display: inline-block;
-    font-size: var(--text-md);
-    line-height: 1;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
     transition: color 0.3s ease-out;
   }
 
@@ -304,11 +300,6 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
       display: block;
       padding: var(--space-4) var(--gutter);
       border-bottom: 1px solid var(--c-line);
-      font-family: var(--ff-heading);
-      font-size: var(--text-lg);
-      line-height: var(--leading-xl);
-      letter-spacing: var(--tracking-tight);
-      text-transform: none;
     }
 
     /* w panelu pozycje są blokowe — podkreślenie z desktopu tu nie pasuje */

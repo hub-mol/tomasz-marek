@@ -11,12 +11,12 @@ const { prev, next } = Astro.props;
 
 <nav class="section pnav" aria-label="Inne realizacje">
   <a class="pnav__link pnav__link--prev" href={`/portfolio/${prev.slug}`}>
-    <span class="pnav__dir">Poprzednia</span>
-    <span class="pnav__title">{prev.title}</span>
+    <span class="pnav__dir type-label">Poprzednia</span>
+    <span class="pnav__title type-heading-lg">{prev.title}</span>
   </a>
   <a class="pnav__link pnav__link--next" href={`/portfolio/${next.slug}`}>
-    <span class="pnav__dir">Następna</span>
-    <span class="pnav__title">{next.title}</span>
+    <span class="pnav__dir type-label">Następna</span>
+    <span class="pnav__title type-heading-lg">{next.title}</span>
   </a>
 </nav>
 
@@ -35,19 +35,12 @@ const { prev, next } = Astro.props;
 
   .pnav__dir {
     display: block;
-    font-size: var(--text-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     color: var(--c-muted);
   }
 
   .pnav__title {
     display: block;
     margin-top: var(--space-2);
-    font-family: var(--ff-heading);
-    font-size: var(--text-lg);
-    line-height: var(--leading-xl);
-    letter-spacing: var(--tracking-tight);
     transition: color 0.3s ease;
   }
 

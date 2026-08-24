@@ -27,20 +27,20 @@ const { posts, layout = 'large' } = Astro.props;
                 height="692"
                 loading="lazy"
               />
-              <span class="post__date">
+              <span class="post__date type-label">
                 <span class="post__day">{post.day}</span>
                 <span class="post__month">{post.month}</span>
               </span>
             </a>
 
             <div class="post__body">
-              <p class="post__cats">
+              <p class="post__cats type-label">
                 {post.categories.map((c) => (
                   <span>{c}</span>
                 ))}
               </p>
 
-              <h2 class="post__title">
+              <h2 class:list={['post__title', layout === 'large' ? 'type-h3' : 'type-heading-lg']}>
                 <a href="#">{post.title}</a>
               </h2>
 
@@ -95,9 +95,6 @@ const { posts, layout = 'large' } = Astro.props;
     width: 3.75rem;
     height: 5.0625rem;
     background: var(--c-bg);
-    font-size: var(--text-md);
-    line-height: 1.25;
-    text-transform: uppercase;
   }
 
   .post__day {
@@ -113,24 +110,11 @@ const { posts, layout = 'large' } = Astro.props;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-1) var(--space-4);
-    font-size: var(--text-sm);
-    line-height: 1.2;
-    text-transform: uppercase;
     color: var(--c-muted);
   }
 
   .post__title {
     margin-top: var(--space-2);
-    font-size: var(--h3);
-    line-height: 1.125;
-    letter-spacing: var(--tracking-heading);
-    font-weight: 400;
-  }
-
-  .feed--compact .post__title {
-    font-size: var(--text-lg);
-    line-height: var(--leading-xl);
-    letter-spacing: var(--tracking-tight);
   }
 
   .post__title a {

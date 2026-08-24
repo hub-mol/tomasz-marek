@@ -49,32 +49,32 @@ const social = ['Instagram', 'Linkedin', 'YouTube', 'Behance'];
     <img class="cv__sign" src={signature} alt="" width="284" height="141" />
 
     <header class="cv__head">
-      <h1 class="cv__name">{name}</h1>
+      <h1 class="cv__name type-h2">{name}</h1>
       <p class="cv__role">{role}</p>
     </header>
 
     <section class="cv__block">
-      <h2>Work Experience</h2>
+      <h2 class="type-heading-lg">Work Experience</h2>
       <p>{intro}</p>
     </section>
 
     <section class="cv__block">
-      <h2>Latest Projects</h2>
+      <h2 class="type-heading-lg">Latest Projects</h2>
       <p>{projectsIntro}</p>
       <ul class="cv__list">
-        {projects.map((p) => <li>{p}</li>)}
+        {projects.map((p) => <li class="type-body-md">{p}</li>)}
       </ul>
     </section>
 
     <section class="cv__block">
-      <h2>Awards and competitions</h2>
+      <h2 class="type-heading-lg">Awards and competitions</h2>
       <ul class="cv__list">
-        {awards.map((a) => <li>{a}</li>)}
+        {awards.map((a) => <li class="type-body-md">{a}</li>)}
       </ul>
     </section>
 
     <section class="cv__block">
-      <h2>Social</h2>
+      <h2 class="type-heading-lg">Social</h2>
       <ul class="cv__list cv__list--plain">
         {
           social.map((s) => (
@@ -89,7 +89,7 @@ const social = ['Instagram', 'Linkedin', 'YouTube', 'Behance'];
     </section>
 
     <section class="cv__block">
-      <h2>Download CV</h2>
+      <h2 class="type-heading-lg">Download CV</h2>
       <p><a class="link-btn" href="#">PDF, 320 kB</a></p>
     </section>
   </div>
@@ -116,11 +116,6 @@ const social = ['Instagram', 'Linkedin', 'YouTube', 'Behance'];
   }
 
   .cv__name {
-    font-size: var(--h2);
-    line-height: 1;
-    letter-spacing: var(--tracking-tight);
-    font-weight: 400;
-    text-transform: uppercase;
   }
 
   .cv__role {
@@ -135,9 +130,6 @@ const social = ['Instagram', 'Linkedin', 'YouTube', 'Behance'];
 
   .cv__block h2 {
     margin-bottom: var(--space-2);
-    font-size: var(--text-lg);
-    line-height: var(--leading-xl);
-    letter-spacing: var(--tracking-tight);
   }
 
   .cv__list {
@@ -145,9 +137,6 @@ const social = ['Instagram', 'Linkedin', 'YouTube', 'Behance'];
   }
 
   .cv__list li {
-    font-size: var(--text-md);
-    line-height: var(--leading-md);
-    letter-spacing: var(--tracking-tight);
   }
 
   /* myślnik jak w oryginale, ale jako znak listy — nie w treści */
@@ -174,10 +163,6 @@ const social = ['Instagram', 'Linkedin', 'YouTube', 'Behance'];
       padding-block: var(--space-16) 5rem;
     }
 
-    .cv__name {
-      font-size: 2.75rem;
-      line-height: 2.875rem;
-    }
   }
 
   @media (max-width: 768px) {

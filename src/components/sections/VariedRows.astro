@@ -24,7 +24,7 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
 );
 ---
 
-<section class="section rows" id="realizacje">
+<section class="section section-spaced rows" id="realizacje">
   {
     showHeader && (
       <header class="rows__head">
@@ -50,8 +50,8 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
               />
             </span>
             <span class="rows__meta">
-              <span class="rows__title">{p.title}</span>
-              <span class="rows__cat">
+              <span class="rows__title type-heading-lg">{p.title}</span>
+              <span class="rows__cat type-label">
                 {p.category} · {p.location}
               </span>
             </span>
@@ -64,7 +64,6 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
 
 <style>
   .rows {
-    padding-block: var(--sec-y);
   }
 
   .rows__head {
@@ -113,10 +112,6 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
   }
 
   .rows__title {
-    font-family: var(--ff-heading);
-    font-size: var(--text-lg);
-    line-height: var(--leading-xl);
-    letter-spacing: var(--tracking-tight);
     transition: color 0.3s ease;
   }
 
@@ -126,9 +121,6 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
 
   .rows__cat {
     flex-shrink: 0;
-    font-size: 0.8125rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     color: var(--c-muted);
   }
 

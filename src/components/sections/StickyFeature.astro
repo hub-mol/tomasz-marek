@@ -36,7 +36,7 @@ const {
 } = Astro.props;
 ---
 
-<section class="section sticky-feat">
+<section class="section section-spaced sticky-feat">
   <div class="sticky-feat__aside">
     <div class="sticky-feat__pin">
       <p class="tagline">{eyebrow}</p>
@@ -50,9 +50,9 @@ const {
         <article class="sticky-feat__step">
           <img src={s.img} alt="" width="1100" height="800" loading="lazy" />
           <div class="sticky-feat__body">
-            <span class="sticky-feat__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="sticky-feat__num type-body-md">{String(i + 1).padStart(2, '0')}</span>
             <div>
-              <h3 class="sticky-feat__label">{s.label}</h3>
+              <h3 class="sticky-feat__label type-heading-lg">{s.label}</h3>
               <p class="sticky-feat__text">{s.text}</p>
             </div>
           </div>
@@ -67,7 +67,6 @@ const {
     display: grid;
     grid-template-columns: minmax(17.5rem, 1fr) minmax(0, 1.6fr);
     gap: clamp(var(--space-16), 8vw, var(--space-32));
-    padding-block: var(--sec-y);
   }
 
   /* kolumna tekstowa zostaje w kadrze, dopóki obok przewijają się kroki */
@@ -100,10 +99,7 @@ const {
   .sticky-feat__num {
     flex-shrink: 0;
     min-width: 2.125rem;
-    font-size: 0.9375rem;
-    line-height: 1.6;
     color: var(--c-gray);
-    font-variant-numeric: tabular-nums;
   }
 
   .sticky-feat__label {

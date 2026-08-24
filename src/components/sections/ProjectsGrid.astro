@@ -3,46 +3,79 @@ import { projects } from '../../data/portfolio';
 import ArrowLink from '../ArrowLink.astro';
 import ProjectCard from '../ProjectCard.astro';
 
-// Asymetryczny wybór realizacji: jedna duża historia i dwie mniejsze.
-const featuredSlugs = ['wnetrze-neonatolin', 'mieszkanie-narutowicza', 'osrodek-radacz'];
-const items = featuredSlugs.map((slug) => projects.find((project) => project.slug === slug)!);
+const projectBySlug = new Map(projects.map((project) => [project.slug, project]));
+const projectGroups = [
+  ['dom-drz', 'dom-kw', 'dom-poznan'],
+  ['osrodek-radacz', 'estetica', 'wnetrze-neonatolin'],
+  ['mieszkanie-narutowicza', 'zwyciestwa-gliwice'],
+].map((group) => group.map((slug) => projectBySlug.get(slug)!));
 ---
 
 <section class="section section-spaced projects" id="projekty">
   <header class="projects__head section-head-inline">
-    <h2>Wybrane realizacje</h2>
-    <ArrowLink href="/portfolio/standard-list">Zobacz wszystkie projekty</ArrowLink>
+    <h2 class="type-h1">Wybrane realizacje</h2>
+    <ArrowLink href="/portfolio/standard-list" typeClass="type-h3">Zobacz wszystkie projekty</ArrowLink>
   </header>
 
-  <ul class="projects__grid split-golden--reverse">
+  {projectGroups.map((group, groupIndex) => (
+    <ul class:list={['projects__grid', { 'projects__grid--reverse': groupIndex === 1, 'projects__grid--partial': group.length < 3 }]}>
     {
-      items.map((item, index) => (
+      group.map((item, index) => (
         <li>
-          <ProjectCard project={item} prominent={index === 0} />
+          <ProjectCard project={item} prominent={group.length === 3 && index === 0} />
         </li>
       ))
     }
-  </ul>
+    </ul>
+  ))}
 </section>
 
 <style>
   .projects__grid {
     display: grid;
-    gap: var(--space-16) clamp(var(--space-8), 5vw, var(--space-16));
+    grid-template-columns: minmax(0, 1.6fr) minmax(17.5rem, 1fr);
+    gap: var(--space-8);
     align-items: start;
+  }
+
+  .projects__grid + .projects__grid {
+    margin-top: var(--space-8);
+  }
+
+  .projects__grid--reverse {
+    grid-template-columns: minmax(17.5rem, 1fr) minmax(0, 1.6fr);
+  }
+
+  .projects__grid--reverse > li:first-child {
+    grid-column: 2;
+  }
+
+  .projects__grid--reverse > li:not(:first-child) {
+    grid-column: 1;
+  }
+
+  .projects__grid--partial {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .projects__grid > li:first-child {
     grid-row: span 2;
   }
 
-  .projects__grid > li:nth-child(3) {
-    margin-top: var(--space-8);
+  .projects__grid--partial > li:first-child {
+    grid-row: auto;
   }
 
   @media (max-width: 1024px) {
     .projects__grid {
-      gap: var(--space-12) var(--space-6);
+      grid-template-columns: 1fr;
+    }
+
+    .projects__grid > li,
+    .projects__grid--reverse > li:first-child,
+    .projects__grid--reverse > li:not(:first-child) {
+      grid-column: auto;
+      grid-row: auto;
     }
   }
 
@@ -51,16 +84,9 @@ const items = featuredSlugs.map((slug) => projects.find((project) => project.slu
       margin-bottom: var(--space-8);
     }
 
-    .projects__grid {
-      gap: var(--space-8);
-    }
-
     .projects__grid > li:first-child {
       grid-row: auto;
     }
 
-    .projects__grid > li:nth-child(3) {
-      margin-top: 0;
-    }
   }
 </style>

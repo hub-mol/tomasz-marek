@@ -1,9 +1,11 @@
 ---
-import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import ProjectNav from '../../components/project/ProjectNav.astro';
+import ProjectEditorial from '../../components/project/ProjectEditorial.astro';
+import ProjectImmersive from '../../components/project/ProjectImmersive.astro';
+import ProjectMosaic from '../../components/project/ProjectMosaic.astro';
 import { projects } from '../../data/portfolio';
 
 export function getStaticPaths() {
@@ -24,181 +26,15 @@ const { project, prev, next } = Astro.props;
   title={`${project.title} — Tomasz Marek Architekt`}
   description={`${project.category}. ${project.location}${project.surface ? `, ${project.surface}` : ''}.`}
 >
-  <Header />
+  <Header variant={project.layout === 'immersive' ? 'overlay' : 'solid'} />
 
   <main>
-    <header class="section project-head">
-      <p class="tagline">{project.category}</p>
-      <h1>{project.title}</h1>
-    </header>
-
-    <figure class="project-cover">
-      <Image
-        src={project.img}
-        alt={project.alt}
-        widths={[768, 1280, 1920, 2400]}
-        sizes="100vw"
-        format="avif"
-        loading="eager"
-        fetchpriority="high"
-      />
-    </figure>
-
-    <section class="section project-intro">
-      <p class="project-intro__lead">
-        Materiał roboczy. Opis idei, zakresu i najważniejszych decyzji projektowych
-        zostanie uzupełniony po rozmowie z autorem.
-      </p>
-
-      <dl class="project-intro__facts">
-        <div><dt>Typ</dt><dd>{project.category}</dd></div>
-        <div><dt>Lokalizacja</dt><dd>{project.location}</dd></div>
-        {project.surface && <div><dt>Powierzchnia</dt><dd>{project.surface}</dd></div>}
-        <div><dt>Etap</dt><dd>{project.status}</dd></div>
-      </dl>
-    </section>
-
-    <section class="section project-gallery" aria-label={`Galeria projektu ${project.title}`}>
-      {
-        project.gallery.map((image, index) => (
-          <figure class:list={['project-gallery__item', { 'project-gallery__item--wide': index % 4 === 2 }] }>
-            <Image
-              src={image}
-              alt={`${project.alt} — widok ${index + 2}`}
-              widths={[640, 960, 1440, 1920]}
-              sizes={index % 4 === 2 ? '100vw' : '(max-width: 768px) 100vw, 50vw'}
-              format="avif"
-              loading="lazy"
-            />
-          </figure>
-        ))
-      }
-    </section>
+    {project.layout === 'editorial' && <ProjectEditorial project={project} />}
+    {project.layout === 'immersive' && <ProjectImmersive project={project} />}
+    {project.layout === 'mosaic' && <ProjectMosaic project={project} />}
 
     <ProjectNav prev={prev} next={next} />
   </main>
 
   <Footer />
 </Base>
-
-<style>
-  .project-head {
-    display: grid;
-    grid-template-columns: minmax(13.75rem, 0.7fr) minmax(0, 1.6fr);
-    gap: clamp(var(--space-8), 8vw, var(--space-32));
-    align-items: end;
-    padding-block: clamp(var(--space-24), 12vw, var(--space-32)) clamp(var(--space-12), 6vw, var(--space-16));
-  }
-
-  .project-head h1 {
-    max-width: 17ch;
-    font-size: var(--h1);
-    line-height: 0.96;
-    letter-spacing: -0.055em;
-    font-weight: 400;
-    text-wrap: balance;
-  }
-
-  .project-cover {
-    margin: 0;
-    overflow: hidden;
-    background: var(--c-bg-alt);
-  }
-
-  .project-cover :global(img) {
-    width: 100%;
-    height: auto;
-    max-height: 88svh;
-    object-fit: cover;
-  }
-
-  .project-intro {
-    display: grid;
-    grid-template-columns: minmax(0, 1.6fr) minmax(17.5rem, 1fr);
-    gap: clamp(var(--space-16), 10vw, var(--space-32));
-    padding-block: clamp(var(--space-16), 11vw, var(--space-32));
-  }
-
-  .project-intro__lead {
-    max-width: 22ch;
-    font-family: var(--ff-heading);
-    font-size: var(--h2);
-    line-height: 1.08;
-    letter-spacing: -0.035em;
-  }
-
-  .project-intro__facts {
-    display: grid;
-    align-content: start;
-    gap: 0;
-    margin: 0;
-    border-top: 1px solid var(--c-line);
-  }
-
-  .project-intro__facts div {
-    display: grid;
-    grid-template-columns: 6.875rem 1fr;
-    gap: var(--space-6);
-    padding-block: var(--space-4);
-    border-bottom: 1px solid var(--c-line);
-  }
-
-  .project-intro__facts dt {
-    color: var(--c-muted);
-    font-size: 0.75rem;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-  }
-
-  .project-intro__facts dd {
-    margin: 0;
-  }
-
-  .project-gallery {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(var(--space-4), 2.2vw, var(--space-8));
-    padding-bottom: clamp(var(--space-24), 12vw, var(--space-32));
-  }
-
-  .project-gallery__item {
-    margin: 0;
-    background: var(--c-bg-alt);
-  }
-
-  .project-gallery__item--wide {
-    grid-column: 1 / -1;
-  }
-
-  .project-gallery__item :global(img) {
-    width: 100%;
-    height: 100%;
-    min-height: 38vw;
-    object-fit: cover;
-  }
-
-  .project-gallery__item--wide :global(img) {
-    min-height: 0;
-    max-height: 88svh;
-  }
-
-  @media (max-width: 768px) {
-    .project-head,
-    .project-intro {
-      grid-template-columns: 1fr;
-      gap: var(--space-6);
-    }
-
-    .project-gallery {
-      grid-template-columns: 1fr;
-    }
-
-    .project-gallery__item--wide {
-      grid-column: auto;
-    }
-
-    .project-gallery__item :global(img) {
-      min-height: 0;
-    }
-  }
-</style>

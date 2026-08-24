@@ -14,12 +14,12 @@ const {
 } = Astro.props;
 ---
 
-<section class="quote-band">
+<section class="section section-spaced quote-band">
   <div class="quote-band__inner">
-    <p class="quote-band__text">{text}</p>
+    <p class="quote-band__text type-h2">{text}</p>
     {
       (author || role) && (
-        <p class="quote-band__by">
+        <p class="quote-band__by type-label">
           {author}
           {author && role && <span aria-hidden="true"> · </span>}
           {role && <span class="quote-band__role">{role}</span>}
@@ -31,26 +31,16 @@ const {
 
 <style>
   .quote-band {
-    padding-inline: var(--gutter);
-    padding-block: clamp(5rem, 10vw, 8.75rem);
     background: var(--c-accent);
     color: #fff;
   }
 
   .quote-band__text {
     max-width: 22ch;
-    font-family: var(--ff-heading);
-    font-size: var(--h2);
-    line-height: 1.06;
-    letter-spacing: -0.03em;
-    text-wrap: balance;
   }
 
   .quote-band__by {
     margin-top: var(--space-8);
-    font-size: 0.8125rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
 
   .quote-band__role {

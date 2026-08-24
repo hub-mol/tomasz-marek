@@ -19,14 +19,14 @@ const {
 } = Astro.props;
 ---
 
-<section class:list={['section', 'testimonial', 'split-golden', { 'section--alt': alt }]}>
+<section class:list={['section', 'section-spaced', 'testimonial', 'split-golden', { 'section--alt': alt }]}>
   <figure class="testimonial__inner">
     {demo && <p class="testimonial__demo tagline">Opinia demonstracyjna</p>}
     <blockquote>
-      <p class="testimonial__text">&bdquo;{text}&rdquo;</p>
+      <p class="testimonial__text type-heading-lg">&bdquo;{text}&rdquo;</p>
     </blockquote>
 
-    <figcaption class="testimonial__author">
+    <figcaption class="testimonial__author type-body-md">
       {
         photo && (
           <img
@@ -49,8 +49,6 @@ const {
 
 <style>
   .testimonial {
-    padding-top: 6.875rem;
-    padding-bottom: calc(6.875rem + var(--sec-y));
   }
 
   .testimonial__inner {
@@ -61,10 +59,6 @@ const {
   .testimonial__text {
     max-width: 43.75rem;
     margin-bottom: var(--space-8);
-    font-family: var(--ff-heading);
-    font-size: var(--text-lg);
-    line-height: var(--leading-xl);
-    letter-spacing: var(--tracking-tight);
   }
 
   .testimonial__demo {
@@ -76,8 +70,6 @@ const {
     display: flex;
     align-items: center;
     gap: var(--space-4);
-    font-size: var(--text-md);
-    line-height: var(--leading-sm);
   }
 
   .testimonial__photo {
@@ -98,22 +90,12 @@ const {
   }
 
   @media (max-width: 1024px) {
-    .testimonial {
-      padding-block: 5.625rem;
-      padding-bottom: calc(5.625rem + var(--sec-y));
-    }
-
     .testimonial__inner {
       grid-column: auto;
     }
   }
 
   @media (max-width: 768px) {
-    .testimonial {
-      padding-block: 4.375rem;
-      padding-bottom: calc(4.375rem + var(--sec-y));
-    }
-
     .testimonial__photo {
       width: 3.75rem;
       height: 3.75rem;

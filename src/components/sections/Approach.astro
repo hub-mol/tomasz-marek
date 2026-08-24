@@ -18,25 +18,24 @@ const pillars = [
 ---
 
 <section class="section section-spaced approach">
-  <p class="tagline">Podejście</p>
-
   <div class="approach__intro split-golden">
     <div class="approach__copy">
-      <h2 class="type-h4">Nie zaczynamy od gotowej odpowiedzi.</h2>
+      <p class="tagline">Podejście</p>
+      <h2 class="type-h3">Nie zaczynamy od gotowej odpowiedzi.</h2>
       <div class="approach__body">
         <p class="text-pretty">{plNoBreak('Każdy projekt poprzedzamy analizą miejsca, potrzeb użytkowników, możliwości działki i charakteru inwestycji.')}</p>
         <p class="text-pretty">{plNoBreak('Szukamy rozwiązań, które mają swoje uzasadnienie — funkcjonalne, przestrzenne i estetyczne. Dzięki temu projekt nie jest przypadkowym zestawem pomieszczeń i materiałów, ale spójną przestrzenią stworzoną z myślą o jej przyszłych użytkownikach.')}</p>
       </div>
     </div>
 
-    <p class="approach__callout">Dobra architektura zaczyna się od zrozumienia</p>
+    <p class="approach__callout type-h1">Dobra architektura zaczyna się od zrozumienia.</p>
   </div>
 
   <ul class="approach__pillars">
     {pillars.map((pillar, i) => (
       <li class="approach__pillar">
-        <span class="approach__num">{String(i + 1).padStart(2, '0')}</span>
-        <h3 class="type-h4">{pillar.title}</h3>
+        <span class="approach__num type-body-sm">{String(i + 1).padStart(2, '0')}</span>
+        <h3 class="type-h3">{pillar.title}</h3>
         <p>{plNoBreak(pillar.text)}</p>
       </li>
     ))}
@@ -44,6 +43,10 @@ const pillars = [
 </section>
 
 <style>
+  .approach__copy {
+    padding-left: var(--space-8);
+  }
+
   .approach__body {
     max-width: 48ch;
     margin-top: var(--space-8);
@@ -55,10 +58,7 @@ const pillars = [
   }
 
   .approach__callout {
-    font-family: var(--ff-heading);
-    font-size: var(--h1);
-    line-height: 0.98;
-    letter-spacing: -0.045em;
+    align-self: end;
     text-align: right;
   }
 
@@ -81,8 +81,6 @@ const pillars = [
 
   .approach__num {
     color: var(--c-gray);
-    font-size: var(--text-sm);
-    font-variant-numeric: tabular-nums;
   }
 
   .approach__pillar h3 {
@@ -103,6 +101,10 @@ const pillars = [
   }
 
   @media (max-width: 768px) {
+    .approach__copy {
+      padding-left: 0;
+    }
+
     .approach__intro {
       --split-gap-tablet: var(--space-32);
     }

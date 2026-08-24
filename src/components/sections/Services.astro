@@ -35,7 +35,7 @@ interface Props {
 const { showHeader = false, layout = 'row' } = Astro.props;
 ---
 
-<section class="section services" id="oferta">
+<section class="section section-spaced services" id="oferta">
   {
     showHeader && (
       <header class="services__head">
@@ -64,7 +64,7 @@ const { showHeader = false, layout = 'row' } = Astro.props;
             )
           }
           <div class="services__body">
-            <h3>{item.title}</h3>
+            <h3 class="type-heading-lg">{item.title}</h3>
             <p>{item.text}</p>
           </div>
         </li>
@@ -75,7 +75,6 @@ const { showHeader = false, layout = 'row' } = Astro.props;
 
 <style>
   .services {
-    padding-block: 6.875rem;
   }
 
   .services__head {
@@ -145,10 +144,6 @@ const { showHeader = false, layout = 'row' } = Astro.props;
   }
 
   @media (max-width: 1024px) {
-    .services {
-      padding-block: 5rem;
-    }
-
     .services__grid {
       grid-template-columns: repeat(2, 1fr);
       gap: var(--space-12) 0;

@@ -56,22 +56,19 @@
   --ff-heading: 'Manrope', sans-serif;
   --text-sm: 0.75rem;
   --text-md: 1rem;
-  --text-lg: 1.25rem;
-  --leading-sm: 1.375rem;
-  --leading-base: 1.5625rem;
-  --leading-md: 1.75rem;
-  --leading-lg: 1.875rem;
-  --leading-xl: 2rem;
+  --text-lg: 1.375rem;
+  --leading-sm: 1.3;
+  --leading-md: 1.55;
+  --leading-lg: 1.5;
   --tracking-tight: -0.025em;
   --tracking-heading: -0.035em;
   --tracking-display: -0.04em;
   --tracking-caps: 0.08em;
 
   --display: 7.5rem;
-  --h1: 6rem;
-  --h2: 4rem;
-  --h3: 2.5rem;
-  --h4: 1.75rem;
+  --h1: 5.6rem;
+  --h2: 3.5rem;
+  --h3: 2.125rem;
 
   /* spacing: rdzeń oparty o potęgi 2; półkroki tylko dla rytmu 24/48/96 */
   --space-1: 0.25rem;
@@ -107,7 +104,6 @@
     --h1: 4.5rem;
     --h2: 3rem;
     --h3: 2.125rem;
-    --h4: 1.5rem;
     --sec-y: var(--space-24);
   }
 }
@@ -115,12 +111,10 @@
   :root {
     --hdr-h: 4rem;
     --pad-x: var(--space-6);
-    --leading-xl: 1.625rem;
     --display: 3rem;
     --h1: 3rem;
     --h2: 2.25rem;
     --h3: 1.75rem;
-    --h4: 1.25rem;
     --sec-y: calc(var(--space-16) + var(--space-4));
   }
 }
@@ -132,7 +126,26 @@
 }
 
 html {
+  font-size: 1rem;
   background: #181818;
+}
+
+@media screen and (max-width: 1728px) {
+  html {
+    font-size: calc(0.39rem + 0.57vw);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 1.57vw;
+  }
+}
+
+@media screen and (max-width: 769px) {
+  html {
+    font-size: calc(0.75rem + 0.52vw);
+  }
 }
 
 body {
@@ -140,7 +153,7 @@ body {
   margin: 0;
   font-family: var(--ff-body);
   font-size: var(--text-md);
-  line-height: var(--leading-base);
+  line-height: var(--leading-md);
   font-weight: 400;
   text-wrap: balance;
   color: var(--c-fg);
@@ -165,25 +178,59 @@ blockquote {
   margin: 0;
 }
 
-h1,
-h2,
-h3,
-h4 {
+:where(h1, h2, h3, .type-display, .type-h1, .type-h2, .type-h3) {
   font-family: var(--ff-heading);
+  font-weight: 400;
+  text-wrap: balance;
 }
 
-h2 {
-  font-size: var(--h3);
-  line-height: 1.125;
+:where(.type-display) {
+  font-size: var(--display);
+  line-height: 0.94;
+  letter-spacing: var(--tracking-display);
+}
+
+:where(h1, .type-h1) {
+  font-size: var(--h1);
+  line-height: 0.98;
+  letter-spacing: var(--tracking-display);
+}
+
+:where(h2, .type-h2) {
+  font-size: var(--h2);
+  line-height: 1.02;
   letter-spacing: var(--tracking-heading);
-  font-weight: 400;
 }
 
-h3 {
+:where(h3, .type-h3) {
+  font-size: var(--h3);
+  line-height: 1.08;
+  letter-spacing: var(--tracking-heading);
+}
+
+.type-body-sm {
+  font-family: var(--ff-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-sm);
+}
+
+.type-body-md {
+  font-family: var(--ff-body);
+  font-size: var(--text-md);
+  line-height: var(--leading-md);
+}
+
+.type-body-lg {
+  font-family: var(--ff-body);
   font-size: var(--text-lg);
-  line-height: var(--leading-xl);
+  line-height: var(--leading-lg);
+}
+
+.type-heading-lg {
+  font-family: var(--ff-heading);
+  font-size: var(--text-lg);
+  line-height: var(--leading-lg);
   letter-spacing: var(--tracking-tight);
-  font-weight: 400;
 }
 
 a {
@@ -237,54 +284,32 @@ ul {
   gap: 0;
 }
 
-/* Typografia wykorzystywana w wielu komponentach. */
-.type-display {
-  font-family: var(--ff-heading);
-  font-size: var(--h1);
-  line-height: 0.98;
-  letter-spacing: var(--tracking-display);
-  font-weight: 400;
-}
-
-.type-h4 {
-  font-family: var(--ff-heading);
-  font-size: var(--h4);
-  line-height: 1.15;
-  letter-spacing: var(--tracking-tight);
-  font-weight: 400;
-}
-
 .text-pretty {
   text-wrap: pretty;
 }
 
-.type-lead {
-  font-family: var(--ff-heading);
-  font-size: var(--h2);
-  line-height: 1.06;
-  letter-spacing: var(--tracking-heading);
-  font-weight: 400;
+.text-balance {
+  text-wrap: balance;
 }
 
-.tagline {
-  font-family: var(--ff-body);
+.text-muted {
   color: var(--c-muted);
+}
+
+.type-label,
+.tagline,
+.type-nav {
+  font-family: var(--ff-body);
   font-size: var(--text-sm);
-  line-height: 1.3;
+  line-height: var(--leading-sm);
   letter-spacing: var(--tracking-caps);
   font-weight: 400;
   text-transform: uppercase;
 }
 
 .tagline {
+  color: var(--c-muted);
   margin-bottom: var(--space-4);
-}
-
-.display-title,
-.section-head > h2 {
-  font-size: var(--h2);
-  line-height: 1.02;
-  letter-spacing: var(--tracking-display);
 }
 
 .section-head {
@@ -357,7 +382,7 @@ ul {
   display: inline-block;
   position: relative;
   font-size: var(--text-md);
-  line-height: var(--leading-base);
+  line-height: var(--leading-md);
   text-transform: uppercase;
   letter-spacing: 0.03125rem;
 }
@@ -383,6 +408,14 @@ ul {
 /* Przy otwartym menu mobilnym reszta dokumentu przygasa.
    :has() pozwala zareagować na stan <details> bez JS-u. */
 @media (max-width: 768px) {
+  .type-nav {
+    font-family: var(--ff-heading);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+    letter-spacing: var(--tracking-tight);
+    text-transform: none;
+  }
+
   .section-head > h2 {
     justify-self: start;
     text-align: left;

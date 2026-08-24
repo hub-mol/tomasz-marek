@@ -32,7 +32,7 @@ const {
 } = Astro.props;
 ---
 
-<section class="section scatter">
+<section class="section section-spaced scatter">
   <header class="scatter__head">
     <p class="tagline">{eyebrow}</p>
     <h2>{title}</h2>
@@ -46,7 +46,7 @@ const {
           style={`--col:${k.col}; --span:${k.span}; --offset:${k.offset ?? 0}; --ratio:${k.ratio ?? '3 / 2'}`}
         >
           <img src={k.img} alt="" width="900" height="700" loading="lazy" />
-          {k.caption && <figcaption>{k.caption}</figcaption>}
+          {k.caption && <figcaption class="type-label">{k.caption}</figcaption>}
         </figure>
       ))
     }
@@ -55,7 +55,6 @@ const {
 
 <style>
   .scatter {
-    padding-block: var(--sec-y);
     background: var(--c-bg-alt);
   }
 
@@ -91,9 +90,6 @@ const {
 
   .scatter__item figcaption {
     margin-top: var(--space-4);
-    font-size: 0.8125rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     color: var(--c-muted);
   }
 

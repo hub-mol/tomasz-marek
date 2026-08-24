@@ -6,28 +6,13 @@ interface Props {
 const { text } = Astro.props;
 ---
 
-<section class="section statement">
+<section class="section section-spaced statement">
   <h2>{text}</h2>
 </section>
 
 <style>
-  .statement {
-    padding-block: 8.75rem 8.125rem;
-  }
-
   .statement h2 {
     max-width: 70rem;
   }
 
-  @media (max-width: 1024px) {
-    .statement {
-      padding-block: 5.625rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .statement {
-      padding-block: 4.6875rem;
-    }
-  }
 </style>

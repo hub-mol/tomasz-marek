@@ -18,9 +18,9 @@ const phoneHref = '+48696995899';
     <p class="tagline">Kontakt</p>
 
     <div class="ftr__intro">
-      <h2 class="display-title">Porozmawiajmy o Twoim projekcie</h2>
+      <h2 class="type-h2">Porozmawiajmy o Twoim projekcie</h2>
       <p class="text-pretty">{plNoBreak('Planujesz budowę, przebudowę albo nowe wnętrze? Opowiedz nam o swojej inwestycji. Podczas pierwszej rozmowy sprawdzimy, w jakim zakresie możemy Ci pomóc.')}</p>
-      <ArrowLink href={`mailto:${email}?subject=Spotkanie z architektem`}>
+      <ArrowLink href={`mailto:${email}?subject=Spotkanie z architektem`} typeClass="type-h3">
         Umów spotkanie z&nbsp;architektem
       </ArrowLink>
     </div>
@@ -28,19 +28,19 @@ const phoneHref = '+48696995899';
 
   <div class="section ftr__details">
     <div class="ftr__brand">
-      <a class="ftr__logo" href="/">TMA</a>
+      <a class="ftr__logo type-h2" href="/">TMA</a>
       <p>Tomasz Marek Architekt</p>
     </div>
 
     <address class="ftr__block">
-      <p class="ftr__label">Pracownia</p>
+      <p class="ftr__label tagline">Pracownia</p>
       <p class="ftr__entity">TMA Tomasz Marek Architekt</p>
       <p>ul. Magellana 2/29</p>
       <p>80-288 Gdańsk</p>
     </address>
 
     <address class="ftr__block">
-      <p class="ftr__label">Działalność</p>
+      <p class="ftr__label tagline">Działalność</p>
       <p>Stary Grabiąż 6A</p>
       <p>78-460 Stary Grabiąż</p>
       <p class="ftr__spacer">NIP: 6731917259</p>
@@ -48,7 +48,7 @@ const phoneHref = '+48696995899';
     </address>
 
     <div class="ftr__block">
-      <p class="ftr__label">Kontakt</p>
+      <p class="ftr__label tagline">Kontakt</p>
       <p><a href={`mailto:${email}`}>{email}</a></p>
       <p><a href={`tel:${phoneHref}`}>{phoneLabel}</a></p>
       <p class="ftr__spacer">
@@ -60,7 +60,7 @@ const phoneHref = '+48696995899';
     </div>
   </div>
 
-  <div class="section ftr__bottom">
+  <div class="section ftr__bottom type-body-sm">
     <p>&copy; {year} TMA Tomasz Marek Architekt</p>
   </div>
 </footer>
@@ -105,10 +105,7 @@ const phoneHref = '+48696995899';
   }
 
   .ftr__logo {
-    font-family: var(--ff-heading);
-    font-size: var(--h2);
     line-height: 1;
-    letter-spacing: -0.04em;
   }
 
   .ftr__brand p {
@@ -123,9 +120,6 @@ const phoneHref = '+48696995899';
   .ftr__label {
     margin-bottom: var(--space-4);
     color: rgba(255, 255, 255, 0.5);
-    font-size: var(--text-sm);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
 
   .ftr__spacer {
@@ -148,7 +142,6 @@ const phoneHref = '+48696995899';
     padding-block: var(--space-6);
     border-top: 1px solid rgba(255, 255, 255, 0.25);
     color: rgba(255, 255, 255, 0.5);
-    font-size: var(--text-sm);
   }
 
   @media (max-width: 1024px) {

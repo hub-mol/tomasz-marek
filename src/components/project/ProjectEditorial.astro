@@ -1,0 +1,131 @@
+---
+import { Image } from 'astro:assets';
+import type { Project } from '../../data/portfolio';
+import ProjectFacts from './ProjectFacts.astro';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const placeholder = 'Materiał roboczy. Opis idei, zakresu i najważniejszych decyzji projektowych zostanie uzupełniony po rozmowie z autorem.';
+---
+
+<article class="project-editorial">
+  <header class="section section-spaced project-editorial__head split-golden">
+    <p class="tagline">{project.category}</p>
+    <h1 class="type-h1">{project.title}</h1>
+  </header>
+
+  <figure class="project-editorial__cover">
+    <Image
+      src={project.img}
+      alt={project.alt}
+      widths={[768, 1280, 1920, 2400]}
+      sizes="100vw"
+      format="avif"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </figure>
+
+  <section class="section section-spaced project-editorial__intro split-golden split-golden--reverse">
+    <p class="type-h2 text-pretty">{placeholder}</p>
+    <ProjectFacts project={project} />
+  </section>
+
+  <section class="section project-editorial__gallery" aria-label={`Galeria projektu ${project.title}`}>
+    {
+      project.gallery.map((image, index) => (
+        <figure class:list={['project-editorial__image', { 'project-editorial__image--wide': index % 4 === 2 }] }>
+          <Image
+            src={image}
+            alt={`${project.alt} — widok ${index + 2}`}
+            widths={[640, 960, 1440, 1920]}
+            sizes={index % 4 === 2 ? '100vw' : '(max-width: 768px) 100vw, 50vw'}
+            format="avif"
+            loading="lazy"
+          />
+        </figure>
+      ))
+    }
+  </section>
+</article>
+
+<style>
+  .project-editorial__head {
+    align-items: end;
+  }
+
+  .project-editorial__head h1 {
+    max-width: 17ch;
+  }
+
+  .project-editorial__cover {
+    overflow: hidden;
+    background: var(--c-bg-alt);
+  }
+
+  .project-editorial__cover :global(img) {
+    width: 100%;
+    max-height: 88svh;
+    object-fit: cover;
+  }
+
+  .project-editorial__intro {
+    display: grid;
+    gap: var(--space-32);
+  }
+
+  .project-editorial__intro > p {
+    max-width: 22ch;
+  }
+
+  .project-editorial__gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-8);
+    padding-bottom: var(--sec-y);
+  }
+
+  .project-editorial__image {
+    background: var(--c-bg-alt);
+  }
+
+  .project-editorial__image--wide {
+    grid-column: 1 / -1;
+  }
+
+  .project-editorial__image :global(img) {
+    width: 100%;
+    height: 100%;
+    min-height: 38vw;
+    object-fit: cover;
+  }
+
+  .project-editorial__image--wide :global(img) {
+    min-height: 0;
+    max-height: 88svh;
+  }
+
+  @media (max-width: 1024px) {
+    .project-editorial__intro {
+      gap: var(--space-12);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .project-editorial__gallery {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .project-editorial__image--wide {
+      grid-column: auto;
+    }
+
+    .project-editorial__image :global(img) {
+      min-height: 0;
+    }
+  }
+</style>

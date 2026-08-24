@@ -30,12 +30,12 @@ const copy = paragraphs ?? [text];
     <div class="about-hero__col about-hero__col--text">
       <div>
         {eyebrow && <p class="tagline">{eyebrow}</p>}
-        <h2 class="about-hero__title type-lead">{plNoBreak(title)}</h2>
+        <h2 class="about-hero__title type-h2">{plNoBreak(title)}</h2>
       </div>
 
       <div class="about-hero__intro">
         {copy.map((paragraph, i) => (
-          <p class:list={['about-hero__paragraph', { 'about-hero__lead': leadFirst && i === 0 }]}>
+          <p class:list={['about-hero__paragraph', 'text-pretty', { 'about-hero__lead': leadFirst && i === 0, 'type-h3': leadFirst && i === 0 }]}>
             {plNoBreak(paragraph)}
           </p>
         ))}
@@ -82,9 +82,6 @@ const copy = paragraphs ?? [text];
 
   .about-hero__title {
     margin: 0;
-    font-size: var(--h2);
-    line-height: 1.05;
-    letter-spacing: -0.035em;
     white-space: pre-line;
   }
 
@@ -94,15 +91,11 @@ const copy = paragraphs ?? [text];
 
   .about-hero__lead {
     max-width: 35rem;
-    font-size: var(--h3);
-    line-height: 1.12;
-    letter-spacing: -0.025em;
   }
 
   .about-hero__paragraph {
     max-width: 60ch;
     color: rgba(255, 255, 255, 0.7);
-    text-wrap: balance;
   }
 
   .about-hero__paragraph + .about-hero__paragraph {

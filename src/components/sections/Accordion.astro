@@ -2,9 +2,6 @@
 import { plNoBreak } from '../../utils/typography';
 import DisclosureIcon from '../DisclosureIcon.astro';
 
-// Jeden komponent w dwóch trybach:
-//   interactive — rozwijany <details>, do FAQ
-//   static      — wszystkie panele otwarte, bez strzałki i bez interakcji (proces)
 export interface AccordionItem {
   title: string;
   body: string;
@@ -15,7 +12,6 @@ interface Props {
   eyebrow?: string;
   title: string;
   items: AccordionItem[];
-  variant?: 'interactive' | 'static';
   numbered?: boolean;
   alt?: boolean;
 }
@@ -25,12 +21,10 @@ const {
   eyebrow,
   title,
   items,
-  variant = 'interactive',
   numbered = false,
   alt = false,
 } = Astro.props;
 
-const isStatic = variant === 'static';
 ---
 
 <section class:list={['section', 'section-spaced', 'accordion-sec', 'split-golden', { 'section--alt': alt }]} id={id}>
@@ -44,20 +38,10 @@ const isStatic = variant === 'static';
       items.map((item, i) => {
         const num = numbered ? String(i + 1).padStart(2, '0') : null;
 
-        return isStatic ? (
-          <div class="accordion__item">
-            <div class="accordion__head">
-              {num && <span class="accordion__num">{num}</span>}
-              <span class="accordion__label">{plNoBreak(item.title)}</span>
-            </div>
-            <div class="accordion__body">
-              <p>{plNoBreak(item.body)}</p>
-            </div>
-          </div>
-        ) : (
+        return (
           <details class="accordion__item" name={id ?? 'accordion'}>
-            <summary class="accordion__head">
-              {num && <span class="accordion__num">{num}</span>}
+            <summary class="accordion__head type-heading-lg">
+              {num && <span class="accordion__num type-body-md">{num}</span>}
               <span class="accordion__label">{plNoBreak(item.title)}</span>
               <DisclosureIcon />
             </summary>
@@ -90,9 +74,6 @@ const isStatic = variant === 'static';
     align-items: last baseline;
     gap: var(--space-4);
     padding: var(--space-6) 0;
-    font-size: var(--text-lg);
-    line-height: var(--leading-xl);
-    letter-spacing: var(--tracking-tight);
     list-style: none;
   }
 
@@ -106,15 +87,11 @@ const isStatic = variant === 'static';
 
   .accordion__num {
     min-width: 2.125rem;
-    font-family: var(--ff-body);
-    font-size: var(--text-md);
-    letter-spacing: normal;
     color: var(--c-gray);
   }
 
   .accordion__label {
     flex: 1;
-    font-family: var(--ff-heading);
   }
 
   details.accordion__item .accordion__head:hover .accordion__label {
@@ -128,7 +105,6 @@ const isStatic = variant === 'static';
 
   .accordion__body p {
     max-width: 62ch;
-    text-wrap: balance;
   }
 
   @media (max-width: 1024px) {

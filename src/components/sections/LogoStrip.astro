@@ -19,7 +19,7 @@ const {
 } = Astro.props;
 ---
 
-<section class="section logos">
+<section class="section section-spaced logos">
   <p class="tagline logos__label">{eyebrow}</p>
   <ul class="logos__grid">
     {
@@ -34,7 +34,6 @@ const {
 
 <style>
   .logos {
-    padding-block: 5.625rem;
     border-top: 1px solid var(--c-line);
   }
 
@@ -72,10 +71,6 @@ const {
   }
 
   @media (max-width: 768px) {
-    .logos {
-      padding-block: var(--space-16);
-    }
-
     .logos__grid {
       grid-template-columns: repeat(2, 1fr);
       gap: var(--space-8);

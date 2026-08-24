@@ -39,8 +39,8 @@ const {
 } = Astro.props;
 ---
 
-<section class="showcase">
-  <p class="showcase__line">
+<section class="section section-spaced showcase">
+  <p class="showcase__line type-h2">
     {
       parts.map((part) =>
         typeof part === 'string' ? (
@@ -62,18 +62,12 @@ const {
 
 <style>
   .showcase {
-    padding-inline: var(--gutter);
-    padding-block: 7.5rem;
   }
 
   .showcase__line {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    font-size: var(--h2);
-    line-height: 0.92;
-    letter-spacing: -0.025em;
-    text-transform: uppercase;
   }
 
   .showcase__word {
@@ -89,10 +83,6 @@ const {
   }
 
   @media (max-width: 768px) {
-    .showcase {
-      padding-block: 4.375rem;
-    }
-
     .showcase__word {
       margin-right: var(--space-2);
       padding-right: 0.1875rem;

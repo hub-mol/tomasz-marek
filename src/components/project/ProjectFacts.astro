@@ -1,0 +1,69 @@
+---
+import type { Project } from '../../data/portfolio';
+
+interface Props {
+  project: Project;
+  layout?: 'rows' | 'grid';
+  class?: string;
+}
+
+const { project, layout = 'rows', class: className } = Astro.props;
+
+const facts = [
+  ['Typ', project.category],
+  ['Lokalizacja', project.location],
+  ...(project.surface ? [['Powierzchnia', project.surface]] : []),
+  ['Etap', project.status],
+];
+---
+
+<dl class:list={['project-facts', `project-facts--${layout}`, className]}>
+  {
+    facts.map(([label, value]) => (
+      <div class="project-facts__row">
+        <dt class="tagline">{label}</dt>
+        <dd class="type-body-md">{value}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .project-facts {
+    display: grid;
+    align-content: start;
+    margin: 0;
+    border-top: 1px solid var(--c-line);
+  }
+
+  .project-facts__row {
+    display: grid;
+    grid-template-columns: 6.875rem 1fr;
+    gap: var(--space-6);
+    padding-block: var(--space-4);
+    border-bottom: 1px solid var(--c-line);
+  }
+
+  .project-facts dt {
+    margin: 0;
+  }
+
+  .project-facts dd {
+    margin: 0;
+  }
+
+  .project-facts--grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .project-facts--grid .project-facts__row {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+
+  @media (max-width: 768px) {
+    .project-facts--grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

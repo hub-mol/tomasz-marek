@@ -7,9 +7,9 @@ const phoneLabel = '+48 696 995 899';
 const phoneHref = '+48696995899';
 ---
 
-<section class="section contact" id="kontakt">
+<section class="section section-spaced contact" id="kontakt">
   <div class="contact__inner split-golden">
-    <h2 class="contact__title">Porozmawiajmy o Twoim projekcie</h2>
+    <h2 class="contact__title type-h3">Porozmawiajmy o Twoim projekcie</h2>
 
     <p class="text-pretty">{plNoBreak('Planujesz budowę, przebudowę albo nowe wnętrze? Opowiedz mi o swojej inwestycji. Podczas pierwszej rozmowy sprawdzimy, w jakim zakresie mogę Ci pomóc.')}</p>
 
@@ -18,7 +18,7 @@ const phoneHref = '+48696995899';
       <a class="link-btn" href={`tel:${phoneHref}`}>{phoneLabel}</a>
     </div>
 
-    <ArrowLink href={`mailto:${email}?subject=Konsultacja architektoniczna`}>
+    <ArrowLink href={`mailto:${email}?subject=Konsultacja architektoniczna`} typeClass="type-h3">
       Umów konsultację
     </ArrowLink>
   </div>
@@ -26,7 +26,6 @@ const phoneHref = '+48696995899';
 
 <style>
   .contact {
-    padding-block: 7.8125rem;
     background: #171816;
     color: #fff;
   }
@@ -39,10 +38,6 @@ const phoneHref = '+48696995899';
 
   .contact__title {
     margin-bottom: var(--space-6);
-    font-size: var(--h3);
-    line-height: 1.125;
-    letter-spacing: var(--tracking-heading);
-    font-weight: 400;
   }
 
   .contact__inner > p {
@@ -72,12 +67,6 @@ const phoneHref = '+48696995899';
 
   .contact__inner > :global(.arrow-link) {
     grid-column: 2;
-  }
-
-  @media (max-width: 1024px) {
-    .contact {
-      padding-block: 5.625rem;
-    }
   }
 
   @media (max-width: 768px) {
