@@ -52,8 +52,8 @@ const items = [
   .pfa__row {
     display: flex;
     align-items: center;
-    gap: 30px;
-    padding: 15px 38px;
+    gap: var(--space-8);
+    padding: var(--space-4) var(--space-8);
     cursor: pointer;
     list-style: none;
   }
@@ -65,24 +65,24 @@ const items = [
   .pfa__title {
     flex: 1 1 45%;
     font-family: var(--ff-heading);
-    font-size: var(--fs-h3);
-    line-height: var(--lh-h3);
-    letter-spacing: var(--ls-h3);
+    font-size: var(--text-lg);
+    line-height: var(--leading-xl);
+    letter-spacing: var(--tracking-tight);
     transition: color 0.3s ease;
   }
 
   .pfa__area {
     flex: 1 1 45%;
-    font-size: 15px;
-    line-height: 25px;
+    font-size: var(--text-md);
+    line-height: var(--leading-base);
   }
 
   .pfa__year {
     flex: 0 0 auto;
-    min-width: 60px;
-    font-size: 18px;
-    line-height: 28px;
-    letter-spacing: -0.45px;
+    min-width: 3.75rem;
+    font-size: var(--text-md);
+    line-height: var(--leading-md);
+    letter-spacing: var(--tracking-tight);
   }
 
   .pfa__mark svg {
@@ -103,8 +103,8 @@ const items = [
   .pfa__body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    padding: 8px 38px 38px;
+    gap: var(--space-8);
+    padding: var(--space-2) var(--space-8) var(--space-8);
   }
 
   .pfa__body img {
@@ -117,7 +117,7 @@ const items = [
   @media (max-width: 1024px) {
     .pfa__row {
       flex-wrap: wrap;
-      gap: 4px 20px;
+      gap: var(--space-1) var(--space-4);
       padding-inline: 0;
     }
 
@@ -137,7 +137,7 @@ const items = [
   @media (max-width: 768px) {
     .pfa__body {
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: var(--space-4);
     }
   }
 </style>

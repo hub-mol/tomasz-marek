@@ -39,7 +39,7 @@ const { showHeader = false, layout = 'row' } = Astro.props;
   {
     showHeader && (
       <header class="services__head">
-        <p class="services__eyebrow eyebrow">Oferta</p>
+        <p class="tagline">Oferta</p>
         <h2>W czym się specjalizuję</h2>
       </header>
     )
@@ -75,16 +75,15 @@ const { showHeader = false, layout = 'row' } = Astro.props;
 
 <style>
   .services {
-    padding-top: 110px;
-    padding-bottom: 110px;
+    padding-block: 6.875rem;
   }
 
   .services__head {
-    margin-bottom: 58px;
+    margin-bottom: 3.625rem;
   }
 
-  .services__eyebrow {
-    margin-bottom: 10px;
+  .services .tagline {
+    margin-bottom: var(--space-2);
   }
 
   .services__grid {
@@ -97,14 +96,14 @@ const { showHeader = false, layout = 'row' } = Astro.props;
 
   .services__grid--grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 70px 60px;
+    gap: var(--space-16);
   }
 
   /* w tym układzie kadr stoi obok tekstu, nie nad nim */
   .services__grid--grid .services__item {
     display: flex;
     align-items: flex-start;
-    gap: 24px;
+    gap: var(--space-6);
     padding-right: 0;
   }
 
@@ -119,8 +118,8 @@ const { showHeader = false, layout = 'row' } = Astro.props;
 
   /* kadr jak przy opinii, tylko półtora raza większy */
   .services__photo {
-    width: 108px;
-    height: 108px;
+    width: 6.75rem;
+    height: 6.75rem;
     object-fit: cover;
   }
 
@@ -129,38 +128,37 @@ const { showHeader = false, layout = 'row' } = Astro.props;
   }
 
   .services__item {
-    padding-right: 35px;
+    padding-right: var(--space-8);
   }
 
   .services__icon {
-    height: 71px;
+    height: 4.4375rem;
     width: auto;
   }
 
   .services__item h3 {
-    margin-top: 23px;
+    margin-top: var(--space-6);
   }
 
   .services__item p {
-    margin-top: 8px;
+    margin-top: var(--space-2);
   }
 
   @media (max-width: 1024px) {
     .services {
-      padding-top: 80px;
-      padding-bottom: 80px;
+      padding-block: 5rem;
     }
 
     .services__grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 50px 0;
+      gap: var(--space-12) 0;
     }
   }
 
   @media (max-width: 768px) {
     .services__grid {
       grid-template-columns: 1fr;
-      gap: 45px;
+      gap: var(--space-12);
     }
 
     .services__item {

@@ -63,45 +63,45 @@ const {
 <style>
   .showcase {
     padding-inline: var(--gutter);
-    padding-block: 120px;
+    padding-block: 7.5rem;
   }
 
   .showcase__line {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    font-size: clamp(2rem, 6vw, 86px);
+    font-size: var(--h2);
     line-height: 0.92;
     letter-spacing: -0.025em;
     text-transform: uppercase;
   }
 
   .showcase__word {
-    margin-right: 20px;
-    padding-right: 5px;
+    margin-right: var(--space-4);
+    padding-right: 0.3125rem;
   }
 
   .showcase__img {
-    width: 103px;
-    height: 63px;
-    margin-right: 20px;
+    width: 6.4375rem;
+    height: 3.9375rem;
+    margin-right: var(--space-4);
     object-fit: cover;
   }
 
   @media (max-width: 768px) {
     .showcase {
-      padding-block: 70px;
+      padding-block: 4.375rem;
     }
 
     .showcase__word {
-      margin-right: 12px;
-      padding-right: 3px;
+      margin-right: var(--space-2);
+      padding-right: 0.1875rem;
     }
 
     .showcase__img {
-      width: 64px;
-      height: 40px;
-      margin-right: 12px;
+      width: 4rem;
+      height: 2.5rem;
+      margin-right: var(--space-2);
     }
   }
 </style>

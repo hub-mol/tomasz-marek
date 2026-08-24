@@ -93,7 +93,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 60px;
+    gap: var(--space-16);
     min-height: var(--hdr-h);
     padding-inline: var(--gutter);
     /* cienka linia zamykająca pasek */
@@ -135,13 +135,13 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
   .hdr__menu {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: var(--space-8);
   }
 
   .hdr__link {
     position: relative;
     display: inline-block;
-    font-size: 15px;
+    font-size: var(--text-md);
     line-height: 1;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -180,8 +180,8 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
       right: var(--gutter);
       z-index: 103;
       display: block;
-      width: 28px;
-      height: 28px;
+      width: 1.75rem;
+      height: 1.75rem;
       margin: 0;
       opacity: 0;
       transform: translateY(-50%);
@@ -192,8 +192,8 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
+      width: 1.75rem;
+      height: 1.75rem;
     }
 
     .hdr__burger-lines {
@@ -204,7 +204,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     .hdr__burger-lines::before,
     .hdr__burger-lines::after {
       display: block;
-      width: 24px;
+      width: 1.5rem;
       height: 1px;
       background: currentColor;
       transition:
@@ -302,12 +302,12 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
 
     .hdr__link {
       display: block;
-      padding: 14px var(--gutter);
+      padding: var(--space-4) var(--gutter);
       border-bottom: 1px solid var(--c-line);
       font-family: var(--ff-heading);
-      font-size: var(--fs-h3);
-      line-height: var(--lh-h3);
-      letter-spacing: var(--ls-h3);
+      font-size: var(--text-lg);
+      line-height: var(--leading-xl);
+      letter-spacing: var(--tracking-tight);
       text-transform: none;
     }
 

@@ -1,5 +1,6 @@
 ---
 import { projects } from '../../data/portfolio';
+import { Image } from 'astro:assets';
 
 // Odpowiednik `varied_rows_portfolio_list` z dema: wiersze po dwie realizacje,
 // w których szerokości zamieniają się miejscami (60/40, potem 40/60).
@@ -27,7 +28,7 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
   {
     showHeader && (
       <header class="rows__head">
-        <p class="eyebrow">{eyebrow}</p>
+        <p class="tagline">{eyebrow}</p>
         <h2>{title}</h2>
       </header>
     )
@@ -39,13 +40,19 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
         {para.map((p) => (
           <a class="rows__item" href={`/portfolio/${p.slug}`}>
             <span class="rows__media">
-              <img src={p.img} alt="" width="1100" height="900" loading="lazy" />
+              <Image
+                src={p.img}
+                alt={p.alt}
+                widths={[640, 960, 1440]}
+                sizes="(max-width: 768px) 100vw, 60vw"
+                format="avif"
+                loading="lazy"
+              />
             </span>
             <span class="rows__meta">
               <span class="rows__title">{p.title}</span>
               <span class="rows__cat">
-                {p.category}
-                {p.year && ` · ${p.year}`}
+                {p.category} · {p.location}
               </span>
             </span>
           </a>
@@ -61,19 +68,19 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
   }
 
   .rows__head {
-    margin-bottom: 60px;
+    margin-bottom: var(--space-16);
   }
 
   .rows__head h2 {
-    margin-top: 10px;
+    margin-top: var(--space-2);
   }
 
   /* asymetria: szeroki + wąski, a w co drugim wierszu odwrotnie */
   .rows__row {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
-    gap: 45px;
-    margin-bottom: 45px;
+    gap: var(--space-12);
+    margin-bottom: var(--space-12);
   }
 
   .rows__row--swap {
@@ -101,15 +108,15 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: 20px;
-    margin-top: 18px;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
   }
 
   .rows__title {
     font-family: var(--ff-heading);
-    font-size: var(--fs-h3);
-    line-height: var(--lh-h3);
-    letter-spacing: var(--ls-h3);
+    font-size: var(--text-lg);
+    line-height: var(--leading-xl);
+    letter-spacing: var(--tracking-tight);
     transition: color 0.3s ease;
   }
 
@@ -129,12 +136,12 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
     .rows__row,
     .rows__row--swap {
       grid-template-columns: 1fr;
-      gap: 35px;
-      margin-bottom: 35px;
+      gap: var(--space-8);
+      margin-bottom: var(--space-8);
     }
 
     .rows__head {
-      margin-bottom: 40px;
+      margin-bottom: var(--space-8);
     }
   }
 </style>

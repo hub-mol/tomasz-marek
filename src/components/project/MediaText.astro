@@ -34,8 +34,8 @@ const { img, title, text, reverse = false, alt = false } = Astro.props;
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-    gap: 60px;
-    padding-block: 110px;
+    gap: var(--space-16);
+    padding-block: 6.875rem;
   }
 
   .mt--reverse .mt__media {
@@ -49,11 +49,11 @@ const { img, title, text, reverse = false, alt = false } = Astro.props;
   }
 
   .mt__body {
-    max-width: 550px;
+    max-width: 34.375rem;
   }
 
   .mt__title {
-    margin-bottom: 20px;
+    margin-bottom: var(--space-4);
   }
 
   .mt__text {
@@ -63,8 +63,8 @@ const { img, title, text, reverse = false, alt = false } = Astro.props;
   @media (max-width: 1024px) {
     .mt {
       grid-template-columns: 1fr;
-      gap: 35px;
-      padding-block: 70px;
+      gap: var(--space-8);
+      padding-block: 4.375rem;
     }
 
     .mt--reverse .mt__media {

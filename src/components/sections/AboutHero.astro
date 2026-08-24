@@ -29,7 +29,7 @@ const copy = paragraphs ?? [text];
   <div class="section about-hero__inner split-golden">
     <div class="about-hero__col about-hero__col--text">
       <div>
-        {eyebrow && <p class="about-hero__eyebrow eyebrow">{eyebrow}</p>}
+        {eyebrow && <p class="tagline">{eyebrow}</p>}
         <h2 class="about-hero__title type-lead">{plNoBreak(title)}</h2>
       </div>
 
@@ -56,7 +56,7 @@ const copy = paragraphs ?? [text];
 
 <style>
   .about-hero {
-    min-height: 720px;
+    min-height: 45rem;
     background: #262724;
     color: #fff;
     overflow: hidden;
@@ -64,7 +64,7 @@ const copy = paragraphs ?? [text];
 
   .about-hero__inner {
     min-height: inherit;
-    grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+    grid-template-columns: minmax(0, 1.6fr) minmax(17.5rem, 1fr);
   }
 
   .about-hero__col--text {
@@ -72,31 +72,29 @@ const copy = paragraphs ?? [text];
     grid-row: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding-block: 70px 75px;
+    justify-content: flex-start;
+    padding-block: var(--sec-y);
   }
 
-  .about-hero__eyebrow {
-    margin-bottom: 14px;
+  .about-hero .tagline {
     color: rgba(255, 255, 255, 0.6);
   }
 
   .about-hero__title {
     margin: 0;
-    font-size: clamp(2.5rem, 3.8vw, 4.5rem);
+    font-size: var(--h2);
     line-height: 1.05;
     letter-spacing: -0.035em;
     white-space: pre-line;
   }
 
   .about-hero__intro {
-    margin-top: auto;
-    padding-top: 60px;
+    margin-top: var(--space-32);
   }
 
   .about-hero__lead {
-    max-width: 560px;
-    font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+    max-width: 35rem;
+    font-size: var(--h3);
     line-height: 1.12;
     letter-spacing: -0.025em;
   }
@@ -108,7 +106,7 @@ const copy = paragraphs ?? [text];
   }
 
   .about-hero__paragraph + .about-hero__paragraph {
-    margin-top: 16px;
+    margin-top: var(--space-4);
   }
 
   .about-hero__paragraph.about-hero__lead {
@@ -147,29 +145,28 @@ const copy = paragraphs ?? [text];
     .about-hero__col--text {
       grid-column: 1;
       grid-row: 1;
-      padding-block: 55px 60px;
     }
 
     .about-hero__col--media {
       grid-column: 1;
       grid-row: 2;
       width: calc(100% + 2 * var(--gutter));
-      min-height: 420px;
+      min-height: 26.25rem;
       margin-inline: calc(-1 * var(--gutter));
     }
   }
 
   @media (max-width: 768px) {
     .about-hero__inner {
-      --split-gap-tablet: 48px;
+      --split-gap-tablet: var(--space-12);
     }
 
     .about-hero__intro {
-      padding-top: 75px;
+      margin-top: var(--space-16);
     }
 
     .about-hero__col--media {
-      min-height: 320px;
+      min-height: 20rem;
     }
   }
 </style>

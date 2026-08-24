@@ -55,20 +55,19 @@ const items = [
 
 <style>
   .making {
-    padding-top: 125px;
-    padding-bottom: 135px;
+    padding-block: 7.8125rem 8.4375rem;
   }
 
   .making__aside {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 40px;
-    margin-bottom: 75px;
+    gap: var(--space-8);
+    margin-bottom: 4.6875rem;
   }
 
   .making__title {
-    max-width: 550px;
+    max-width: 34.375rem;
   }
 
   .making__grid {
@@ -78,46 +77,45 @@ const items = [
   }
 
   .making__item {
-    padding: 30px 30px 0 0;
+    padding: var(--space-8) var(--space-8) 0 0;
     border-right: 1px solid var(--c-line);
   }
 
   .making__item + .making__item {
-    padding-left: 30px;
+    padding-left: var(--space-8);
   }
 
   .making__icon {
     width: auto;
-    height: 56px;
+    height: 3.5rem;
   }
 
   .making__name {
-    margin-top: 20px;
-    line-height: 28px;
+    margin-top: var(--space-4);
+    line-height: var(--leading-md);
   }
 
   .making__text {
-    margin-top: 14px;
+    margin-top: var(--space-4);
   }
 
   @media (max-width: 1024px) {
     .making {
-      padding-top: 100px;
-      padding-bottom: 100px;
+      padding-block: 6.25rem;
     }
 
     .making__grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 45px 0;
+      gap: var(--space-12) 0;
     }
 
     .making__item {
-      padding-right: 30px;
+      padding-right: var(--space-8);
       border-right: 0;
     }
 
     .making__item:nth-child(even) {
-      padding-left: 30px;
+      padding-left: var(--space-8);
       border-left: 1px solid var(--c-line);
     }
   }
@@ -125,16 +123,16 @@ const items = [
   @media (max-width: 768px) {
     .making__aside {
       display: block;
-      margin-bottom: 55px;
+      margin-bottom: var(--space-12);
     }
 
     .making__aside :global(a) {
-      margin-top: 24px;
+      margin-top: var(--space-6);
     }
 
     .making__grid {
       grid-template-columns: 1fr;
-      gap: 45px;
+      gap: var(--space-12);
     }
 
     .making__item,

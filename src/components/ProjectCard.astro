@@ -1,0 +1,111 @@
+---
+import { Image } from 'astro:assets';
+import type { Project } from '../data/portfolio';
+
+interface Props {
+  project: Project;
+  variant?: 'featured' | 'grid';
+  prominent?: boolean;
+}
+
+const { project, variant = 'featured', prominent = false } = Astro.props;
+const isGrid = variant === 'grid';
+---
+
+<a class:list={['project-card', `project-card--${variant}`, { 'project-card--prominent': prominent }]} href={`/portfolio/${project.slug}`}>
+  <span class="project-card__media">
+    <Image
+      src={project.img}
+      alt={project.alt}
+      widths={isGrid ? [420, 720, 980] : [480, 720, 1080, 1400]}
+      sizes={isGrid
+        ? '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
+        : '(max-width: 768px) 100vw, 58vw'}
+      format="avif"
+      loading="lazy"
+    />
+  </span>
+
+  {isGrid ? (
+    <>
+      <span class="project-card__category tagline">{project.category}</span>
+      <span class="project-card__title type-h4">{project.title}</span>
+      <span class="project-card__detail">{project.location}{project.surface && ` · ${project.surface}`}</span>
+    </>
+  ) : (
+    <>
+      <span class="project-card__meta tagline">
+        <span>{project.category}</span>
+        <span class="project-card__location">{project.location}</span>
+      </span>
+      <span class="project-card__title type-h4">{project.title}</span>
+    </>
+  )}
+</a>
+
+<style>
+  .project-card,
+  .project-card__media,
+  .project-card__category,
+  .project-card__title,
+  .project-card__detail {
+    display: block;
+  }
+
+  .project-card__media {
+    overflow: hidden;
+  }
+
+  .project-card__media :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .project-card--grid .project-card__media :global(img) {
+    aspect-ratio: 1;
+  }
+
+  .project-card--prominent .project-card__media :global(img) {
+    aspect-ratio: 16 / 11;
+  }
+
+  .project-card:hover .project-card__media :global(img) {
+    transform: scale(1.06);
+  }
+
+  .project-card__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .project-card__meta,
+  .project-card__category {
+    margin-top: var(--space-6);
+    margin-bottom: 0;
+  }
+
+  .project-card__title {
+    margin-top: var(--space-1);
+    transition: color 0.3s ease;
+  }
+
+  .project-card--grid .project-card__title {
+    margin-top: 0;
+  }
+
+  .project-card:hover .project-card__title {
+    color: var(--c-accent);
+  }
+
+  .project-card__detail {
+    margin-top: var(--space-1);
+    font-size: var(--text-md);
+    line-height: var(--leading-md);
+    letter-spacing: var(--tracking-tight);
+  }
+</style>

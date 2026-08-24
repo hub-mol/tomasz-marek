@@ -24,7 +24,7 @@ const {
 
 <section class="section counters split-golden">
   <div class="counters__col">
-    {note && <p class="counters__note eyebrow">{note}</p>}
+    {note && <p class="counters__note tagline">{note}</p>}
     <h2 class="counters__title">{title}</h2>
   </div>
 
@@ -43,33 +43,32 @@ const {
 <style>
   /* demo: tytuł w lewej kolumnie 650px, po prawej liczniki w siatce 2×2 */
   .counters {
-    padding-top: 115px;
-    padding-bottom: 115px;
+    padding-block: 7.1875rem;
   }
 
   .counters__title {
-    max-width: 613px;
+    max-width: 38.3125rem;
   }
 
   .counters__note {
-    margin-bottom: 12px;
+    margin-bottom: var(--space-2);
   }
 
   .counters__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    gap: var(--space-8);
   }
 
   .counters__digit {
     display: block;
-    font-size: var(--fs-digit);
+    font-size: var(--h2);
     line-height: 1;
-    letter-spacing: -1.5px;
+    letter-spacing: var(--tracking-tight);
   }
 
   .counters__label {
-    margin-top: 17px;
+    margin-top: var(--space-4);
     color: var(--c-muted);
   }
 
@@ -93,21 +92,20 @@ const {
 
   @media (max-width: 1024px) {
     .counters {
-      --split-gap-tablet: 50px;
-      padding-top: 90px;
-      padding-bottom: 90px;
+      --split-gap-tablet: var(--space-12);
+      padding-block: 5.625rem;
     }
 
     .counters__grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 50px 30px;
+      gap: var(--space-12) var(--space-8);
     }
   }
 
   @media (max-width: 768px) {
     .counters__grid {
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: var(--space-8);
     }
   }
 </style>

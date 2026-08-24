@@ -3,7 +3,7 @@
   font-style: normal;
   font-weight: 300 700;
   font-display: swap;
-  src: url('/fonts/space-grotesk-latin-ext.woff2') format('woff2');
+  src: url('../assets/fonts/space-grotesk-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
     U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
@@ -13,7 +13,7 @@
   font-style: normal;
   font-weight: 300 700;
   font-display: swap;
-  src: url('/fonts/space-grotesk-latin.woff2') format('woff2');
+  src: url('../assets/fonts/space-grotesk-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
@@ -24,7 +24,7 @@
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
-  src: url('/fonts/manrope-latin-ext.woff2') format('woff2');
+  src: url('../assets/fonts/manrope-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
     U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
@@ -34,7 +34,7 @@
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
-  src: url('/fonts/manrope-latin.woff2') format('woff2');
+  src: url('../assets/fonts/manrope-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
@@ -52,31 +52,49 @@
   --c-line: #d4d4d4;
 
   /* typografia */
-  --ff: 'Space Grotesk', sans-serif;
+  --ff-body: 'Space Grotesk', sans-serif;
   --ff-heading: 'Manrope', sans-serif;
-  --fs-body: 0.9375rem;
-  --lh-body: 1.5625rem;
-  --fs-h2: 2.5rem;
-  --lh-h2: 2.8125rem;
-  --ls-h2: -0.0625rem;
-  --fs-h3: 1.75rem;
-  --lh-h3: 2rem;
-  --ls-h3: -0.04375rem;
-  --fs-display: 6.48rem;
-  --fs-lead: 4.5rem;
-  --fs-digit: 3.75rem;
+  --text-sm: 0.75rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --leading-sm: 1.375rem;
+  --leading-base: 1.5625rem;
+  --leading-md: 1.75rem;
+  --leading-lg: 1.875rem;
+  --leading-xl: 2rem;
+  --tracking-tight: -0.025em;
+  --tracking-heading: -0.035em;
+  --tracking-display: -0.04em;
+  --tracking-caps: 0.08em;
+
+  --display: 7.5rem;
+  --h1: 6rem;
+  --h2: 4rem;
+  --h3: 2.5rem;
+  --h4: 1.75rem;
+
+  /* spacing: rdzeń oparty o potęgi 2; półkroki tylko dla rytmu 24/48/96 */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
 
   /* rytm */
-  --pad-x: 70px;
-  --sec-y: 150px;
+  --pad-x: var(--space-16);
+  --sec-y: var(--space-32);
 
   /* Maksymalna szerokość treści. Tło sekcji nadal idzie przez całą szerokość
      okna — ogranicza się tylko zawartość, przez powiększany padding boczny. */
-  --container: 1600px;
+  --container: 100rem;
   --gutter: max(var(--pad-x), (100% - var(--container)) / 2);
 
   /* wysokość paska nagłówka — nav jest jego rodzeństwem, nie dzieckiem */
-  --hdr-h: 80px;
+  --hdr-h: 5rem;
 
   /* wysokość hero; ten sam wymiar bierze rozwinięty panel menu */
   --hero-h: 100svh;
@@ -84,27 +102,26 @@
 
 @media (max-width: 1024px) {
   :root {
-    --pad-x: 40px;
-    --fs-h2: 2.125rem;
-    --lh-h2: 2.4375rem;
-    --fs-display: 4rem;
-    --fs-lead: 2.75rem;
-    --fs-digit: 3.125rem;
-    --sec-y: 100px;
+    --pad-x: var(--space-8);
+    --display: 5rem;
+    --h1: 4.5rem;
+    --h2: 3rem;
+    --h3: 2.125rem;
+    --h4: 1.5rem;
+    --sec-y: var(--space-24);
   }
 }
 @media (max-width: 768px) {
   :root {
-    --hdr-h: 64px;
-    --pad-x: 25px;
-    --fs-h2: 1.75rem;
-    --lh-h2: 2.0625rem;
-    --fs-h3: 1.375rem;
-    --lh-h3: 1.625rem;
-    --fs-display: 2.7rem;
-    --fs-lead: 2.35rem;
-    --fs-digit: 2.75rem;
-    --sec-y: 70px;
+    --hdr-h: 4rem;
+    --pad-x: var(--space-6);
+    --leading-xl: 1.625rem;
+    --display: 3rem;
+    --h1: 3rem;
+    --h2: 2.25rem;
+    --h3: 1.75rem;
+    --h4: 1.25rem;
+    --sec-y: calc(var(--space-16) + var(--space-4));
   }
 }
 
@@ -121,10 +138,11 @@ html {
 body {
   position: relative;
   margin: 0;
-  font-family: var(--ff);
-  font-size: var(--fs-body);
-  line-height: var(--lh-body);
+  font-family: var(--ff-body);
+  font-size: var(--text-md);
+  line-height: var(--leading-base);
   font-weight: 400;
+  text-wrap: balance;
   color: var(--c-fg);
   background: #181818;
   -webkit-font-smoothing: antialiased;
@@ -155,22 +173,26 @@ h4 {
 }
 
 h2 {
-  font-size: var(--fs-h2);
-  line-height: var(--lh-h2);
-  letter-spacing: var(--ls-h2);
+  font-size: var(--h3);
+  line-height: 1.125;
+  letter-spacing: var(--tracking-heading);
   font-weight: 400;
 }
 
 h3 {
-  font-size: var(--fs-h3);
-  line-height: var(--lh-h3);
-  letter-spacing: var(--ls-h3);
+  font-size: var(--text-lg);
+  line-height: var(--leading-xl);
+  letter-spacing: var(--tracking-tight);
   font-weight: 400;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  user-select: none;
+}
+
+summary {
   user-select: none;
 }
 
@@ -191,6 +213,10 @@ ul {
   padding-inline: var(--gutter);
 }
 
+.section-spaced {
+  padding-block: var(--sec-y);
+}
+
 .section--alt {
   background: var(--c-bg-alt);
 }
@@ -199,12 +225,12 @@ ul {
    Druga kolumna ma ok. 1.6 szerokości pierwszej (złota proporcja). */
 .split-golden {
   display: grid;
-  grid-template-columns: minmax(280px, 1fr) minmax(0, 1.6fr);
-  gap: var(--split-gap, clamp(60px, 8vw, 150px));
+  grid-template-columns: minmax(17.5rem, 1fr) minmax(0, 1.6fr);
+  gap: var(--split-gap, clamp(var(--space-16), 8vw, var(--space-32)));
 }
 
 .split-golden--reverse {
-  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+  grid-template-columns: minmax(0, 1.6fr) minmax(17.5rem, 1fr);
 }
 
 .split-golden--flush {
@@ -214,33 +240,80 @@ ul {
 /* Typografia wykorzystywana w wielu komponentach. */
 .type-display {
   font-family: var(--ff-heading);
-  font-size: var(--fs-display);
+  font-size: var(--h1);
   line-height: 0.98;
-  letter-spacing: -0.04em;
+  letter-spacing: var(--tracking-display);
   font-weight: 400;
+}
+
+.type-h4 {
+  font-family: var(--ff-heading);
+  font-size: var(--h4);
+  line-height: 1.15;
+  letter-spacing: var(--tracking-tight);
+  font-weight: 400;
+}
+
+.text-pretty {
+  text-wrap: pretty;
 }
 
 .type-lead {
   font-family: var(--ff-heading);
-  font-size: var(--fs-lead);
+  font-size: var(--h2);
   line-height: 1.06;
-  letter-spacing: -0.035em;
+  letter-spacing: var(--tracking-heading);
   font-weight: 400;
 }
 
-.eyebrow {
+.tagline {
+  font-family: var(--ff-body);
   color: var(--c-muted);
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   line-height: 1.3;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-caps);
+  font-weight: 400;
   text-transform: uppercase;
+}
+
+.tagline {
+  margin-bottom: var(--space-4);
+}
+
+.display-title,
+.section-head > h2 {
+  font-size: var(--h2);
+  line-height: 1.02;
+  letter-spacing: var(--tracking-display);
+}
+
+.section-head {
+  margin-bottom: var(--space-16);
+}
+
+.section-head > .tagline {
+  margin-bottom: 0;
+  padding-top: var(--space-2);
+}
+
+.section-head > h2 {
+  justify-self: end;
+  text-align: right;
+}
+
+.section-head-inline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-8);
+  margin-bottom: var(--space-16);
 }
 
 @media (max-width: 1024px) {
   .split-golden,
   .split-golden--reverse {
     grid-template-columns: 1fr;
-    gap: var(--split-gap-tablet, 48px);
+    gap: var(--split-gap-tablet, var(--space-12));
   }
 
   .split-golden--flush {
@@ -248,11 +321,11 @@ ul {
   }
 }
 
-/* Węższy kontener treści (1100px) — układ podstron portfolio i bloga.
+/* Węższy kontener treści — układ podstron portfolio i bloga.
    Strona główna używa pełnej szerokości z paddingiem var(--pad-x). */
 .container {
   width: 100%;
-  max-width: 1100px;
+  max-width: 68.75rem;
   margin-inline: auto;
   padding-inline: var(--pad-x);
 }
@@ -283,8 +356,8 @@ ul {
 .link-btn {
   display: inline-block;
   position: relative;
-  font-size: 0.9375rem;
-  line-height: 1.5625rem;
+  font-size: var(--text-md);
+  line-height: var(--leading-base);
   text-transform: uppercase;
   letter-spacing: 0.03125rem;
 }
@@ -310,6 +383,11 @@ ul {
 /* Przy otwartym menu mobilnym reszta dokumentu przygasa.
    :has() pozwala zareagować na stan <details> bez JS-u. */
 @media (max-width: 768px) {
+  .section-head > h2 {
+    justify-self: start;
+    text-align: left;
+  }
+
   /* przy otwartym menu strona pod spodem stoi — panel ma własny scroll */
   html:has(.hdr__toggle:checked),
   body:has(.hdr__toggle:checked) {

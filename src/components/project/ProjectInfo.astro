@@ -34,28 +34,28 @@ const rows: [string, string][] = [
   .info {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 28px 40px;
+    gap: var(--space-8);
     margin: 0;
   }
 
   .info__label {
-    font-size: 15px;
-    line-height: 22px;
+    font-size: var(--text-md);
+    line-height: var(--leading-sm);
     text-transform: uppercase;
     color: #707070;
   }
 
   .info__value {
-    margin: 2px 0 0;
-    font-size: 18px;
-    line-height: 28px;
-    letter-spacing: -0.45px;
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-md);
+    line-height: var(--leading-md);
+    letter-spacing: var(--tracking-tight);
   }
 
   @media (max-width: 768px) {
     .info {
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: var(--space-4);
     }
   }
 </style>

@@ -17,8 +17,8 @@ const { href, class: className, ariaLabel } = Astro.props;
     viewBox="0 0 16 16"
     aria-hidden="true"
   >
-    <path d="M4.5 13.5 11.5 6.5" />
-    <path d="M5.75 6.5h5.75v5.75" />
+    <path d="M1.25 14.75 14.75 1.25" />
+    <path d="M4.125 1.25H14.75v10.625" />
   </svg>
 </a>
 
@@ -26,31 +26,27 @@ const { href, class: className, ariaLabel } = Astro.props;
   .arrow-link {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 0.5ch;
     width: fit-content;
+    font-family: var(--ff-heading);
+    font-size: var(--text-lg);
+    line-height: var(--leading-xl);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 400;
     color: inherit;
-    line-height: 1.35;
     transition: color 0.3s ease;
-  }
-
-  .arrow-link__label {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.32em;
   }
 
   .arrow-link__arrow {
     flex: 0 0 auto;
-    width: 1.15em;
-    height: 1.15em;
+    width: 0.66em;
+    height: 100%;
+    padding-top: 0.2em;
     fill: none;
     stroke: currentColor;
-    stroke-width: 1px;
+    stroke-width: 1.5px;
+    stroke-linejoin: round;
     transition: transform 0.3s cubic-bezier(0.16, 0.48, 0.36, 1);
-  }
-
-  .arrow-link__arrow path {
-    vector-effect: non-scaling-stroke;
   }
 
   .arrow-link:hover {

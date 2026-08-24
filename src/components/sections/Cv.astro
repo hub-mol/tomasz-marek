@@ -104,50 +104,50 @@ const social = ['Instagram', 'Linkedin', 'YouTube', 'Behance'];
   }
 
   .cv__body {
-    padding: 90px var(--pad-x) 120px;
+    padding: var(--space-24) var(--pad-x) var(--space-32);
   }
 
   .cv__sign {
-    width: 284px;
+    width: 17.75rem;
     height: auto;
-    margin-bottom: 60px;
+    margin-bottom: var(--space-16);
     /* grafika podpisu jest biała (w demie leżała na ciemnym tle) */
     filter: invert(1);
   }
 
   .cv__name {
-    font-size: 60px;
-    line-height: 60px;
-    letter-spacing: -1.5px;
+    font-size: var(--h2);
+    line-height: 1;
+    letter-spacing: var(--tracking-tight);
     font-weight: 400;
     text-transform: uppercase;
   }
 
   .cv__role {
-    margin-top: 8px;
+    margin-top: var(--space-2);
     color: var(--c-muted);
   }
 
   .cv__block {
-    margin-top: 55px;
-    max-width: 613px;
+    margin-top: var(--space-12);
+    max-width: 38.3125rem;
   }
 
   .cv__block h2 {
-    margin-bottom: 12px;
-    font-size: var(--fs-h3);
-    line-height: var(--lh-h3);
-    letter-spacing: var(--ls-h3);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-lg);
+    line-height: var(--leading-xl);
+    letter-spacing: var(--tracking-tight);
   }
 
   .cv__list {
-    margin-top: 18px;
+    margin-top: var(--space-4);
   }
 
   .cv__list li {
-    font-size: 18px;
-    line-height: 28px;
-    letter-spacing: -0.45px;
+    font-size: var(--text-md);
+    line-height: var(--leading-md);
+    letter-spacing: var(--tracking-tight);
   }
 
   /* myślnik jak w oryginale, ale jako znak listy — nie w treści */
@@ -156,7 +156,7 @@ const social = ['Instagram', 'Linkedin', 'YouTube', 'Behance'];
   }
 
   .cv__list--plain li {
-    margin-bottom: 6px;
+    margin-bottom: var(--space-2);
   }
 
   /* zdjęcie zostaje w kadrze przy przewijaniu życiorysu */
@@ -171,13 +171,12 @@ const social = ['Instagram', 'Linkedin', 'YouTube', 'Behance'];
 
   @media (max-width: 1024px) {
     .cv__body {
-      padding-top: 60px;
-      padding-bottom: 80px;
+      padding-block: var(--space-16) 5rem;
     }
 
     .cv__name {
-      font-size: 44px;
-      line-height: 46px;
+      font-size: 2.75rem;
+      line-height: 2.875rem;
     }
   }
 
@@ -194,8 +193,8 @@ const social = ['Instagram', 'Linkedin', 'YouTube', 'Behance'];
     }
 
     .cv__sign {
-      width: 200px;
-      margin-bottom: 40px;
+      width: 12.5rem;
+      margin-bottom: var(--space-8);
     }
   }
 </style>

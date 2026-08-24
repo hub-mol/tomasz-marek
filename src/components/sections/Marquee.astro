@@ -32,7 +32,7 @@ const {
 
 <style>
   .marquee {
-    padding-block: 18px;
+    padding-block: var(--space-4);
     background: var(--c-accent);
     color: #fff;
     overflow: hidden;
@@ -50,13 +50,13 @@ const {
   }
 
   .marquee__item {
-    padding-inline: 30px;
+    padding-inline: var(--space-8);
     white-space: nowrap;
   }
 
   .marquee__item::after {
     content: '*';
-    margin-left: 30px;
+    margin-left: var(--space-8);
   }
 
   /* dwie identyczne kopie → przesunięcie o -50% wygląda na pętlę bez szwu */

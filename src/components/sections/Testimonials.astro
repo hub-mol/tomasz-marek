@@ -21,7 +21,7 @@ const {
 
 <section class:list={['section', 'testimonial', 'split-golden', { 'section--alt': alt }]}>
   <figure class="testimonial__inner">
-    {demo && <p class="testimonial__demo eyebrow">Opinia demonstracyjna</p>}
+    {demo && <p class="testimonial__demo tagline">Opinia demonstracyjna</p>}
     <blockquote>
       <p class="testimonial__text">&bdquo;{text}&rdquo;</p>
     </blockquote>
@@ -49,8 +49,8 @@ const {
 
 <style>
   .testimonial {
-    padding-top: 110px;
-    padding-bottom: calc(110px + var(--sec-y));
+    padding-top: 6.875rem;
+    padding-bottom: calc(6.875rem + var(--sec-y));
   }
 
   .testimonial__inner {
@@ -59,31 +59,31 @@ const {
   }
 
   .testimonial__text {
-    max-width: 700px;
-    margin-bottom: 28px;
+    max-width: 43.75rem;
+    margin-bottom: var(--space-8);
     font-family: var(--ff-heading);
-    font-size: var(--fs-h3);
-    line-height: var(--lh-h3);
-    letter-spacing: var(--ls-h3);
+    font-size: var(--text-lg);
+    line-height: var(--leading-xl);
+    letter-spacing: var(--tracking-tight);
   }
 
   .testimonial__demo {
-    margin-bottom: 14px;
+    margin-bottom: var(--space-4);
   }
 
   /* zdjęcie stoi przy autorze, nie przy całym cytacie */
   .testimonial__author {
     display: flex;
     align-items: center;
-    gap: 16px;
-    font-size: 15px;
-    line-height: 22px;
+    gap: var(--space-4);
+    font-size: var(--text-md);
+    line-height: var(--leading-sm);
   }
 
   .testimonial__photo {
     flex-shrink: 0;
-    width: 72px;
-    height: 72px;
+    width: 4.5rem;
+    height: 4.5rem;
     object-fit: cover;
   }
 
@@ -99,8 +99,8 @@ const {
 
   @media (max-width: 1024px) {
     .testimonial {
-      padding-block: 90px;
-      padding-bottom: calc(90px + var(--sec-y));
+      padding-block: 5.625rem;
+      padding-bottom: calc(5.625rem + var(--sec-y));
     }
 
     .testimonial__inner {
@@ -110,13 +110,13 @@ const {
 
   @media (max-width: 768px) {
     .testimonial {
-      padding-block: 70px;
-      padding-bottom: calc(70px + var(--sec-y));
+      padding-block: 4.375rem;
+      padding-bottom: calc(4.375rem + var(--sec-y));
     }
 
     .testimonial__photo {
-      width: 60px;
-      height: 60px;
+      width: 3.75rem;
+      height: 3.75rem;
     }
   }
 </style>

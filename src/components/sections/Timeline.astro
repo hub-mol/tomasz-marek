@@ -36,7 +36,7 @@ const items = [
 
 <style>
   .timeline-sec {
-    padding: 120px 0 180px;
+    padding: var(--space-32) 0 calc(var(--space-32) + var(--space-16));
     padding-left: var(--gutter);
     background: var(--c-bg-dark);
     color: #fff;
@@ -51,17 +51,17 @@ const items = [
 
   .timeline__item {
     position: relative;
-    flex: 0 0 453px;
+    flex: 0 0 28.3125rem;
     display: flex;
     flex-direction: column;
     scroll-snap-align: start;
-    padding-right: 60px;
+    padding-right: var(--space-16);
   }
 
   /* naprzemienność: karta nad osią albo pod nią */
   .timeline__item--up .timeline__card {
     order: 0;
-    padding-bottom: 40px;
+    padding-bottom: var(--space-8);
   }
 
   .timeline__item--up .timeline__axis {
@@ -70,7 +70,7 @@ const items = [
 
   .timeline__item--down .timeline__card {
     order: 1;
-    padding-top: 40px;
+    padding-top: var(--space-8);
   }
 
   .timeline__item--down .timeline__axis {
@@ -79,16 +79,16 @@ const items = [
 
   /* obie połowy tej samej wysokości → linia biegnie przez środek sekcji */
   .timeline__card {
-    flex: 1 1 200px;
-    min-height: 200px;
+    flex: 1 1 12.5rem;
+    min-height: 12.5rem;
   }
 
   .timeline__card h3 {
-    margin-bottom: 24px;
+    margin-bottom: var(--space-6);
   }
 
   .timeline__card p {
-    max-width: 304px;
+    max-width: 19rem;
     color: var(--c-gray);
   }
 
@@ -102,8 +102,8 @@ const items = [
     position: absolute;
     left: 0;
     top: 50%;
-    width: 11px;
-    height: 11px;
+    width: 0.6875rem;
+    height: 0.6875rem;
     border-radius: 50%;
     background: var(--c-accent);
     transform: translateY(-50%);
@@ -111,17 +111,17 @@ const items = [
 
   @media (max-width: 768px) {
     .timeline-sec {
-      padding: 80px 0 100px;
+      padding: var(--space-16) 0 var(--space-24);
       padding-left: var(--gutter);
     }
 
     .timeline__item {
       flex-basis: 85%;
-      padding-right: 30px;
+      padding-right: var(--space-8);
     }
 
     .timeline__card {
-      min-height: 170px;
+      min-height: 10.625rem;
     }
   }
 </style>

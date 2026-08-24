@@ -17,7 +17,7 @@ const { title, heading, description, wide = false } = Astro.props;
 <Base title={title} description={description}>
   <Header />
 
-  <main class="page">
+  <main class="page section-spaced">
     {
       heading && (
         <div class={wide ? 'section' : 'container'}>
@@ -32,25 +32,17 @@ const { title, heading, description, wide = false } = Astro.props;
 </Base>
 
 <style>
-  .page {
-    padding-block: 140px;
-  }
-
   .page__title {
-    margin-bottom: 60px;
-    font-size: var(--fs-h2);
-    line-height: var(--lh-h2);
-    letter-spacing: var(--ls-h2);
+    margin-bottom: var(--space-16);
+    font-size: var(--h3);
+    line-height: 1.125;
+    letter-spacing: var(--tracking-heading);
     font-weight: 400;
   }
 
   @media (max-width: 1024px) {
-    .page {
-      padding-block: 90px;
-    }
-
     .page__title {
-      margin-bottom: 40px;
+      margin-bottom: var(--space-8);
     }
   }
 </style>

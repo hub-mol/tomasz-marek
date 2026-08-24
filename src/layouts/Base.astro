@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import spaceGroteskUrl from '../assets/fonts/space-grotesk-latin.woff2?url';
+import manropeUrl from '../assets/fonts/manrope-latin.woff2?url';
 
 interface Props {
   title?: string;
@@ -19,14 +21,14 @@ const { title = 'Archicon', description = '' } = Astro.props;
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link
       rel="preload"
-      href="/fonts/space-grotesk-latin.woff2"
+      href={spaceGroteskUrl}
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="/fonts/manrope-latin.woff2"
+      href={manropeUrl}
       as="font"
       type="font/woff2"
       crossorigin

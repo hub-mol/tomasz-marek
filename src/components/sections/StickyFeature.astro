@@ -39,7 +39,7 @@ const {
 <section class="section sticky-feat">
   <div class="sticky-feat__aside">
     <div class="sticky-feat__pin">
-      <p class="eyebrow">{eyebrow}</p>
+      <p class="tagline">{eyebrow}</p>
       <h2 class="sticky-feat__title">{title}</h2>
     </div>
   </div>
@@ -65,23 +65,23 @@ const {
 <style>
   .sticky-feat {
     display: grid;
-    grid-template-columns: minmax(280px, 1fr) minmax(0, 1.6fr);
-    gap: clamp(60px, 8vw, 150px);
+    grid-template-columns: minmax(17.5rem, 1fr) minmax(0, 1.6fr);
+    gap: clamp(var(--space-16), 8vw, var(--space-32));
     padding-block: var(--sec-y);
   }
 
   /* kolumna tekstowa zostaje w kadrze, dopóki obok przewijają się kroki */
   .sticky-feat__pin {
     position: sticky;
-    top: calc(var(--hdr-h) + 40px);
+    top: calc(var(--hdr-h) + var(--space-8));
   }
 
   .sticky-feat__title {
-    margin-top: 12px;
+    margin-top: var(--space-2);
   }
 
   .sticky-feat__step + .sticky-feat__step {
-    margin-top: 90px;
+    margin-top: 5.625rem;
   }
 
   .sticky-feat__step img {
@@ -93,13 +93,13 @@ const {
 
   .sticky-feat__body {
     display: flex;
-    gap: 16px;
-    margin-top: 22px;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
   }
 
   .sticky-feat__num {
     flex-shrink: 0;
-    min-width: 34px;
+    min-width: 2.125rem;
     font-size: 0.9375rem;
     line-height: 1.6;
     color: var(--c-gray);
@@ -107,7 +107,7 @@ const {
   }
 
   .sticky-feat__label {
-    margin-bottom: 6px;
+    margin-bottom: var(--space-2);
   }
 
   .sticky-feat__text {
@@ -118,7 +118,7 @@ const {
   @media (max-width: 1024px) {
     .sticky-feat {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: var(--space-8);
     }
 
     /* bez drugiej kolumny przyklejanie traci sens */
@@ -127,7 +127,7 @@ const {
     }
 
     .sticky-feat__step + .sticky-feat__step {
-      margin-top: 60px;
+      margin-top: var(--space-16);
     }
   }
 </style>

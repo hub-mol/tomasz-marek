@@ -24,7 +24,7 @@ const { title, img = '/img/tm-4.jpg' } = Astro.props;
 <style>
   .banner {
     position: relative;
-    height: min(620px, 72svh);
+    height: min(38.75rem, 72svh);
     display: flex;
     align-items: center;
     padding-inline: var(--gutter);
@@ -51,23 +51,23 @@ const { title, img = '/img/tm-4.jpg' } = Astro.props;
   .banner__inner {
     position: relative;
     z-index: 1;
-    max-width: 1180px;
+    max-width: 73.75rem;
   }
 
   .banner__title {
-    max-width: 1180px;
+    max-width: 73.75rem;
     white-space: pre-line;
   }
 
   @media (max-width: 1024px) {
     .banner {
-      height: 420px;
+      height: 26.25rem;
     }
   }
 
   @media (max-width: 768px) {
     .banner {
-      height: 340px;
+      height: 21.25rem;
     }
 
   }

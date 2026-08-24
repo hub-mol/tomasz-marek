@@ -1,5 +1,6 @@
 ---
 import { projects } from '../../data/portfolio';
+import ProjectCard from '../ProjectCard.astro';
 
 // Układ z portfolio/standard-list: siatka 3 kolumn, kwadratowe zdjęcia,
 // pod spodem kategoria, tytuł i rok.
@@ -10,14 +11,7 @@ import { projects } from '../../data/portfolio';
     {
       projects.map((item) => (
         <li class="pf__item">
-          <a class="pf__link" href={`/portfolio/${item.slug}`}>
-            <span class="pf__media">
-              <img src={item.img} alt="" width="650" height="650" loading="lazy" />
-            </span>
-            <span class="pf__cat">{item.category}</span>
-            <span class="pf__title">{item.title}</span>
-            {item.year && <span class="pf__year">{item.year}</span>}
-          </a>
+          <ProjectCard project={item} variant="grid" />
         </li>
       ))
     }
@@ -28,71 +22,20 @@ import { projects } from '../../data/portfolio';
   .pf {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 75px 30px;
-  }
-
-  .pf__link {
-    display: block;
-  }
-
-  .pf__media {
-    display: block;
-    overflow: hidden;
-  }
-
-  .pf__media img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1;
-    object-fit: cover;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .pf__link:hover .pf__media img {
-    transform: scale(1.06);
-  }
-
-  .pf__cat {
-    display: block;
-    margin-top: 20px;
-    font-size: 15px;
-    line-height: 22px;
-    text-transform: uppercase;
-    color: #777;
-  }
-
-  .pf__title {
-    display: block;
-    font-family: var(--ff-heading);
-    font-size: 23px;
-    line-height: 30px;
-    letter-spacing: -0.575px;
-    transition: color 0.3s ease;
-  }
-
-  .pf__link:hover .pf__title {
-    color: var(--c-accent);
-  }
-
-  .pf__year {
-    display: block;
-    margin-top: 3px;
-    font-size: 18px;
-    line-height: 28px;
-    letter-spacing: -0.45px;
+    gap: var(--space-16) var(--space-8);
   }
 
   @media (max-width: 1024px) {
     .pf {
       grid-template-columns: repeat(2, 1fr);
-      gap: 50px 25px;
+      gap: var(--space-12) var(--space-6);
     }
   }
 
   @media (max-width: 768px) {
     .pf {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: var(--space-8);
     }
   }
 </style>

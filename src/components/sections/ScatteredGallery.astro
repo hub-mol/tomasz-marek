@@ -34,7 +34,7 @@ const {
 
 <section class="section scatter">
   <header class="scatter__head">
-    <p class="eyebrow">{eyebrow}</p>
+    <p class="tagline">{eyebrow}</p>
     <h2>{title}</h2>
   </header>
 
@@ -60,19 +60,19 @@ const {
   }
 
   .scatter__head {
-    margin-bottom: 70px;
+    margin-bottom: 4.375rem;
   }
 
   .scatter__head h2 {
     max-width: 16ch;
-    margin-top: 10px;
+    margin-top: var(--space-2);
   }
 
   .scatter__grid {
-    --shift: 60px;
+    --shift: 3.75rem;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    gap: 40px;
+    gap: var(--space-8);
   }
 
   .scatter__item {
@@ -90,7 +90,7 @@ const {
   }
 
   .scatter__item figcaption {
-    margin-top: 14px;
+    margin-top: var(--space-4);
     font-size: 0.8125rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -99,8 +99,8 @@ const {
 
   @media (max-width: 1024px) {
     .scatter__grid {
-      --shift: 30px;
-      gap: 25px;
+      --shift: var(--space-8);
+      gap: var(--space-6);
     }
   }
 
@@ -108,7 +108,7 @@ const {
   @media (max-width: 768px) {
     .scatter__grid {
       grid-template-columns: 1fr;
-      gap: 35px;
+      gap: var(--space-8);
     }
 
     .scatter__item {
@@ -117,7 +117,7 @@ const {
     }
 
     .scatter__head {
-      margin-bottom: 40px;
+      margin-bottom: var(--space-8);
     }
   }
 </style>

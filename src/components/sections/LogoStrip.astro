@@ -20,7 +20,7 @@ const {
 ---
 
 <section class="section logos">
-  <p class="eyebrow logos__label">{eyebrow}</p>
+  <p class="tagline logos__label">{eyebrow}</p>
   <ul class="logos__grid">
     {
       logos.map((src) => (
@@ -34,25 +34,25 @@ const {
 
 <style>
   .logos {
-    padding-block: 90px;
+    padding-block: 5.625rem;
     border-top: 1px solid var(--c-line);
   }
 
   .logos__label {
-    margin-bottom: 40px;
+    margin-bottom: var(--space-8);
   }
 
   .logos__grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     align-items: center;
-    gap: 50px;
+    gap: var(--space-12);
   }
 
   .logos__grid img {
     width: auto;
     max-width: 100%;
-    height: 34px;
+    height: 2.125rem;
     object-fit: contain;
     /* logotypy z dema bywają kolorowe — sprowadzamy je do jednego tonu */
     filter: grayscale(1);
@@ -67,18 +67,18 @@ const {
   @media (max-width: 1024px) {
     .logos__grid {
       grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
+      gap: var(--space-8);
     }
   }
 
   @media (max-width: 768px) {
     .logos {
-      padding-block: 60px;
+      padding-block: var(--space-16);
     }
 
     .logos__grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
+      gap: var(--space-8);
     }
   }
 </style>

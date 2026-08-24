@@ -1,3 +1,39 @@
+import type { ImageMetadata } from 'astro';
+
+import estetica1 from '../assets/images/projects/estetica-1.png';
+import estetica2 from '../assets/images/projects/estetica-2.png';
+import estetica3 from '../assets/images/projects/estetica-3.png';
+import estetica4 from '../assets/images/projects/estetica-4.png';
+import estetica5 from '../assets/images/projects/estetica-5.png';
+import narutowicza1 from '../assets/images/projects/narutowicza-1.png';
+import narutowicza2 from '../assets/images/projects/narutowicza-2.png';
+import narutowicza3 from '../assets/images/projects/narutowicza-3.png';
+import narutowicza4 from '../assets/images/projects/narutowicza-4.png';
+import narutowicza5 from '../assets/images/projects/narutowicza-5.png';
+import narutowicza6 from '../assets/images/projects/narutowicza-6.png';
+import narutowicza7 from '../assets/images/projects/narutowicza-7.png';
+import neonatolin1 from '../assets/images/projects/neonatolin-1.png';
+import neonatolin2 from '../assets/images/projects/neonatolin-2.png';
+import neonatolin3 from '../assets/images/projects/neonatolin-3.png';
+import neonatolin4 from '../assets/images/projects/neonatolin-4.png';
+import neonatolin5 from '../assets/images/projects/neonatolin-5.png';
+import neonatolin6 from '../assets/images/projects/neonatolin-6.png';
+import neonatolin7 from '../assets/images/projects/neonatolin-7.png';
+import neonatolin8 from '../assets/images/projects/neonatolin-8.png';
+import radacz1 from '../assets/images/projects/radacz-1.png';
+import radacz2 from '../assets/images/projects/radacz-2.png';
+import radaczAkso from '../assets/images/projects/radacz-akso.jpg';
+import zwyciestwa1 from '../assets/images/projects/zwyciestwa-1.png';
+import zwyciestwa2 from '../assets/images/projects/zwyciestwa-2.png';
+import zwyciestwa3 from '../assets/images/projects/zwyciestwa-3.png';
+import zwyciestwa4 from '../assets/images/projects/zwyciestwa-4.png';
+import zwyciestwa5 from '../assets/images/projects/zwyciestwa-5.png';
+import zwyciestwaAkso1 from '../assets/images/projects/zwyciestwa-akso-1.png';
+import zwyciestwaAkso2 from '../assets/images/projects/zwyciestwa-akso-2.png';
+import zwyciestwaAnaliza from '../assets/images/projects/zwyciestwa-analiza.png';
+import zwyciestwaPzt from '../assets/images/projects/zwyciestwa-pzt.png';
+
+// Typy pozostawione dla starszych, obecnie nieużywanych wariantów podstron.
 export interface ProjectInfo {
   year: string;
   client: string;
@@ -18,154 +54,75 @@ export interface Stat {
 export interface Project {
   slug: string;
   title: string;
+  shortTitle: string;
   category: string;
-  year?: string;
-  img: string;
-  /** wariant układu podstrony realizacji */
-  layout: 'a' | 'b' | 'c';
-  lead: string;
-  info: ProjectInfo;
-  stats: Stat[];
-  gallery: string[];
+  location: string;
+  surface?: string;
+  status: string;
+  img: ImageMetadata;
+  gallery: ImageMetadata[];
+  alt: string;
 }
-
-const TM = (n: number) => `/img/tm-${n}.jpg`;
-
-const lead =
-  'Sem viverra aliquet eget sit amet tellus cras. Nulla aliquet enim tortor at auctor urna nec tincidunt praesent semper.';
-
-const body =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus nisl vitae magna pulvinar laoreet. Nullam erat ipsum, mattis nec mollis ac, accumsan a enim. Nunc at euismod arcu.';
-
-const info = (over: Partial<ProjectInfo> = {}): ProjectInfo => ({
-  year: 'July 2020',
-  client: 'Private residence',
-  architects: 'tma* studio',
-  location: 'Bali, Indonesia',
-  budget: '1 250 000$',
-  surface: '550m2',
-  theme: 'Sustanbility, Modern, Eco',
-  status: 'Realized',
-  ...over,
-});
-
-const stats = (): Stat[] => [
-  { value: 8560, unit: 'm2', label: 'Site area' },
-  { value: 6700, unit: 'm2', label: 'Building surface' },
-  { value: 100, unit: 'm', label: 'Building height' },
-  { value: 12, label: 'Number of Stories' },
-];
 
 export const projects: Project[] = [
   {
-    slug: 'home-cb32',
-    title: 'Home CB32',
-    category: 'Dom',
-    year: '2020',
-    img: TM(1),
-    layout: 'a',
-    lead,
-    info: info(),
-    stats: stats(),
-    gallery: [TM(2), TM(3), TM(4)],
+    slug: 'wnetrze-neonatolin',
+    title: 'Wnętrze Neonatolin',
+    shortTitle: 'Neonatolin',
+    category: 'Wnętrza',
+    location: 'Warszawa',
+    surface: '240 m²',
+    status: 'Opis projektu w przygotowaniu',
+    img: neonatolin1,
+    gallery: [neonatolin2, neonatolin3, neonatolin4, neonatolin5, neonatolin6, neonatolin7, neonatolin8],
+    alt: 'Projekt wnętrza mieszkania na warszawskim Neonatolinie',
   },
   {
-    slug: 'sea-house',
-    title: 'Sea house',
-    category: 'Wnętrze',
-    year: '2018',
-    img: TM(2),
-    layout: 'b',
-    lead,
-    info: info({ client: 'Sea Group', location: 'Gdynia, Polska', year: 'May 2018' }),
-    stats: stats(),
-    gallery: [TM(3), TM(5), TM(6), TM(7)],
+    slug: 'mieszkanie-narutowicza',
+    title: 'Mieszkanie Narutowicza',
+    shortTitle: 'Narutowicza',
+    category: 'Wnętrza',
+    location: 'Do uzupełnienia',
+    surface: '90 m²',
+    status: 'Opis projektu w przygotowaniu',
+    img: narutowicza1,
+    gallery: [narutowicza2, narutowicza3, narutowicza4, narutowicza5, narutowicza6, narutowicza7],
+    alt: 'Projekt mieszkania przy ulicy Narutowicza',
   },
   {
-    slug: 'house-erna',
-    title: 'House Erna',
-    category: 'Dom',
-    year: '2020',
-    img: TM(3),
-    layout: 'c',
-    lead,
-    info: info({ client: 'Erna Family', location: 'Malmö, Sweden' }),
-    stats: stats(),
-    gallery: [TM(1), TM(4), TM(6)],
+    slug: 'zwyciestwa-gliwice',
+    title: 'Przestrzeń wzdłuż ulicy Zwycięstwa',
+    shortTitle: 'Zwycięstwa',
+    category: 'Urbanistyka',
+    location: 'Gliwice',
+    status: 'Koncepcja zagospodarowania terenu',
+    img: zwyciestwa1,
+    gallery: [zwyciestwa2, zwyciestwa3, zwyciestwa4, zwyciestwa5, zwyciestwaAkso1, zwyciestwaAkso2, zwyciestwaAnaliza, zwyciestwaPzt],
+    alt: 'Koncepcja zagospodarowania terenu wzdłuż ulicy Zwycięstwa w Gliwicach',
   },
   {
-    slug: 'aruu-residence',
-    title: 'Aruu residence',
-    category: 'Dom',
-    year: '2019',
-    img: TM(4),
-    layout: 'a',
-    lead,
-    info: info({ year: 'March 2019', surface: '780m2' }),
-    stats: stats(),
-    gallery: [TM(5), TM(2), TM(7)],
+    slug: 'osrodek-radacz',
+    title: 'Ośrodek wypoczynkowo-rehabilitacyjny',
+    shortTitle: 'Radacz',
+    category: 'Architektura',
+    location: 'Radacz',
+    status: 'Koncepcja',
+    img: radacz1,
+    gallery: [radaczAkso, radacz2],
+    alt: 'Koncepcja ośrodka wypoczynkowo-rehabilitacyjnego w Radaczu',
   },
   {
-    slug: 'naru-house',
-    title: 'Naru house',
-    category: 'Wnętrze',
-    year: '2018',
-    img: TM(5),
-    layout: 'b',
-    lead,
-    info: info({ budget: '860 000$', surface: '320m2' }),
-    stats: stats(),
-    gallery: [TM(6), TM(1), TM(3), TM(2)],
-  },
-  {
-    slug: 'haaga-residence',
-    title: 'Haaga residence',
-    category: 'Dom',
-    year: '2018',
-    img: TM(6),
-    layout: 'c',
-    lead,
-    info: info({ location: 'Helsinki, Finland' }),
-    stats: stats(),
-    gallery: [TM(7), TM(4), TM(1)],
-  },
-  {
-    slug: 'hizuu-house',
-    title: 'Hizuu house',
-    category: 'Dom',
-    img: TM(7),
-    layout: 'a',
-    lead,
-    info: info({ status: 'In progress' }),
-    stats: stats(),
-    gallery: [TM(1), TM(5), TM(3)],
-  },
-  {
-    slug: 'naomi-house',
-    title: 'Naomi house',
-    category: 'Dom',
-    year: '2020',
-    img: TM(1),
-    layout: 'b',
-    lead,
-    info: info({ client: 'Naomi Ltd.' }),
-    stats: stats(),
-    gallery: [TM(2), TM(6), TM(4), TM(5)],
-  },
-  {
-    slug: 'azul-house',
-    title: 'Azul house',
-    category: 'Dom',
-    year: '2020',
-    img: TM(2),
-    layout: 'c',
-    lead,
-    info: info({ location: 'Lisboa, Portugal', theme: 'Modern, Coastal' }),
-    stats: stats(),
-    gallery: [TM(3), TM(7), TM(6)],
+    slug: 'estetica',
+    title: 'Estetica',
+    shortTitle: 'Estetica',
+    category: 'Wnętrza komercyjne',
+    location: 'Do uzupełnienia',
+    surface: '90 m²',
+    status: 'Opis projektu w przygotowaniu',
+    img: estetica1,
+    gallery: [estetica2, estetica3, estetica4, estetica5],
+    alt: 'Projekt wnętrza Estetica',
   },
 ];
 
-export const projectBody = body;
-
-export const bySlug = (slug: string) => projects.find((p) => p.slug === slug);
+export const bySlug = (slug: string) => projects.find((project) => project.slug === slug);

@@ -22,13 +22,13 @@ const cols = images.length % 2 === 0 ? 2 : 3;
 
 <style>
   .gallery {
-    padding-block: 60px;
+    padding-block: var(--space-16);
   }
 
   .gallery__grid {
     display: grid;
     grid-template-columns: repeat(var(--cols), 1fr);
-    gap: 30px;
+    gap: var(--space-8);
   }
 
   .gallery__grid img {
@@ -41,7 +41,7 @@ const cols = images.length % 2 === 0 ? 2 : 3;
   @media (max-width: 768px) {
     .gallery__grid {
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: var(--space-4);
     }
   }
 </style>
