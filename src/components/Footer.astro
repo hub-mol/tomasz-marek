@@ -34,7 +34,8 @@ const phoneHref = '+48696995899';
 
     <address class="ftr__block">
       <p class="ftr__label tagline">Pracownia</p>
-      <p class="ftr__entity">TMA Tomasz Marek Architekt</p>
+      <p>TMA</p>
+      <p class="ftr__entity">Tomasz Marek Architekt</p>
       <p>ul. Magellana 2/29</p>
       <p>80-288 Gdańsk</p>
     </address>
@@ -62,6 +63,7 @@ const phoneHref = '+48696995899';
 
   <div class="section ftr__bottom type-body-sm">
     <p>&copy; {year} TMA Tomasz Marek Architekt</p>
+    <p>Wdrożenie i projekt: <a href="https://molenda.dev" target="_blank" rel="noreferrer">molenda.dev</a></p>
   </div>
 </footer>
 
@@ -139,6 +141,9 @@ const phoneHref = '+48696995899';
   }
 
   .ftr__bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
     padding-block: var(--space-6);
     border-top: 1px solid rgba(255, 255, 255, 0.25);
     color: rgba(255, 255, 255, 0.5);
@@ -157,6 +162,10 @@ const phoneHref = '+48696995899';
   }
 
   @media (max-width: 768px) {
+    .ftr__bottom {
+      flex-direction: column;
+    }
+
     .ftr__contact {
       gap: var(--space-6);
     }

@@ -40,6 +40,15 @@
     U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/manrope-arrows.woff2') format('woff2');
+  unicode-range: U+2190-2193;
+}
+
 :root {
   /* kolory zdjęte z motywu Archicon */
   --c-fg: #000;

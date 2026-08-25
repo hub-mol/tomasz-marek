@@ -6,8 +6,8 @@ import ProjectCard from '../ProjectCard.astro';
 const projectBySlug = new Map(projects.map((project) => [project.slug, project]));
 const projectGroups = [
   ['dom-drz', 'dom-kw', 'dom-poznan'],
-  ['osrodek-radacz', 'estetica', 'wnetrze-neonatolin'],
-  ['mieszkanie-narutowicza', 'zwyciestwa-gliwice'],
+  ['osrodek-radacz', 'estetica'],
+  ['wnetrze-neonatolin', 'mieszkanie-narutowicza', 'zwyciestwa-gliwice'],
 ].map((group) => group.map((slug) => projectBySlug.get(slug)!));
 ---
 
@@ -18,7 +18,7 @@ const projectGroups = [
   </header>
 
   {projectGroups.map((group, groupIndex) => (
-    <ul class:list={['projects__grid', { 'projects__grid--reverse': groupIndex === 1, 'projects__grid--partial': group.length < 3 }]}>
+    <ul class:list={['projects__grid', { 'projects__grid--reverse': groupIndex === 2, 'projects__grid--partial': group.length < 3 }]}>
     {
       group.map((item, index) => (
         <li>

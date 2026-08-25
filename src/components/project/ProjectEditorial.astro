@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const placeholder = 'Materiał roboczy. Opis idei, zakresu i najważniejszych decyzji projektowych zostanie uzupełniony.';
+const intro = project.description ?? 'Materiał roboczy. Opis idei, zakresu i najważniejszych decyzji projektowych zostanie uzupełniony.';
 ---
 
 <article class="project-editorial">
@@ -30,7 +30,7 @@ const placeholder = 'Materiał roboczy. Opis idei, zakresu i najważniejszych de
   </figure>
 
   <section class="section section-spaced project-editorial__intro split-golden split-golden--reverse">
-    <p class="type-h2 text-pretty">{placeholder}</p>
+    <p class="type-h2 text-pretty">{intro}</p>
     <ProjectFacts project={project} />
   </section>
 

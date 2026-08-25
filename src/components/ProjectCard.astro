@@ -38,7 +38,7 @@ const isGrid = variant === 'grid';
     )}
 
     <span class="project-card__title-row type-h3">
-      <span class="project-card__title">{project.title}</span>
+      <span class="project-card__title">{project.shortTitle}</span>
       <svg class="project-card__arrow" viewBox="0 0 16 16" aria-hidden="true">
         <path d="M1.25 14.75 14.75 1.25" />
         <path d="M4.125 1.25H14.75v10.625" />
@@ -154,6 +154,11 @@ const isGrid = variant === 'grid';
     stroke: currentColor;
     stroke-width: 1.5px;
     stroke-linejoin: round;
+    transition: transform 0.3s cubic-bezier(0.16, 0.48, 0.36, 1);
+  }
+
+  .project-card:hover .project-card__arrow {
+    transform: translate(2px, -2px);
   }
 
   .project-card__detail {

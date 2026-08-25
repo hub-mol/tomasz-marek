@@ -22,20 +22,18 @@ import ProjectCard from '../ProjectCard.astro';
   .pf {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-16) var(--space-8);
+    gap: var(--space-8);
   }
 
   @media (max-width: 1024px) {
     .pf {
       grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-12) var(--space-6);
     }
   }
 
   @media (max-width: 768px) {
     .pf {
       grid-template-columns: 1fr;
-      gap: var(--space-8);
     }
   }
 </style>

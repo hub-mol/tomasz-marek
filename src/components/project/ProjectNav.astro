@@ -1,29 +1,31 @@
 ---
 import type { Project } from '../../data/portfolio';
+import { Image } from 'astro:assets';
 
 interface Props {
   prev: Project;
   next: Project;
 }
 
-const { prev, next } = Astro.props;
+const { next } = Astro.props;
 ---
 
 <nav class="section pnav" aria-label="Inne realizacje">
-  <a class="pnav__link pnav__link--prev" href={`/portfolio/${prev.slug}`}>
-    <span class="pnav__dir type-label">Poprzednia</span>
-    <span class="pnav__title type-heading-lg">{prev.title}</span>
-  </a>
   <a class="pnav__link pnav__link--next" href={`/portfolio/${next.slug}`}>
-    <span class="pnav__dir type-label">Następna</span>
-    <span class="pnav__title type-heading-lg">{next.title}</span>
+    <span class="pnav__copy">
+      <span class="pnav__dir type-label">Następny projekt</span>
+      <span class="pnav__title type-heading-lg">{next.shortTitle}</span>
+    </span>
+    <span class="pnav__media">
+      <Image src={next.img} alt="" widths={[64, 128]} sizes="64px" format="avif" loading="lazy" />
+    </span>
   </a>
 </nav>
 
 <style>
   .pnav {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: var(--space-8);
     padding-block: var(--space-16);
     border-top: 1px solid var(--c-line);
@@ -31,6 +33,33 @@ const { prev, next } = Astro.props;
 
   .pnav__link--next {
     text-align: right;
+  }
+
+  .pnav__link {
+    display: grid;
+    grid-template-columns: var(--space-16) minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: center;
+    min-width: 0;
+  }
+
+  .pnav__link--next {
+    grid-template-columns: minmax(0, 1fr) var(--space-16);
+  }
+
+  .pnav__media {
+    display: block;
+    width: var(--space-16);
+    height: var(--space-16);
+    overflow: hidden;
+    background: var(--c-bg-alt);
+  }
+
+  .pnav__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
   }
 
   .pnav__dir {
@@ -46,5 +75,26 @@ const { prev, next } = Astro.props;
 
   .pnav__link:hover .pnav__title {
     color: var(--c-accent);
+  }
+
+  .pnav__link:hover .pnav__media :global(img) {
+    transform: scale(1.06);
+  }
+
+  @media (max-width: 768px) {
+    .pnav {
+      flex-direction: column;
+    }
+
+    .pnav__link,
+    .pnav__link--next {
+      grid-template-columns: var(--space-16) minmax(0, 1fr);
+      width: 100%;
+      text-align: left;
+    }
+
+    .pnav__link--next .pnav__media {
+      order: -1;
+    }
   }
 </style>

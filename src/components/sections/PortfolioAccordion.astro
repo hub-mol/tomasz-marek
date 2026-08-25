@@ -1,27 +1,16 @@
 ---
-// Układ z portfolio/accordion-list: wiersze tytuł / lokalizacja / rok,
-// rozwijane do galerii. Oryginał na jQuery UI — tutaj <details>/<summary>.
-const gallery = ['/img/tm-2.jpg', '/img/tm-7.jpg', '/img/tm-6.jpg'];
-
-const items = [
-  { title: 'Residence Dubao', area: 'Commercial, Dubai', year: '2021' },
-  { title: 'Commercial Bridge', area: 'Hotel, Bali', year: '2021' },
-  { title: 'Project No32', area: 'Commercial, Dubai', year: '2021' },
-  { title: 'Modern House', area: 'Residental, Dubai', year: '2020' },
-  { title: 'Lux Modern Vila', area: 'Residental, Doha', year: '2020' },
-  { title: 'Ezu Open Library', area: 'Beijing', year: '2019' },
-  { title: 'Project No31', area: 'Commercial, Dubai', year: '2019' },
-];
+import { Image } from 'astro:assets';
+import { projects } from '../../data/portfolio';
 ---
 
 <div class="pfa">
   {
-    items.map((item, i) => (
+    projects.map((project, i) => (
       <details class="pfa__item" open={i === 0} name="projekty">
         <summary class="pfa__row">
-          <span class="pfa__title type-heading-lg">{item.title}</span>
-          <span class="pfa__area type-body-md">{item.area}</span>
-          <span class="pfa__year type-body-md">{item.year}</span>
+          <span class="pfa__title type-heading-lg">{project.shortTitle}</span>
+          <span class="pfa__area type-body-md">{project.category} · {project.location}</span>
+          {project.surface && <span class="pfa__surface type-body-md">{project.surface}</span>}
           <span class="pfa__mark" aria-hidden="true">
             <svg width="11" height="14" viewBox="0 0 10.94 13.423">
               <path d="M5.516 0v12.51" />
@@ -30,9 +19,16 @@ const items = [
           </span>
         </summary>
 
-        <div class="pfa__body">
-          {gallery.map((src) => (
-            <img src={src} alt="" width="1100" height="871" loading="lazy" />
+        <div class="pfa__body" aria-label={`Galeria projektu ${project.title}`}>
+          {[project.img, ...project.gallery].slice(0, 3).map((image, imageIndex) => (
+            <Image
+              src={image}
+              alt={`${project.alt} — widok ${imageIndex + 1}`}
+              widths={[480, 768, 1100]}
+              sizes="(max-width: 768px) 100vw, 33vw"
+              format="avif"
+              loading="lazy"
+            />
           ))}
         </div>
       </details>
@@ -71,7 +67,7 @@ const items = [
     flex: 1 1 45%;
   }
 
-  .pfa__year {
+  .pfa__surface {
     flex: 0 0 auto;
     min-width: 3.75rem;
   }
@@ -98,7 +94,7 @@ const items = [
     padding: var(--space-2) var(--space-8) var(--space-8);
   }
 
-  .pfa__body img {
+  .pfa__body :global(img) {
     width: 100%;
     height: auto;
     aspect-ratio: 1100 / 871;

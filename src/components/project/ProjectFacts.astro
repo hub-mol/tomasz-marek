@@ -14,6 +14,7 @@ const facts = [
   ['Lokalizacja', project.location],
   ...(project.surface ? [['Powierzchnia', project.surface]] : []),
   ['Etap', project.status],
+  ...(project.award ? [['Nagroda', project.award]] : []),
 ];
 ---
 
