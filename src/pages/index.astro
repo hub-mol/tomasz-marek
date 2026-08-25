@@ -11,46 +11,46 @@ import Accordion from '../components/sections/Accordion.astro';
 import ProcessOverview from '../components/sections/ProcessOverview.astro';
 import AboutHero from '../components/sections/AboutHero.astro';
 
-import { procesArchitektura, procesWnetrza, faq } from '../data/home';
+import {getHomePage} from '../data/site';
+
+const home = await getHomePage();
 ---
 
 <Base
-  title="Tomasz Marek — architektura i wnętrza"
-  description="Kompleksowa obsługa inwestycji — od analizy działki, przez projekt i formalności, po wnętrza i nadzór autorski."
+  title={home.seoTitle}
+  description={home.seoDescription}
 >
   <Header variant="overlay" />
 
   <main>
-    <Hero />
+    <Hero title={home.heroTitle} text={home.heroLead} img={home.heroImage} alt={home.heroImage?.alt} />
 
-    <Approach />
+    <Approach title={home.approachTitle} body={home.approachBody} callout={home.approachCallout} pillars={home.approachPillars} />
 
-    <ProjectsGrid />
+    <ProjectsGrid title={home.projectsTitle} linkLabel={home.projectsLinkLabel} />
 
-    <OfferList />
+    <OfferList title={home.offerTitle} offers={home.offers} />
 
     <ProcessOverview
-      architecture={procesArchitektura}
-      interiors={procesWnetrza}
+      title={home.processTitle}
+      architecture={home.architectureProcess}
+      interiors={home.interiorsProcess}
     />
 
     <AboutHero
       id="o-mnie"
-      title={'Cześć! Tu Tomek.\nTworzę indywidualne projekty architektury i wnętrz.'}
+      title={home.aboutTitle}
       leadFirst={false}
-      paragraphs={[
-        'Posiadam uprawnienia budowlane do projektowania bez ograniczeń w specjalności architektonicznej i jestem członkiem Pomorskiej Izby Architektów RP.',
-        'Studiowałem na Wydziale Architektury i Urbanistyki Politechniki Gdańskiej oraz na Faculty of Architecture and Urban Design Politecnico di Milano.',
-        'Doświadczenie zdobywałem w pracowniach architektonicznych i wnętrzarskich w Tallinie, Paryżu i Trójmieście.',
-      ]}
-      img="/img/tm-7.jpg"
+      paragraphs={home.aboutParagraphs}
+      img={home.aboutImage ?? '/img/tm-7.jpg'}
+      alt={home.aboutImage?.alt ?? 'Tomasz Marek, architekt'}
     />
 
     <Accordion
       id="faq"
       eyebrow="FAQ"
-      title="Pytania przed rozpoczęciem współpracy"
-      items={faq}
+      title={home.faqTitle}
+      items={home.faq}
       numbered
       alt
     />

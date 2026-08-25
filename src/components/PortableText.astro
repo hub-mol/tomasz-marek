@@ -1,0 +1,55 @@
+---
+import {toHTML} from '@portabletext/to-html';
+import type {PortableTextBlock} from '@portabletext/types';
+
+interface Props {
+  value?: PortableTextBlock[];
+  class?: string;
+}
+
+const {value = [], class: className} = Astro.props;
+const html = toHTML(value);
+---
+
+{html && <div class:list={['portable-text', className]} set:html={html} />}
+
+<style>
+  .portable-text :global(p),
+  .portable-text :global(ul),
+  .portable-text :global(ol),
+  .portable-text :global(blockquote) {
+    max-width: 65ch;
+  }
+
+  .portable-text :global(* + p),
+  .portable-text :global(* + ul),
+  .portable-text :global(* + ol),
+  .portable-text :global(* + blockquote),
+  .portable-text :global(* + h2),
+  .portable-text :global(* + h3) {
+    margin-top: var(--space-4);
+  }
+
+  .portable-text :global(ul),
+  .portable-text :global(ol) {
+    padding-left: 1.25em;
+  }
+
+  .portable-text :global(ul) {
+    list-style: disc;
+  }
+
+  .portable-text :global(ol) {
+    list-style: decimal;
+  }
+
+  .portable-text :global(blockquote) {
+    padding-left: var(--space-6);
+    border-left: 1px solid currentColor;
+  }
+
+  .portable-text :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+</style>

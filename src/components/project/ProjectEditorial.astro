@@ -2,6 +2,7 @@
 import type { Project } from '../../data/portfolio';
 import ProjectImage from '../ProjectImage.astro';
 import ProjectFacts from './ProjectFacts.astro';
+import ProjectContent from './ProjectContent.astro';
 
 interface Props {
   project: Project;
@@ -9,6 +10,7 @@ interface Props {
 
 const { project } = Astro.props;
 const intro = project.description ?? 'Materiał roboczy. Opis idei, zakresu i najważniejszych decyzji projektowych zostanie uzupełniony.';
+const hasContent = Boolean(project.content?.length);
 ---
 
 <article class="project-editorial">
@@ -29,27 +31,36 @@ const intro = project.description ?? 'Materiał roboczy. Opis idei, zakresu i na
     />
   </figure>
 
-  <section class="section section-spaced project-editorial__intro split-golden split-golden--reverse">
-    <p class="type-h2 text-pretty">{intro}</p>
-    <ProjectFacts project={project} />
-  </section>
+  {hasContent ? (
+    <>
+      <section class="section section-spaced project-editorial__facts-only">
+        <ProjectFacts project={project} />
+      </section>
+      <ProjectContent blocks={project.content!} projectAlt={project.alt} />
+    </>
+  ) : (
+    <>
+      <section class="section section-spaced project-editorial__intro split-golden split-golden--reverse">
+        <p class="type-h2 text-pretty">{intro}</p>
+        <ProjectFacts project={project} />
+      </section>
 
-  <section class="section project-editorial__gallery" aria-label={`Galeria projektu ${project.title}`}>
-    {
-      project.gallery.map((image, index) => (
-        <figure class:list={['project-editorial__image', { 'project-editorial__image--wide': index % 4 === 2 }] }>
-          <ProjectImage
-            image={image}
-            alt={`${project.alt} — widok ${index + 2}`}
-            widths={[640, 960, 1440, 1920]}
-            sizes={index % 4 === 2 ? '100vw' : '(max-width: 768px) 100vw, 50vw'}
-            format="avif"
-            loading="lazy"
-          />
-        </figure>
-      ))
-    }
-  </section>
+      <section class="section project-editorial__gallery" aria-label={`Galeria projektu ${project.title}`}>
+        {project.gallery.map((image, index) => (
+          <figure class:list={['project-editorial__image', { 'project-editorial__image--wide': index % 4 === 2 }] }>
+            <ProjectImage
+              image={image}
+              alt={`${project.alt} — widok ${index + 2}`}
+              widths={[640, 960, 1440, 1920]}
+              sizes={index % 4 === 2 ? '100vw' : '(max-width: 768px) 100vw, 50vw'}
+              format="avif"
+              loading="lazy"
+            />
+          </figure>
+        ))}
+      </section>
+    </>
+  )}
 </article>
 
 <style>
@@ -75,6 +86,15 @@ const intro = project.description ?? 'Materiał roboczy. Opis idei, zakresu i na
   .project-editorial__intro {
     display: grid;
     gap: var(--space-32);
+  }
+
+  .project-editorial__facts-only {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(17.5rem, 1fr);
+  }
+
+  .project-editorial__facts-only :global(.project-facts) {
+    grid-column: 2;
   }
 
   .project-editorial__intro > p {

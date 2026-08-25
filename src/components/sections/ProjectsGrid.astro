@@ -3,6 +3,13 @@ import { getProjects } from '../../data/projects';
 import ArrowLink from '../ArrowLink.astro';
 import ProjectCard from '../ProjectCard.astro';
 
+interface Props {
+  title?: string;
+  linkLabel?: string;
+}
+
+const {title = 'Wybrane realizacje', linkLabel = 'Zobacz wszystkie projekty'} = Astro.props;
+
 const projects = await getProjects();
 const featuredProjects = projects.filter((project) => project.featured !== false).slice(0, 8);
 const projectGroups = [
@@ -14,8 +21,8 @@ const projectGroups = [
 
 <section class="section section-spaced projects" id="projekty">
   <header class="projects__head section-head-inline">
-    <h2 class="type-h1">Wybrane realizacje</h2>
-    <ArrowLink href="/portfolio/standard-list" typeClass="type-h3">Zobacz wszystkie projekty</ArrowLink>
+    <h2 class="type-h1">{title}</h2>
+    <ArrowLink href="/portfolio/standard-list" typeClass="type-h3">{linkLabel}</ArrowLink>
   </header>
 
   {projectGroups.map((group, groupIndex) => (

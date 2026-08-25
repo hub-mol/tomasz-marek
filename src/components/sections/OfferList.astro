@@ -1,9 +1,21 @@
 ---
 import { plNoBreak } from '../../utils/typography';
 
-const offers = [
+export interface OfferGroup {
+  title: string;
+  lead?: string;
+  sections: Array<{title: string; text: string}>;
+}
+
+interface Props {
+  title?: string;
+  offers?: OfferGroup[];
+}
+
+const defaultOffers = [
   {
     title: 'Klienci indywidualni',
+    lead: 'Planujesz budowę domu, przebudowę lub remont?',
     sections: [
       {
         title: 'Architektura',
@@ -17,6 +29,7 @@ const offers = [
   },
   {
     title: 'Biznes',
+    lead: 'Potrzebujesz funkcjonalnej przestrzeni spójnej z charakterem marki?',
     sections: [
       {
         title: 'Architektura',
@@ -30,6 +43,7 @@ const offers = [
   },
   {
     title: 'Doradztwo',
+    lead: 'Planujesz zakup działki i chcesz sprawdzić jej potencjał?',
     sections: [
       {
         title: 'Analizy',
@@ -42,19 +56,25 @@ const offers = [
     ],
   },
 ];
+
+const {title = 'Zakres współpracy', offers = defaultOffers} = Astro.props;
+const getLead = (offer: OfferGroup) => offer.lead
+  ?? defaultOffers.find((item) => item.title === offer.title)?.lead;
 ---
 
 <section class="section section-spaced offer" id="oferta">
   <header class="offer__head section-head split-golden">
     <p class="tagline">Oferta</p>
-    <h2>Zakres współpracy</h2>
+    <h2>{title}</h2>
   </header>
 
-  <ol class="offer__grid">
-    {offers.map((offer, i) => (
+  <ul class="offer__grid">
+    {offers.map((offer) => (
       <li class="offer__item">
-        <span class="offer__num type-body-sm">{String(i + 1).padStart(2, '0')}</span>
-        <h3 class="offer__title type-h3">{offer.title}</h3>
+        <div class="offer__intro">
+          {getLead(offer) && <p class="offer__lead">{plNoBreak(getLead(offer)!)}</p>}
+          <h3 class="offer__title type-h3">{offer.title}</h3>
+        </div>
 
         <div class="offer__sections">
           {offer.sections.map((section) => (
@@ -66,7 +86,7 @@ const offers = [
         </div>
       </li>
     ))}
-  </ol>
+  </ul>
 </section>
 
 <style>
@@ -87,7 +107,7 @@ const offers = [
 
   .offer__item {
     display: grid;
-    grid-template-rows: 4.0625rem 9.0625rem repeat(2, minmax(11.875rem, 1fr));
+    grid-template-rows: minmax(12.5rem, auto) repeat(2, minmax(11.875rem, 1fr));
     border-right: 1px solid var(--c-line);
   }
 
@@ -95,18 +115,23 @@ const offers = [
     border-right: 0;
   }
 
-  .offer__num {
-    display: block;
+  .offer__intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-4);
     padding: var(--space-8);
-    color: var(--c-gray);
+    border-bottom: 1px solid var(--c-line);
   }
 
   .offer__title {
-    display: flex;
-    align-items: flex-end;
     margin: 0;
-    padding: var(--space-8);
-    border-bottom: 1px solid var(--c-line);
+  }
+
+  .offer__lead {
+    max-width: 30ch;
+    margin: 0;
+    color: var(--c-muted);
   }
 
   .offer__sections {
@@ -139,7 +164,7 @@ const offers = [
     .offer__item,
     .offer__item + .offer__item {
       display: grid;
-      grid-template-rows: 3.75rem 7.5rem repeat(2, minmax(9.375rem, auto));
+      grid-template-rows: minmax(10rem, auto) repeat(2, minmax(9.375rem, auto));
       border-right: 0;
       border-bottom: 1px solid var(--c-line);
     }
@@ -156,7 +181,7 @@ const offers = [
 
     .offer__item,
     .offer__item + .offer__item {
-      grid-template-rows: 3.4375rem auto repeat(2, auto);
+      grid-template-rows: auto repeat(2, auto);
     }
   }
 </style>

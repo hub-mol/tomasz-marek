@@ -1,7 +1,19 @@
 ---
 import { plNoBreak } from '../../utils/typography';
 
-const pillars = [
+export interface ApproachPillar {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  title?: string;
+  body?: string[];
+  callout?: string;
+  pillars?: ApproachPillar[];
+}
+
+const defaultPillars = [
   {
     title: 'Miejsce',
     text: 'Wykorzystujemy potencjał działki, otoczenia, światła i widoków.',
@@ -15,20 +27,29 @@ const pillars = [
     text: 'Łączymy architekturę, wnętrza, materiały i detal w jedną przemyślaną całość.',
   },
 ];
+
+const {
+  title = 'Nie zaczynamy od gotowej odpowiedzi.',
+  body = [
+    'Każdy projekt poprzedzamy analizą miejsca, potrzeb użytkowników, możliwości działki i charakteru inwestycji.',
+    'Szukamy rozwiązań, które mają swoje uzasadnienie — funkcjonalne, przestrzenne i estetyczne. Dzięki temu projekt nie jest przypadkowym zestawem pomieszczeń i materiałów, ale spójną przestrzenią stworzoną z myślą o jej przyszłych użytkownikach.',
+  ],
+  callout = 'Dobra architektura zaczyna się od zrozumienia.',
+  pillars = defaultPillars,
+} = Astro.props;
 ---
 
 <section class="section section-spaced approach">
   <div class="approach__intro split-golden">
     <div class="approach__copy">
       <p class="tagline">Podejście</p>
-      <h2 class="type-h3">Nie zaczynamy od gotowej odpowiedzi.</h2>
+      <h2 class="type-h3">{title}</h2>
       <div class="approach__body">
-        <p class="text-pretty">{plNoBreak('Każdy projekt poprzedzamy analizą miejsca, potrzeb użytkowników, możliwości działki i charakteru inwestycji.')}</p>
-        <p class="text-pretty">{plNoBreak('Szukamy rozwiązań, które mają swoje uzasadnienie — funkcjonalne, przestrzenne i estetyczne. Dzięki temu projekt nie jest przypadkowym zestawem pomieszczeń i materiałów, ale spójną przestrzenią stworzoną z myślą o jej przyszłych użytkownikach.')}</p>
+        {body.map((paragraph) => <p class="text-pretty">{plNoBreak(paragraph)}</p>)}
       </div>
     </div>
 
-    <p class="approach__callout type-h1">Dobra architektura zaczyna się od zrozumienia.</p>
+    <p class="approach__callout type-h1">{callout}</p>
   </div>
 
   <ul class="approach__pillars">

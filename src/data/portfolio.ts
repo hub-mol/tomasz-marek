@@ -1,4 +1,5 @@
 import type { ImageMetadata } from 'astro';
+import type {PortableTextBlock} from '@portabletext/types';
 
 import hotelPodwale from '../assets/images/hero-1.png';
 import domDrz1 from '../assets/images/projects/dom-drz-1.png';
@@ -54,6 +55,7 @@ export interface Project {
   surface?: string;
   status: string;
   description?: string;
+  content?: ProjectContentBlock[];
   award?: string;
   img: ProjectImage;
   gallery: ProjectImage[];
@@ -71,6 +73,20 @@ export interface SanityProjectImage {
 }
 
 export type ProjectImage = ImageMetadata | SanityProjectImage;
+
+export interface ProjectTextBlock {
+  _key: string;
+  _type: 'projectTextBlock';
+  body: PortableTextBlock[];
+}
+
+export interface ProjectImageBlock {
+  _key: string;
+  _type: 'projectImageBlock';
+  images: ProjectImage[];
+}
+
+export type ProjectContentBlock = ProjectTextBlock | ProjectImageBlock;
 
 export const projects: Project[] = [
   {

@@ -6,6 +6,7 @@ export const blogPost = defineType({
     defineField({name: 'title', title: 'Tytuł', type: 'string', validation: (rule) => rule.required()}),
     defineField({name: 'slug', title: 'Adres', type: 'slug', options: {source: 'title'}, validation: (rule) => rule.required()}),
     defineField({name: 'excerpt', title: 'Zajawka', type: 'text', rows: 3, validation: (rule) => rule.required().max(240)}),
+    defineField({name: 'categories', title: 'Kategorie', type: 'array', of: [defineArrayMember({type: 'string'})], options: {layout: 'tags'}}),
     defineField({name: 'publishedAt', title: 'Data publikacji', type: 'datetime', validation: (rule) => rule.required()}),
     defineField({name: 'cover', title: 'Okładka', type: 'image', options: {hotspot: true}, fields: [defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string', validation: (rule) => rule.required()})]}),
     defineField({name: 'body', title: 'Treść', type: 'array', of: [

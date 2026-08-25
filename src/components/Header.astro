@@ -1,4 +1,6 @@
 ---
+import {getSiteSettings} from '../data/site';
+
 interface Props {
   // overlay — przezroczysty, biały, nałożony na hero (strona główna)
   // solid   — jasne tło, czarny tekst, w normalnym przepływie (podstrony)
@@ -10,20 +12,23 @@ interface Props {
   logoSuffix?: string;
 }
 
+const settings = await getSiteSettings();
+
 const {
   variant = 'solid',
-  logo = 'TMA',
+  logo = settings.logo,
   logoStart,
   logoEnd,
-  logoSuffix = 'Tomasz Marek Architekt',
+  logoSuffix = settings.logoSuffix,
 } = Astro.props;
 
 const menu = [
   { label: 'Portfolio', href: '/#projekty' },
   { label: 'Oferta', href: '/#oferta' },
   { label: 'Proces', href: '/#proces' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Kontakt', href: '/#kontakt' },
-  { label: 'Umów spotkanie', href: 'mailto:biuro@tomaszmarek.com?subject=Spotkanie z architektem' },
+  { label: settings.bookingLabel, href: `mailto:${settings.email}?subject=Spotkanie z architektem` },
 ];
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';

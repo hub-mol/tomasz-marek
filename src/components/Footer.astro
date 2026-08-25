@@ -1,6 +1,7 @@
 ---
 import ArrowLink from './ArrowLink.astro';
 import { plNoBreak } from '../utils/typography';
+import {getSiteSettings} from '../data/site';
 
 interface Props {
   id?: string;
@@ -8,9 +9,8 @@ interface Props {
 
 const { id } = Astro.props;
 const year = new Date().getFullYear();
-const email = 'biuro@tomaszmarek.com';
-const phoneLabel = '+48 696 995 899';
-const phoneHref = '+48696995899';
+const settings = await getSiteSettings();
+const {email, phoneLabel, phoneHref} = settings;
 ---
 
 <footer class="ftr" id={id}>
@@ -18,51 +18,43 @@ const phoneHref = '+48696995899';
     <p class="tagline">Kontakt</p>
 
     <div class="ftr__intro">
-      <h2 class="type-h2">Porozmawiajmy o Twoim projekcie</h2>
-      <p class="text-pretty">{plNoBreak('Planujesz budowę, przebudowę albo nowe wnętrze? Opowiedz nam o swojej inwestycji. Podczas pierwszej rozmowy sprawdzimy, w jakim zakresie możemy Ci pomóc.')}</p>
+      <h2 class="type-h2">{settings.footerTitle}</h2>
+      <p class="text-pretty">{plNoBreak(settings.footerText)}</p>
       <ArrowLink href={`mailto:${email}?subject=Spotkanie z architektem`} typeClass="type-h3">
-        Umów spotkanie z&nbsp;architektem
+        {settings.bookingLabel}
       </ArrowLink>
     </div>
   </section>
 
   <div class="section ftr__details">
     <div class="ftr__brand">
-      <a class="ftr__logo type-h2" href="/">TMA</a>
-      <p>Tomasz Marek Architekt</p>
+      <a class="ftr__logo type-h2" href="/">{settings.logo}</a>
+      <p>{settings.logoSuffix}</p>
     </div>
 
     <address class="ftr__block">
       <p class="ftr__label tagline">Pracownia</p>
-      <p>TMA</p>
-      <p class="ftr__entity">Tomasz Marek Architekt</p>
-      <p>ul. Magellana 2/29</p>
-      <p>80-288 Gdańsk</p>
+      {settings.studioAddress.map((line, index) => <p class:list={{'ftr__entity': index === 1}}>{line}</p>)}
     </address>
 
     <address class="ftr__block">
       <p class="ftr__label tagline">Działalność</p>
-      <p>Stary Grabiąż 6A</p>
-      <p>78-460 Stary Grabiąż</p>
-      <p class="ftr__spacer">NIP: 6731917259</p>
-      <p>REGON: 528600458</p>
+      {settings.businessAddress.map((line) => <p>{line}</p>)}
+      {settings.nip && <p class="ftr__spacer">NIP: {settings.nip}</p>}
+      {settings.regon && <p>REGON: {settings.regon}</p>}
     </address>
 
     <div class="ftr__block">
       <p class="ftr__label tagline">Kontakt</p>
       <p><a href={`mailto:${email}`}>{email}</a></p>
       <p><a href={`tel:${phoneHref}`}>{phoneLabel}</a></p>
-      <p class="ftr__spacer">
-        <a href="https://www.instagram.com/studjo.biuro/" target="_blank" rel="noreferrer">Instagram</a>
-      </p>
-      <p>
-        <a href="https://www.facebook.com/people/studjobiuro/100078056002732/" target="_blank" rel="noreferrer">Facebook</a>
-      </p>
+      {settings.instagram && <p class="ftr__spacer"><a href={settings.instagram} target="_blank" rel="noreferrer">Instagram</a></p>}
+      {settings.facebook && <p><a href={settings.facebook} target="_blank" rel="noreferrer">Facebook</a></p>}
     </div>
   </div>
 
   <div class="section ftr__bottom type-body-sm">
-    <p>&copy; {year} TMA Tomasz Marek Architekt</p>
+    <p>&copy; {year} {settings.logo} {settings.siteTitle}</p>
     <p>Wdrożenie i projekt: <a href="https://molenda.dev" target="_blank" rel="noreferrer">molenda.dev</a></p>
   </div>
 </footer>

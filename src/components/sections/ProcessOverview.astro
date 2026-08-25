@@ -6,9 +6,10 @@ import DisclosureIcon from '../DisclosureIcon.astro';
 interface Props {
   architecture: AccordionItem[];
   interiors: AccordionItem[];
+  title?: string;
 }
 
-const { architecture, interiors } = Astro.props;
+const { architecture, interiors, title = 'Rozmowa / Realizacja' } = Astro.props;
 
 const groups = [
   { title: 'Proces architektura', items: architecture },
@@ -18,7 +19,7 @@ const groups = [
 
 <section class="section section-spaced process" id="proces">
   <header class="process__head section-head split-golden">
-    <h2>Rozmowa&ensp;⁄&ensp;Realizacja</h2>
+    <h2>{title}</h2>
   </header>
 
   <div class="process__groups">

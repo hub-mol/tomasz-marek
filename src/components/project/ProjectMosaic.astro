@@ -2,6 +2,7 @@
 import type { Project } from '../../data/portfolio';
 import ProjectImage from '../ProjectImage.astro';
 import ProjectFacts from './ProjectFacts.astro';
+import ProjectContent from './ProjectContent.astro';
 
 interface Props {
   project: Project;
@@ -9,6 +10,7 @@ interface Props {
 
 const { project } = Astro.props;
 const intro = project.description ?? 'Materiał roboczy. Opis idei, zakresu i najważniejszych decyzji projektowych zostanie uzupełniony.';
+const hasContent = Boolean(project.content?.length);
 ---
 
 <article class="project-mosaic">
@@ -32,26 +34,30 @@ const intro = project.description ?? 'Materiał roboczy. Opis idei, zakresu i na
     />
   </figure>
 
-  <section class="section section-spaced project-mosaic__statement">
-    <p class="type-h2 text-pretty">{intro}</p>
-  </section>
+  {hasContent ? (
+    <ProjectContent blocks={project.content!} projectAlt={project.alt} />
+  ) : (
+    <>
+      <section class="section section-spaced project-mosaic__statement">
+        <p class="type-h2 text-pretty">{intro}</p>
+      </section>
 
-  <section class="section project-mosaic__gallery" aria-label={`Galeria projektu ${project.title}`}>
-    {
-      project.gallery.map((image, index) => (
-        <figure class={`project-mosaic__image project-mosaic__image--${index % 5}`}>
-          <ProjectImage
-            image={image}
-            alt={`${project.alt} — widok ${index + 2}`}
-            widths={[560, 840, 1280, 1920]}
-            sizes="(max-width: 768px) 100vw, 60vw"
-            format="avif"
-            loading="lazy"
-          />
-        </figure>
-      ))
-    }
-  </section>
+      <section class="section project-mosaic__gallery" aria-label={`Galeria projektu ${project.title}`}>
+        {project.gallery.map((image, index) => (
+          <figure class={`project-mosaic__image project-mosaic__image--${index % 5}`}>
+            <ProjectImage
+              image={image}
+              alt={`${project.alt} — widok ${index + 2}`}
+              widths={[560, 840, 1280, 1920]}
+              sizes="(max-width: 768px) 100vw, 60vw"
+              format="avif"
+              loading="lazy"
+            />
+          </figure>
+        ))}
+      </section>
+    </>
+  )}
 </article>
 
 <style>

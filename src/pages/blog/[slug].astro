@@ -1,0 +1,49 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PortableText from '../../components/PortableText.astro';
+import ProjectImage from '../../components/ProjectImage.astro';
+import {getBlogPosts} from '../../data/blogPosts';
+
+export async function getStaticPaths() {
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({params: {slug: post.slug}, props: {post}}));
+}
+
+const {post} = Astro.props;
+const date = new Intl.DateTimeFormat('pl-PL', {day: 'numeric', month: 'long', year: 'numeric'}).format(new Date(post.publishedAt));
+---
+
+<Base title={`${post.title} — Tomasz Marek Architekt`} description={post.excerpt}>
+  <Header />
+  <main>
+    <article class="blog-article">
+      <header class="section section-spaced blog-article__head">
+        <p class="tagline">{date}{post.categories[0] ? ` · ${post.categories[0]}` : ''}</p>
+        <h1 class="type-h1">{post.title}</h1>
+        <p class="type-h3">{post.excerpt}</p>
+      </header>
+      {post.cover && (
+        <figure class="blog-article__cover">
+          <ProjectImage image={post.cover} alt={post.cover.alt ?? post.title} widths={[768, 1280, 1920, 2400]} sizes="100vw" format="avif" loading="eager" fetchpriority="high" />
+        </figure>
+      )}
+      <section class="section section-spaced blog-article__body">
+        <PortableText value={post.body} />
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .blog-article__head { display: grid; gap: var(--space-6); }
+  .blog-article__head h1 { max-width: 18ch; }
+  .blog-article__head > p:last-child { max-width: 42ch; color: var(--c-muted); }
+  .blog-article__cover { overflow: hidden; background: var(--c-bg-alt); }
+  .blog-article__cover :global(img) { width: 100%; max-height: 82svh; object-fit: cover; }
+  .blog-article__body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(17.5rem, 2fr) minmax(0, 1fr); }
+  .blog-article__body :global(.portable-text) { grid-column: 2; font-size: 1.125rem; line-height: 1.65; }
+  @media (max-width: 768px) { .blog-article__body { grid-template-columns: 1fr; } .blog-article__body :global(.portable-text) { grid-column: 1; } }
+</style>

@@ -2,13 +2,15 @@
 import '../styles/global.css';
 import spaceGroteskUrl from '../assets/fonts/space-grotesk-latin.woff2?url';
 import manropeUrl from '../assets/fonts/manrope-latin.woff2?url';
+import {getSiteSettings} from '../data/site';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const { title = 'Archicon', description = '' } = Astro.props;
+const settings = await getSiteSettings();
+const { title = settings.defaultSeoTitle, description = settings.defaultSeoDescription } = Astro.props;
 ---
 
 <!doctype html>
