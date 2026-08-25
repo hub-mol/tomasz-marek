@@ -1,14 +1,15 @@
 ---
-import { projects } from '../../data/portfolio';
+import { getProjects } from '../../data/projects';
 import ArrowLink from '../ArrowLink.astro';
 import ProjectCard from '../ProjectCard.astro';
 
-const projectBySlug = new Map(projects.map((project) => [project.slug, project]));
+const projects = await getProjects();
+const featuredProjects = projects.filter((project) => project.featured !== false).slice(0, 8);
 const projectGroups = [
-  ['dom-drz', 'dom-kw', 'dom-poznan'],
-  ['osrodek-radacz', 'estetica'],
-  ['wnetrze-neonatolin', 'mieszkanie-narutowicza', 'zwyciestwa-gliwice'],
-].map((group) => group.map((slug) => projectBySlug.get(slug)!));
+  featuredProjects.slice(0, 3),
+  featuredProjects.slice(3, 5),
+  featuredProjects.slice(5, 8),
+].filter((group) => group.length > 0);
 ---
 
 <section class="section section-spaced projects" id="projekty">

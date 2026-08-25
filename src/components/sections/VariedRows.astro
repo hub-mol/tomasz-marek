@@ -1,6 +1,6 @@
 ---
-import { projects } from '../../data/portfolio';
-import { Image } from 'astro:assets';
+import { getProjects } from '../../data/projects';
+import ProjectImage from '../ProjectImage.astro';
 
 // Odpowiednik `varied_rows_portfolio_list` z dema: wiersze po dwie realizacje,
 // w których szerokości zamieniają się miejscami (60/40, potem 40/60).
@@ -18,6 +18,7 @@ const {
   showHeader = true,
 } = Astro.props;
 
+const projects = await getProjects();
 const items = projects.slice(0, limit);
 const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
   items.slice(i * 2, i * 2 + 2)
@@ -40,8 +41,8 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
         {para.map((p) => (
           <a class="rows__item" href={`/portfolio/${p.slug}`}>
             <span class="rows__media">
-              <Image
-                src={p.img}
+              <ProjectImage
+                image={p.img}
                 alt={p.alt}
                 widths={[640, 960, 1440]}
                 sizes="(max-width: 768px) 100vw, 60vw"

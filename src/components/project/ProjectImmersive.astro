@@ -1,6 +1,6 @@
 ---
-import { Image } from 'astro:assets';
 import type { Project } from '../../data/portfolio';
+import ProjectImage from '../ProjectImage.astro';
 import ProjectFacts from './ProjectFacts.astro';
 
 interface Props {
@@ -13,8 +13,8 @@ const intro = project.description ?? 'Materiał roboczy. Opis idei, zakresu i na
 
 <article class="project-immersive">
   <header class="project-immersive__hero">
-    <Image
-      src={project.img}
+    <ProjectImage
+      image={project.img}
       alt={project.alt}
       widths={[768, 1280, 1920, 2400]}
       sizes="100vw"
@@ -37,8 +37,8 @@ const intro = project.description ?? 'Materiał roboczy. Opis idei, zakresu i na
     {
       project.gallery.map((image, index) => (
         <figure class:list={['project-immersive__image', { 'project-immersive__image--inset': index % 3 === 1 }] }>
-          <Image
-            src={image}
+          <ProjectImage
+            image={image}
             alt={`${project.alt} — widok ${index + 2}`}
             widths={[768, 1280, 1920, 2400]}
             sizes={index % 3 === 1 ? '(max-width: 768px) 100vw, 68vw' : '100vw'}

@@ -55,12 +55,22 @@ export interface Project {
   status: string;
   description?: string;
   award?: string;
-  img: ImageMetadata;
-  gallery: ImageMetadata[];
+  img: ProjectImage;
+  gallery: ProjectImage[];
   alt: string;
   layout: 'editorial' | 'immersive' | 'mosaic';
   cardTone: 'light' | 'dark';
+  featured?: boolean;
 }
+
+export interface SanityProjectImage {
+  url: string;
+  width: number;
+  height: number;
+  alt?: string;
+}
+
+export type ProjectImage = ImageMetadata | SanityProjectImage;
 
 export const projects: Project[] = [
   {

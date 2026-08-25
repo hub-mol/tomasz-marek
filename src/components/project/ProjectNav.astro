@@ -1,6 +1,6 @@
 ---
 import type { Project } from '../../data/portfolio';
-import { Image } from 'astro:assets';
+import ProjectImage from '../ProjectImage.astro';
 
 interface Props {
   prev: Project;
@@ -17,7 +17,7 @@ const { next } = Astro.props;
       <span class="pnav__title type-heading-lg">{next.shortTitle}</span>
     </span>
     <span class="pnav__media">
-      <Image src={next.img} alt="" widths={[64, 128]} sizes="64px" format="avif" loading="lazy" />
+      <ProjectImage image={next.img} alt="" widths={[64, 128]} sizes="64px" format="avif" loading="lazy" />
     </span>
   </a>
 </nav>

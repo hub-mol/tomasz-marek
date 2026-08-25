@@ -1,6 +1,6 @@
 ---
-import { Image } from 'astro:assets';
 import type { Project } from '../../data/portfolio';
+import ProjectImage from '../ProjectImage.astro';
 import ProjectFacts from './ProjectFacts.astro';
 
 interface Props {
@@ -18,8 +18,8 @@ const intro = project.description ?? 'Materiał roboczy. Opis idei, zakresu i na
   </header>
 
   <figure class="project-editorial__cover">
-    <Image
-      src={project.img}
+    <ProjectImage
+      image={project.img}
       alt={project.alt}
       widths={[768, 1280, 1920, 2400]}
       sizes="100vw"
@@ -38,8 +38,8 @@ const intro = project.description ?? 'Materiał roboczy. Opis idei, zakresu i na
     {
       project.gallery.map((image, index) => (
         <figure class:list={['project-editorial__image', { 'project-editorial__image--wide': index % 4 === 2 }] }>
-          <Image
-            src={image}
+          <ProjectImage
+            image={image}
             alt={`${project.alt} — widok ${index + 2}`}
             widths={[640, 960, 1440, 1920]}
             sizes={index % 4 === 2 ? '100vw' : '(max-width: 768px) 100vw, 50vw'}

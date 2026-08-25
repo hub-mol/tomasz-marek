@@ -1,6 +1,6 @@
 ---
-import { Image } from 'astro:assets';
 import type { Project } from '../data/portfolio';
+import ProjectImage from './ProjectImage.astro';
 
 interface Props {
   project: Project;
@@ -14,8 +14,8 @@ const isGrid = variant === 'grid';
 
 <a class:list={['project-card', `project-card--${variant}`, `project-card--${project.cardTone}`, { 'project-card--prominent': prominent }]} href={`/portfolio/${project.slug}`}>
   <span class="project-card__media">
-    <Image
-      src={project.img}
+    <ProjectImage
+      image={project.img}
       alt={project.alt}
       widths={isGrid ? [420, 720, 980] : [480, 720, 1080, 1400]}
       sizes={isGrid

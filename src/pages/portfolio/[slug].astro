@@ -6,9 +6,10 @@ import ProjectNav from '../../components/project/ProjectNav.astro';
 import ProjectEditorial from '../../components/project/ProjectEditorial.astro';
 import ProjectImmersive from '../../components/project/ProjectImmersive.astro';
 import ProjectMosaic from '../../components/project/ProjectMosaic.astro';
-import { projects } from '../../data/portfolio';
+import { getProjects } from '../../data/projects';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const projects = await getProjects();
   return projects.map((project, index) => ({
     params: { slug: project.slug },
     props: {

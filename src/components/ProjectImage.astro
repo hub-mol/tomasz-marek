@@ -1,0 +1,49 @@
+---
+import {Image} from 'astro:assets'
+import type {ProjectImage} from '../data/portfolio'
+
+interface Props {
+  image: ProjectImage
+  alt: string
+  widths: number[]
+  sizes: string
+  format?: 'avif' | 'webp' | 'png' | 'jpg' | 'jpeg'
+  loading?: 'eager' | 'lazy'
+  fetchpriority?: 'high' | 'low' | 'auto'
+}
+
+const {
+  image,
+  alt,
+  widths,
+  sizes,
+  format = 'avif',
+  loading = 'lazy',
+  fetchpriority,
+} = Astro.props
+const isSanityImage = 'url' in image
+---
+
+{isSanityImage ? (
+  <Image
+    src={image.url}
+    width={image.width}
+    height={image.height}
+    alt={image.alt ?? alt}
+    widths={widths}
+    sizes={sizes}
+    format={format}
+    loading={loading}
+    fetchpriority={fetchpriority}
+  />
+) : (
+  <Image
+    src={image}
+    alt={alt}
+    widths={widths}
+    sizes={sizes}
+    format={format}
+    loading={loading}
+    fetchpriority={fetchpriority}
+  />
+)}
