@@ -45,7 +45,7 @@ const projects = await getProjects();
               </div>
             ))}
             {previewImages.length < 2 && <div class="pfa__image-placeholder" aria-hidden="true" />}
-            <ArrowLink href={`/portfolio/${project.slug}`} class="pfa__link">Zobacz projekt</ArrowLink>
+            <ArrowLink href={`/portfolio/${project.slug}`} class="pfa__link" typeClass="type-h3">Zobacz projekt</ArrowLink>
           </div>
         </div>
       </div>
