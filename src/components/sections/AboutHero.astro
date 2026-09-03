@@ -6,6 +6,7 @@ import PortableText from '../PortableText.astro';
 import ProjectImage from '../ProjectImage.astro';
 import type {ProjectImage as ProjectImageType} from '../../data/portfolio';
 import {paragraphsToPortableText} from '../../utils/portableText';
+import aboutFallback from '../../assets/images/hero-2.png';
 
 // Edytorialny blok o pracowni: tekstowa kolumna i dominujące zdjęcie.
 interface Props {
@@ -16,7 +17,7 @@ interface Props {
   text?: string;
   body?: PortableTextBlock[];
   leadFirst?: boolean;
-  img?: string | ProjectImageType;
+  img?: ProjectImageType;
   alt?: string;
 }
 
@@ -28,7 +29,7 @@ const {
   text = 'We reach beyond established trends and apply new creative solutions. Right place for achieving top results.',
   body,
   leadFirst = true,
-  img = '/img/tm-5.jpg',
+  img = aboutFallback,
   alt = '',
 } = Astro.props;
 
@@ -50,11 +51,7 @@ const copy = body ?? paragraphsToPortableText([text], 'about');
     </div>
 
     <div class="about-hero__col about-hero__col--media">
-      {typeof img === 'string' ? (
-        <img src={img} alt={alt} width="1200" height="900" loading="lazy" />
-      ) : (
-        <ProjectImage image={img} alt={alt} widths={[640, 960, 1440]} sizes="(max-width: 1024px) 100vw, 40vw" format="avif" loading="lazy" />
-      )}
+      <ProjectImage image={img} alt={alt} widths={[480, 640, 960, 1440]} sizes="(max-width: 1024px) 100vw, 40vw" format="avif" loading="lazy" />
     </div>
   </div>
 </section>

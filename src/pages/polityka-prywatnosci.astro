@@ -1,0 +1,108 @@
+---
+import Page from '../layouts/Page.astro';
+import {getSiteSettings} from '../data/site';
+
+const settings = await getSiteSettings();
+const businessAddress = settings.businessAddress.join(', ');
+---
+
+<Page
+  title="Polityka prywatności — Tomasz Marek Architekt"
+  heading="Polityka prywatności"
+  description="Informacje o przetwarzaniu danych osobowych przez Tomasza Marka oraz zasadach działania strony tomaszmarek.com."
+>
+  <article class="container policy">
+    <p class="policy__updated type-body-sm">Ostatnia aktualizacja: 3 września 2026 r.</p>
+
+    <section>
+      <h2 class="type-h3">1. Administrator danych</h2>
+      <p>
+        Administratorem danych osobowych jest Tomasz Marek, prowadzący pracownię TMA — Tomasz Marek Architekt,
+        z siedzibą pod adresem {businessAddress}, NIP: {settings.nip}, REGON: {settings.regon}.
+      </p>
+      <p>W sprawach dotyczących danych osobowych możesz napisać na <a href={`mailto:${settings.email}`}>{settings.email}</a>.</p>
+    </section>
+
+    <section>
+      <h2 class="type-h3">2. Jakie dane i w jakim celu przetwarzamy</h2>
+      <p>Jeżeli kontaktujesz się z nami e-mailem lub telefonicznie, możemy przetwarzać dane podane w wiadomości, w szczególności imię i nazwisko, adres e-mail, numer telefonu oraz informacje dotyczące planowanej inwestycji.</p>
+      <ul>
+        <li>Odpowiadamy na zapytania i przygotowujemy ofertę — na podstawie działań podejmowanych przed zawarciem umowy.</li>
+        <li>Realizujemy zawartą umowę oraz obowiązki księgowe i podatkowe — na podstawie umowy i obowiązujących przepisów.</li>
+        <li>Chronimy stronę, dokumentujemy korespondencję oraz ustalamy lub bronimy roszczeń — w ramach naszego prawnie uzasadnionego interesu.</li>
+      </ul>
+      <p>Podanie danych jest dobrowolne, ale może być konieczne, aby odpowiedzieć na zapytanie lub rozpocząć współpracę.</p>
+    </section>
+
+    <section>
+      <h2 class="type-h3">3. Dane techniczne i pliki cookie</h2>
+      <p>Podczas korzystania ze strony infrastruktura hostingowa może zapisywać podstawowe dane techniczne, takie jak adres IP, typ przeglądarki, czas żądania i odwiedzony adres. Dane te służą zapewnieniu bezpieczeństwa, diagnostyce błędów i prawidłowemu działaniu strony.</p>
+      <p>Publiczna część strony nie korzysta obecnie z analitycznych ani marketingowych plików cookie. Panel administracyjny może używać mechanizmów niezbędnych do logowania uprawnionych redaktorów.</p>
+    </section>
+
+    <section>
+      <h2 class="type-h3">4. Odbiorcy danych</h2>
+      <p>Dane mogą być powierzane dostawcom hostingu i infrastruktury, poczty elektronicznej, obsługi IT, księgowości lub pomocy prawnej — wyłącznie w zakresie potrzebnym do świadczenia tych usług albo wymaganym przepisami.</p>
+      <p>Niektórzy dostawcy infrastruktury mogą przetwarzać dane poza Europejskim Obszarem Gospodarczym. W takim przypadku transfer odbywa się z zastosowaniem mechanizmów przewidzianych przez RODO, w szczególności decyzji stwierdzającej odpowiedni stopień ochrony lub standardowych klauzul umownych.</p>
+    </section>
+
+    <section>
+      <h2 class="type-h3">5. Okres przechowywania</h2>
+      <p>Korespondencję dotyczącą zapytania przechowujemy przez czas potrzebny do jego obsługi, a następnie przez okres niezbędny do zabezpieczenia ewentualnych roszczeń. Dane związane z umową i dokumentacją księgową przechowujemy przez okres wymagany przepisami prawa.</p>
+    </section>
+
+    <section>
+      <h2 class="type-h3">6. Twoje prawa</h2>
+      <p>W zależności od podstawy przetwarzania masz prawo żądać dostępu do danych, ich sprostowania, usunięcia, ograniczenia przetwarzania i przeniesienia, a także wnieść sprzeciw wobec przetwarzania opartego na prawnie uzasadnionym interesie.</p>
+      <p>Masz również prawo złożyć skargę do Prezesa Urzędu Ochrony Danych Osobowych. Szczegóły znajdziesz na stronie <a href="https://uodo.gov.pl/" target="_blank" rel="noreferrer">uodo.gov.pl</a>.</p>
+    </section>
+
+    <section>
+      <h2 class="type-h3">7. Zmiany polityki</h2>
+      <p>Polityka może być aktualizowana, gdy zmieni się sposób działania strony, zakres wykorzystywanych usług albo obowiązujące przepisy. Aktualna wersja jest zawsze publikowana pod tym adresem.</p>
+    </section>
+  </article>
+</Page>
+
+<style>
+  .policy {
+    max-width: 52rem;
+  }
+
+  .policy__updated {
+    margin-bottom: var(--space-12);
+    color: var(--c-muted);
+  }
+
+  .policy section + section {
+    margin-top: var(--space-12);
+  }
+
+  .policy h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .policy p,
+  .policy li {
+    max-width: 68ch;
+    line-height: 1.7;
+  }
+
+  .policy p + p,
+  .policy p + ul,
+  .policy ul + p {
+    margin-top: var(--space-4);
+  }
+
+  .policy ul {
+    display: grid;
+    gap: var(--space-2);
+    padding-left: 1.4em;
+    list-style: disc;
+  }
+
+  .policy a {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+</style>

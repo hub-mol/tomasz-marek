@@ -30,7 +30,7 @@ const imageSizes = (columns = 1) => columns === 1
             <ProjectImage
               image={image}
               alt={'alt' in image && image.alt ? image.alt : `${projectAlt} — widok ${blockIndex + imageIndex + 2}`}
-              widths={[768, 1280, 1920, 2400]}
+              widths={[480, 768, 1280, 1920, 2400]}
               sizes={imageSizes(block.columns)}
               format="avif"
               loading="lazy"

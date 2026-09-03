@@ -41,7 +41,14 @@ const readImage = async (image: ProjectImage) => {
   const source = 'url' in image ? image.url : image.src;
 
   if (/^https?:\/\//.test(source)) {
-    const response = await fetch(source);
+    const url = new URL(source);
+    if (url.hostname === 'cdn.sanity.io') {
+      url.searchParams.set('w', '192');
+      url.searchParams.set('fit', 'max');
+      url.searchParams.set('auto', 'format');
+    }
+
+    const response = await fetch(url);
     if (!response.ok) throw new Error(`Nie udało się pobrać obrazu: ${response.status}`);
     return Buffer.from(await response.arrayBuffer());
   }

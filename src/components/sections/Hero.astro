@@ -21,20 +21,26 @@ const {
 } = Astro.props;
 
 const slides = images?.length ? images.slice(0, 3) : [img];
+const hasSlideshow = slides.length > 1;
 ---
 
 <section class="hero">
-  <div class:list={['hero__media', {'hero__media--slideshow': slides.length > 1}]} aria-hidden="true">
+  <div
+    class:list={['hero__media', {'hero__media--slideshow': hasSlideshow}]}
+    data-hero-slideshow={hasSlideshow ? '' : undefined}
+    aria-hidden="true"
+  >
     {slides.map((slide, index) => (
       <div class="hero__slide" style={`--slide-index: ${index}; --slide-count: ${slides.length};`}>
         <ProjectImage
           image={slide}
           alt={slide && 'alt' in slide ? slide.alt ?? alt : alt}
-          widths={[768, 1280, 1920, 2400]}
+          widths={[480, 768, 1280, 1920, 2400]}
           sizes="100vw"
           format="avif"
-          loading={index === 0 ? 'eager' : 'lazy'}
-          fetchpriority={index === 0 ? 'high' : 'auto'}
+          loading="eager"
+          fetchpriority={index === 0 ? 'high' : 'low'}
+          decoding={index === 0 ? 'sync' : 'async'}
         />
       </div>
     ))}
@@ -49,6 +55,56 @@ const slides = images?.length ? images.slice(0, 3) : [img];
   </div>
 </section>
 
+<script>
+  const prepareHeroSlideshows = () => {
+    document.querySelectorAll<HTMLElement>('[data-hero-slideshow]').forEach(async (slideshow) => {
+      if (slideshow.dataset.ready !== undefined) return;
+      slideshow.dataset.ready = '';
+
+      const images = [...slideshow.querySelectorAll<HTMLImageElement>('.hero__slide img')];
+      await Promise.all(images.map(async (image) => {
+        if (!image.complete) {
+          await new Promise<void>((resolve) => {
+            image.addEventListener('load', () => resolve(), {once: true});
+            image.addEventListener('error', () => resolve(), {once: true});
+          });
+        }
+
+        await image.decode().catch(() => undefined);
+      }));
+
+      slideshow.classList.add('hero__media--ready');
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const slides = [...slideshow.querySelectorAll<HTMLElement>('.hero__slide')];
+      let currentIndex = 0;
+      slides[currentIndex]?.classList.add('hero__slide--active');
+      slides[(currentIndex + 1) % slides.length]?.classList.add('hero__slide--next');
+
+      window.setInterval(() => {
+        const current = slides[currentIndex];
+        const nextIndex = (currentIndex + 1) % slides.length;
+        const next = slides[nextIndex];
+        const following = slides[(nextIndex + 1) % slides.length];
+        if (!current || !next || !following) return;
+
+        current.classList.add('hero__slide--leaving');
+
+        window.setTimeout(() => {
+          current.classList.remove('hero__slide--active', 'hero__slide--leaving');
+          next.classList.remove('hero__slide--next');
+          next.classList.add('hero__slide--active');
+          following.classList.add('hero__slide--next');
+          currentIndex = nextIndex;
+        }, 1100);
+      }, 6000);
+    });
+  };
+
+  prepareHeroSlideshows();
+  document.addEventListener('astro:page-load', prepareHeroSlideshows);
+</script>
+
 <style>
   .hero {
     position: relative;
@@ -62,6 +118,7 @@ const slides = images?.length ? images.slice(0, 3) : [img];
   .hero__media {
     position: absolute;
     inset: 0;
+    isolation: isolate;
   }
 
   .hero__slide {
@@ -71,15 +128,40 @@ const slides = images?.length ? images.slice(0, 3) : [img];
 
   .hero__media--slideshow .hero__slide {
     opacity: 0;
-    animation: hero-crossfade calc(var(--slide-count) * 6s) infinite;
-    animation-delay: calc(var(--slide-index) * 6s);
+    z-index: 0;
+    transition: opacity 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hero__media--slideshow .hero__slide:first-child {
+    opacity: 1;
+  }
+
+  .hero__media--slideshow .hero__slide--active {
+    z-index: 2;
+    opacity: 1;
+  }
+
+  .hero__media--slideshow .hero__slide--next {
+    z-index: 1;
+    opacity: 1;
+  }
+
+  .hero__media--slideshow .hero__slide--leaving {
+    opacity: 0;
   }
 
   .hero__media::after {
     content: '';
     position: absolute;
-    inset: 0;
-    background: color-mix(in srgb, var(--c-bg-dark) 10%, transparent);
+    inset: auto 0 0;
+    z-index: 3;
+    height: 45%;
+    pointer-events: none;
+    background: color-mix(in srgb, var(--c-bg-dark) 50%, transparent);
+    -webkit-backdrop-filter: blur(0.75rem);
+    backdrop-filter: blur(0.75rem);
+    -webkit-mask-image: linear-gradient(#0000, #000000c7 80%, #000 100%);
+    mask-image: linear-gradient(#0000, #000000c7 80%, #000 100%);
   }
 
   .hero__slide :global(img) {
@@ -117,15 +199,9 @@ const slides = images?.length ? images.slice(0, 3) : [img];
     margin-top: var(--space-6);
   }
 
-  @keyframes hero-crossfade {
-    0%, 28% { opacity: 1; }
-    34%, 94% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .hero__media--slideshow .hero__slide {
-      animation: none;
+      transition: none;
     }
 
     .hero__media--slideshow .hero__slide:first-child {

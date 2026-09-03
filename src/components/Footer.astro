@@ -57,7 +57,11 @@ const {email, phoneLabel, phoneHref} = settings;
 
   <div class="section ftr__bottom type-body-sm">
     <p>&copy; {year} {settings.siteTitle}</p>
-    <p>Wdrożenie i projekt: <a href="https://molenda.dev" target="_blank" rel="noreferrer">molenda.dev</a></p>
+    <nav class="ftr__legal" aria-label="Informacje prawne">
+      <a href="/polityka-prywatnosci">Polityka prywatności</a>
+      <span aria-hidden="true">·</span>
+      <span>Wdrożenie i projekt: <a href="https://molenda.dev" target="_blank" rel="noreferrer">molenda.dev</a></span>
+    </nav>
   </div>
 </footer>
 
@@ -148,6 +152,13 @@ const {email, phoneLabel, phoneHref} = settings;
     color: color-mix(in srgb, var(--c-on-dark) 50%, transparent);
   }
 
+  .ftr__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--space-2);
+  }
+
   @media (max-width: 1024px) {
     .ftr__contact {
       grid-template-columns: 1fr;
@@ -163,6 +174,10 @@ const {email, phoneLabel, phoneHref} = settings;
   @media (max-width: 768px) {
     .ftr__bottom {
       flex-direction: column;
+    }
+
+    .ftr__legal {
+      justify-content: flex-start;
     }
 
     .ftr__contact {

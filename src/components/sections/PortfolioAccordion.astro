@@ -5,13 +5,11 @@ import DisclosureIcon from '../DisclosureIcon.astro';
 import { getProjects } from '../../data/projects';
 
 const projects = await getProjects();
-const singleImageProjectSlugs = new Set(['dom-poznan', 'osrodek-radacz', 'zwyciestwa-gliwice']);
 ---
 
 {
   projects.map((project, index) => {
-    const previewImageCount = singleImageProjectSlugs.has(project.slug) ? 1 : 2;
-    const previewImages = [project.img, ...project.gallery].slice(0, previewImageCount);
+    const previewImages = [project.img, ...project.gallery].slice(0, 2);
 
     return <details class="pfa__item" name="projekty" open={index === 0} data-portfolio-preview>
       <summary>
@@ -35,10 +33,11 @@ const singleImageProjectSlugs = new Set(['dom-poznan', 'osrodek-radacz', 'zwycie
                 <ProjectImage
                   image={image}
                   alt={`${project.alt} — widok ${imageIndex + 1}`}
-                  widths={[480, 768, 1100]}
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  widths={[480, 768, 960, 1100]}
+                  sizes="(max-width: 768px) calc(100vw - 3rem), (max-width: 1024px) calc((100vw - 8rem) / 3), min(32rem, calc((100vw - 12rem) / 3))"
                   format="avif"
-                  loading="lazy"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={index === 0 ? (imageIndex === 0 ? 'high' : 'low') : 'auto'}
                 />
               </div>
             ))}
@@ -53,10 +52,23 @@ const singleImageProjectSlugs = new Set(['dom-poznan', 'osrodek-radacz', 'zwycie
 
 <script>
   document.querySelectorAll<HTMLDetailsElement>('[data-portfolio-preview]').forEach((item) => {
+    const loadPreview = () => {
+      item.querySelectorAll<HTMLImageElement>('img[loading="lazy"]').forEach((image) => {
+        image.loading = 'eager';
+      });
+    };
+
     item.querySelector('summary')?.addEventListener('click', (event) => {
       if (item.open) {
         event.preventDefault();
+        return;
       }
+
+      loadPreview();
+    });
+
+    item.addEventListener('toggle', () => {
+      if (item.open) loadPreview();
     });
   });
 </script>

@@ -56,7 +56,7 @@ const articleJsonLd = JSON.stringify({
 
       {post.cover && (
         <figure class="article-page__cover">
-          <ProjectImage image={post.cover} alt={post.cover.alt ?? post.title} widths={[768, 1280, 1920, 2400]} sizes="100vw" format="avif" loading="eager" fetchpriority="high" />
+          <ProjectImage image={post.cover} alt={post.cover.alt ?? post.title} widths={[480, 768, 1280, 1920, 2400]} sizes="100vw" format="avif" loading="eager" fetchpriority="high" />
         </figure>
       )}
 

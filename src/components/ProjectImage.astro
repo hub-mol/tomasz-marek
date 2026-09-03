@@ -1,6 +1,7 @@
 ---
 import {Image} from 'astro:assets'
 import type {ProjectImage} from '../data/portfolio'
+import {getSanityImageSources} from '../lib/sanityImage'
 
 interface Props {
   image: ProjectImage
@@ -10,6 +11,7 @@ interface Props {
   format?: 'avif' | 'webp' | 'png' | 'jpg' | 'jpeg'
   loading?: 'eager' | 'lazy'
   fetchpriority?: 'high' | 'low' | 'auto'
+  decoding?: 'sync' | 'async' | 'auto'
 }
 
 const {
@@ -20,21 +22,25 @@ const {
   format = 'avif',
   loading = 'lazy',
   fetchpriority,
+  decoding = 'async',
 } = Astro.props
 const isSanityImage = 'url' in image
+const sanitySources = isSanityImage
+  ? getSanityImageSources(image.url, image.width, widths)
+  : {src: '', srcset: ''}
 ---
 
 {isSanityImage ? (
-  <Image
-    src={image.url}
+  <img
+    src={sanitySources.src}
+    srcset={sanitySources.srcset}
     width={image.width}
     height={image.height}
     alt={image.alt ?? alt}
-    widths={widths}
     sizes={sizes}
-    format={format}
     loading={loading}
     fetchpriority={fetchpriority}
+    decoding={decoding}
   />
 ) : (
   <Image
@@ -45,5 +51,6 @@ const isSanityImage = 'url' in image
     format={format}
     loading={loading}
     fetchpriority={fetchpriority}
+    decoding={decoding}
   />
 )}

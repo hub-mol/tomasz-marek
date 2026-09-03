@@ -37,7 +37,7 @@ const hasContent = Boolean(project.content?.length);
             <ProjectImage
               image={image}
               alt={`${project.alt} — widok ${index + 2}`}
-              widths={[768, 1280, 1920, 2400]}
+              widths={[480, 768, 1280, 1920, 2400]}
               sizes={index % 3 === 1 ? '(max-width: 768px) 100vw, 68vw' : '100vw'}
               format="avif"
               loading="lazy"

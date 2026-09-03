@@ -1,6 +1,7 @@
 ---
 import {toHTML} from '@portabletext/to-html';
 import type {PortableTextBlock} from '@portabletext/types';
+import {getSanityImageSources} from '../lib/sanityImage';
 
 interface Props {
   value?: PortableTextBlock[];
@@ -21,7 +22,13 @@ const html = toHTML(value, {
         if (!url) return '';
         const width = typeof image.width === 'number' ? image.width : undefined;
         const height = typeof image.height === 'number' ? image.height : undefined;
-        return `<figure class="portable-text__image"><img src="${escapeAttribute(url)}"${width ? ` width="${width}"` : ''}${height ? ` height="${height}"` : ''} alt="${escapeAttribute(image.alt)}" loading="lazy" /></figure>`;
+        const sources = width
+          ? getSanityImageSources(url, width)
+          : {src: url, srcset: ''};
+        const srcset = sources.srcset
+          ? ` srcset="${escapeAttribute(sources.srcset)}" sizes="(max-width: 768px) calc(100vw - 3rem), min(56rem, calc(100vw - 8rem))"`
+          : '';
+        return `<figure class="portable-text__image"><img src="${escapeAttribute(sources.src)}"${srcset}${width ? ` width="${width}"` : ''}${height ? ` height="${height}"` : ''} alt="${escapeAttribute(image.alt)}" loading="lazy" decoding="async" /></figure>`;
       },
     },
   },

@@ -27,7 +27,7 @@ const [featuredPost, ...otherPosts] = posts;
           <a class="blog-featured" href={getPostHref(featuredPost)}>
             {featuredPost.cover && (
               <span class="blog-featured__media">
-                <ProjectImage image={featuredPost.cover} alt={featuredPost.cover.alt ?? featuredPost.title} widths={[640, 960, 1440]} sizes="(max-width: 768px) 100vw, 58vw" format="avif" loading="eager" fetchpriority="high" />
+                <ProjectImage image={featuredPost.cover} alt={featuredPost.cover.alt ?? featuredPost.title} widths={[480, 640, 960, 1440]} sizes="(max-width: 768px) 100vw, 58vw" format="avif" loading="eager" fetchpriority="high" />
               </span>
             )}
             <span class="blog-featured__content">
@@ -109,7 +109,7 @@ const [featuredPost, ...otherPosts] = posts;
 
   .blog-featured__media :global(img) {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 2 / 1;
     object-fit: cover;
     transition: transform 0.5s ease;
   }
