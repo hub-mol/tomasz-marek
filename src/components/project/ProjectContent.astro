@@ -80,6 +80,11 @@ const imageSizes = (columns = 1) => columns === 1
   .project-content__images--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .project-content__images--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
+  .project-content__images--2 figure { aspect-ratio: 2 / 3; }
+
+  .project-content__images--3 figure,
+  .project-content__images--4 figure { aspect-ratio: 1; }
+
   .project-content__images figure {
     overflow: hidden;
     background: var(--c-bg-alt);
@@ -89,6 +94,13 @@ const imageSizes = (columns = 1) => columns === 1
     width: 100%;
     max-height: 92svh;
     object-fit: cover;
+  }
+
+  .project-content__images--2 :global(img),
+  .project-content__images--3 :global(img),
+  .project-content__images--4 :global(img) {
+    height: 100%;
+    max-height: none;
   }
 
   @media (max-width: 768px) {
