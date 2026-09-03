@@ -51,7 +51,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     przy otwartym menu nie łapie przygaszenia nakładanego na resztę strony. */}
 <nav class:list={['hdr', `hdr--${variant}`]} style={headerStyle} aria-label="Główna">
   <div class="hdr__inner">
-    {!hideLogo && <a class="hdr__logo" href="/">
+    {!hideLogo && <a class="hdr__link type-nav" href="/">
       {cmsLogo ? (
         <span
           class="hdr__logo-image"
@@ -121,14 +121,8 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     padding-inline: var(--gutter);
   }
 
-  .hdr__logo {
-    display: inline-flex;
-    align-items: center;
+  .hdr__inner > .hdr__link {
     flex-shrink: 0;
-    font-family: var(--ff-heading);
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
   }
 
   .hdr__logo-image {
@@ -262,7 +256,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     }
 
     /* panel przykrywa pasek — logo i ikona muszą być czytelne na jasnym tle */
-    .hdr__toggle:checked ~ .hdr .hdr__logo,
+    .hdr__toggle:checked ~ .hdr .hdr__inner > .hdr__link,
     .hdr__toggle:checked ~ .hdr .hdr__burger {
       color: var(--c-fg);
       z-index: 102;
@@ -310,14 +304,14 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
       display: flex;
     }
 
-    .hdr__link {
+    .hdr__menu .hdr__link {
       display: block;
       padding: var(--space-4) var(--gutter);
       border-bottom: 1px solid var(--c-line);
     }
 
     /* w panelu pozycje są blokowe — podkreślenie z desktopu tu nie pasuje */
-    .hdr__link::after {
+    .hdr__menu .hdr__link::after {
       display: none;
     }
 
