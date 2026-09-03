@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
+import '@fontsource-variable/work-sans/wght.css';
 import spaceGroteskUrl from '../assets/fonts/space-grotesk-latin.woff2?url';
-import manropeUrl from '../assets/fonts/manrope-latin.woff2?url';
+import workSansUrl from '@fontsource-variable/work-sans/files/work-sans-latin-wght-normal.woff2?url';
 import {getSiteSettings} from '../data/site';
 
 interface Props {
@@ -117,7 +118,7 @@ const professionalServiceJsonLd = JSON.stringify(professionalService).replace(/<
     />
     <link
       rel="preload"
-      href={manropeUrl}
+      href={workSansUrl}
       as="font"
       type="font/woff2"
       crossorigin
