@@ -1,5 +1,6 @@
 ---
 import ArrowLink from '../ArrowLink.astro';
+import BrandLogo from '../BrandLogo.astro';
 import { plNoBreak } from '../../utils/typography';
 import heroImage from '../../assets/images/hero-0.jpg';
 import ProjectImage from '../ProjectImage.astro';
@@ -48,12 +49,14 @@ const slides = images?.length ? images.slice(0, 3) : [img];
   </div>
 
   <div class="hero__content">
-    {showTitle && (
+    {showTitle ? (
       <h1 class="hero__title type-h1">
         {titleStart && titleEnd ? (
           <>{plNoBreak(titleStart)}<span class="hero__star">*</span>{plNoBreak(titleEnd)}</>
         ) : plNoBreak(title)}
       </h1>
+    ) : (
+      <BrandLogo class="hero__brand" />
     )}
     <div class="hero__aside">
       <p class="hero__note type-heading-lg">{plNoBreak(text)}</p>
@@ -125,6 +128,12 @@ const slides = images?.length ? images.slice(0, 3) : [img];
 
   .hero__aside {
     grid-column: 2;
+  }
+
+  .hero__brand {
+    display: block;
+    width: min(100%, 32rem);
+    height: auto;
   }
 
   .hero__star {

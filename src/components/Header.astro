@@ -10,6 +10,7 @@ interface Props {
   logoEnd?: string;
   /** dopisek za logo, składany cieńszą grubością */
   logoSuffix?: string;
+  hideLogo?: boolean;
   overlayColor?: string;
   overlayColorMobile?: string;
 }
@@ -23,6 +24,7 @@ const {
   logoStart,
   logoEnd,
   logoSuffix = settings.logoSuffix,
+  hideLogo = false,
   overlayColor = 'var(--c-on-dark)',
   overlayColorMobile = overlayColor,
 } = Astro.props;
@@ -49,7 +51,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     przy otwartym menu nie łapie przygaszenia nakładanego na resztę strony. */}
 <nav class:list={['hdr', `hdr--${variant}`]} style={headerStyle} aria-label="Główna">
   <div class="hdr__inner">
-    <a class="hdr__logo" href="/">
+    {!hideLogo && <a class="hdr__logo" href="/">
       {cmsLogo ? (
         <span
           class="hdr__logo-image"
@@ -60,9 +62,9 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
       ) : logoStart && logoEnd ? (
         <>{logoStart}<span class="hdr__star">*</span>{logoEnd}</>
       ) : (
-        <>{logo}{logoSuffix && <span class="hdr__logo-suffix"> {logoSuffix}</span>}</>
+        <>{logoSuffix || logo}</>
       )}
-    </a>
+    </a>}
 
     <ul class="hdr__menu">
       {
@@ -159,6 +161,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     display: flex;
     align-items: center;
     gap: var(--space-8);
+    margin-left: auto;
   }
 
   .hdr__link {
@@ -298,6 +301,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
       /* pionowo robimy miejsce na pasek; poziomy padding przejmują linki,
          dzięki czemu ich kreski idą przez całą szerokość panelu */
       padding: var(--hdr-h) 0;
+      margin-left: 0;
       background: var(--c-bg);
       color: var(--c-fg);
     }
