@@ -44,6 +44,11 @@ const projects = await getProjects();
   const supportsHover = window.matchMedia('(min-width: 1025px) and (hover: hover) and (pointer: fine)');
 
   document.querySelectorAll<HTMLDetailsElement>('[data-portfolio-preview]').forEach((item) => {
+    const projectLink = item.querySelector<HTMLAnchorElement>('.pfa__link');
+    const syncProjectLink = () => {
+      if (projectLink) projectLink.tabIndex = item.open ? 0 : -1;
+    };
+
     item.addEventListener('mouseenter', () => {
       if (supportsHover.matches) item.open = true;
     });
@@ -54,9 +59,12 @@ const projects = await getProjects();
       }
     });
 
-    item.querySelector('.pfa__link')?.addEventListener('click', (event) => {
+    projectLink?.addEventListener('click', (event) => {
       event.stopPropagation();
     });
+
+    item.addEventListener('toggle', syncProjectLink);
+    syncProjectLink();
   });
 </script>
 
@@ -93,6 +101,32 @@ const projects = await getProjects();
   .pfa__link {
     justify-self: end;
     white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .pfa__link :global(.arrow-link__label) {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .pfa__link :global(.arrow-link__arrow) {
+    transform: rotate(-45deg);
+  }
+
+  .pfa__item[open] .pfa__link {
+    pointer-events: auto;
+  }
+
+  .pfa__item[open] .pfa__link :global(.arrow-link__label) {
+    opacity: 1;
+  }
+
+  .pfa__item[open] .pfa__link :global(.arrow-link__arrow) {
+    transform: rotate(0);
+  }
+
+  .pfa__item[open] .pfa__link:hover :global(.arrow-link__arrow) {
+    transform: translate(2px, -2px);
   }
 
   .pfa__body {
