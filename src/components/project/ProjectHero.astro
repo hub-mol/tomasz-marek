@@ -37,16 +37,16 @@ const heroStyle = [
 
 <style>
   .project-hero {
-    --hero-top-color: var(--hero-top-desktop, #171816);
-    --hero-bottom-color: var(--hero-bottom-desktop, #171816);
-    --hero-title-color: var(--hero-title-desktop, #fff);
+    --hero-top-color: var(--hero-top-desktop, var(--c-bg-dark-section));
+    --hero-bottom-color: var(--hero-bottom-desktop, var(--c-bg-dark-section));
+    --hero-title-color: var(--hero-title-desktop, var(--c-on-dark));
     position: relative;
     isolation: isolate;
     height: 66svh;
     max-height: 66svh;
     overflow: hidden;
-    background: #171816;
-    color: var(--hero-title-color, #fff);
+    background: var(--c-bg-dark-section);
+    color: var(--hero-title-color, var(--c-on-dark));
   }
 
   .project-hero::after {
@@ -88,9 +88,9 @@ const heroStyle = [
 
   @media (max-width: 768px) {
     .project-hero {
-      --hero-top-color: var(--hero-top-mobile, var(--hero-top-desktop, #171816));
-      --hero-bottom-color: var(--hero-bottom-mobile, var(--hero-bottom-desktop, #171816));
-      --hero-title-color: var(--hero-title-mobile, var(--hero-title-desktop, #fff));
+      --hero-top-color: var(--hero-top-mobile, var(--hero-top-desktop, var(--c-bg-dark-section)));
+      --hero-bottom-color: var(--hero-bottom-mobile, var(--hero-bottom-desktop, var(--c-bg-dark-section)));
+      --hero-title-color: var(--hero-title-mobile, var(--hero-title-desktop, var(--c-on-dark)));
     }
 
     .project-hero__title { padding-bottom: var(--space-8); }

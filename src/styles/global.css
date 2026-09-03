@@ -1,13 +1,17 @@
 :root {
   /* kolory zdjęte z motywu Archicon */
-  --c-fg: #000;
-  --c-bg: #fdfffe;
-  --c-bg-alt: #f8f8f7;
-  --c-bg-dark: #000;
-  --c-accent: #658900;
-  --c-muted: #6e6e6e;
-  --c-gray: #acacac;
-  --c-line: #d4d4d4;
+  --c-fg: #2b2a26;
+  --c-bg: #f4f0e7;
+  --c-bg-alt: #f4f0e7;
+  --c-bg-dark-canvas: #2b2a26;
+  --c-bg-dark-section: #2b2a26;
+  --c-bg-dark-soft: #2b2a26;
+  --c-on-dark: #f4f0e7;
+  --c-on-dark-muted: #aca7a3;
+  --c-accent: #9c8468;
+  --c-muted: #706c67;
+  --c-gray: #8a8680;
+  --c-line: #d8d2c8;
 
   /* typografia */
   --ff-body: 'DM Sans Variable', 'DM Sans', sans-serif;
@@ -85,7 +89,7 @@
 
 html {
   font-size: 1rem;
-  background: #181818;
+  background: var(--c-bg-dark-canvas);
 }
 
 @media screen and (max-width: 1728px) {
@@ -115,7 +119,7 @@ body {
   font-weight: 400;
   text-wrap: balance;
   color: var(--c-fg);
-  background: #181818;
+  background: var(--c-bg-dark-canvas);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }

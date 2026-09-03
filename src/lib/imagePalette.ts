@@ -8,23 +8,25 @@ import type {ProjectImage} from '../data/portfolio';
 export interface ImageEdgeColors {
   top: string;
   bottom: string;
-  navText: '#111' | '#fff';
-  titleText: '#111' | '#fff';
+  navText: ReadableText;
+  titleText: ReadableText;
   mobileTop: string;
   mobileBottom: string;
-  mobileNavText: '#111' | '#fff';
-  mobileTitleText: '#111' | '#fff';
+  mobileNavText: ReadableText;
+  mobileTitleText: ReadableText;
 }
 
+type ReadableText = '#2b2a26' | '#f4f0e7';
+
 const FALLBACK_COLORS: ImageEdgeColors = {
-  top: 'rgb(36 37 35)',
-  bottom: 'rgb(22 23 21)',
-  navText: '#fff',
-  titleText: '#fff',
-  mobileTop: 'rgb(36 37 35)',
-  mobileBottom: 'rgb(22 23 21)',
-  mobileNavText: '#fff',
-  mobileTitleText: '#fff',
+  top: 'rgb(43 42 38)',
+  bottom: 'rgb(43 42 38)',
+  navText: '#f4f0e7',
+  titleText: '#f4f0e7',
+  mobileTop: 'rgb(43 42 38)',
+  mobileBottom: 'rgb(43 42 38)',
+  mobileNavText: '#f4f0e7',
+  mobileTitleText: '#f4f0e7',
 };
 
 interface Rgb {
@@ -66,18 +68,18 @@ const desaturate = ({r, g, b}: Rgb, amount: number): Rgb => {
   };
 };
 
-const readableText = ({r, g, b}: Rgb): '#111' | '#fff' => {
+const readableText = ({r, g, b}: Rgb): ReadableText => {
   const linear = (channel: number) => {
     const value = channel / 255;
     return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
   };
   const luminance = 0.2126 * linear(r) + 0.7152 * linear(g) + 0.0722 * linear(b);
   // Punkt, w którym czerń daje wyższy kontrast WCAG niż biel.
-  return luminance > 0.179 ? '#111' : '#fff';
+  return luminance > 0.179 ? '#2b2a26' : '#f4f0e7';
 };
 
-const strengthenContrast = ({r, g, b}: Rgb, text: '#111' | '#fff'): Rgb => {
-  const target = text === '#111' ? 255 : 0;
+const strengthenContrast = ({r, g, b}: Rgb, text: ReadableText): Rgb => {
+  const target = text === '#2b2a26' ? 255 : 0;
   return {
     r: Math.round(r + (target - r) * 0.4),
     g: Math.round(g + (target - g) * 0.4),

@@ -10,8 +10,8 @@ interface Props {
   logoEnd?: string;
   /** dopisek za logo, składany cieńszą grubością */
   logoSuffix?: string;
-  overlayColor?: '#111' | '#fff';
-  overlayColorMobile?: '#111' | '#fff';
+  overlayColor?: string;
+  overlayColorMobile?: string;
 }
 
 const settings = await getSiteSettings();
@@ -23,7 +23,7 @@ const {
   logoStart,
   logoEnd,
   logoSuffix = settings.logoSuffix,
-  overlayColor = '#fff',
+  overlayColor = 'var(--c-on-dark)',
   overlayColorMobile = overlayColor,
 } = Astro.props;
 
@@ -106,7 +106,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     position: absolute;
     inset: 0 0 auto;
     background: transparent;
-    color: var(--header-overlay-color, #fff);
+    color: var(--header-overlay-color, var(--c-on-dark));
   }
 
   .hdr__inner {
@@ -189,7 +189,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
 
   @media (max-width: 768px) {
     .hdr--overlay {
-      color: var(--header-overlay-color-mobile, var(--header-overlay-color, #fff));
+      color: var(--header-overlay-color-mobile, var(--header-overlay-color, var(--c-on-dark)));
     }
 
     /* przezroczysty checkbox leży dokładnie na ikonie i przejmuje kliknięcia */

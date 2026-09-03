@@ -68,8 +68,8 @@ const slides = images?.length ? images.slice(0, 3) : [img];
     height: 100svh;
     min-height: 38.75rem;
     overflow: hidden;
-    background: #000;
-    color: #fff;
+    background: var(--c-bg-dark-canvas);
+    color: var(--c-on-dark);
   }
 
   .hero__media {
@@ -92,7 +92,7 @@ const slides = images?.length ? images.slice(0, 3) : [img];
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.1);
+    background: color-mix(in srgb, var(--c-bg-dark-canvas) 10%, transparent);
   }
 
   .hero__slide :global(img) {

@@ -29,7 +29,7 @@ const { title, img = '/img/tm-4.jpg' } = Astro.props;
     align-items: center;
     padding-inline: var(--gutter);
     overflow: hidden;
-    color: #fff;
+    color: var(--c-on-dark);
   }
 
   .banner__media {
@@ -45,7 +45,7 @@ const { title, img = '/img/tm-4.jpg' } = Astro.props;
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.2);
+    background: color-mix(in srgb, var(--c-bg-dark-canvas) 20%, transparent);
   }
 
   .banner__inner {

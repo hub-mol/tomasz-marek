@@ -52,7 +52,7 @@ const isGrid = variant === 'grid';
 <style>
   .project-card {
     --card-fg: var(--c-fg);
-    --card-glass: rgba(255, 255, 255, 0.82);
+    --card-glass: color-mix(in srgb, var(--c-bg) 82%, transparent);
     position: relative;
     display: block;
     overflow: hidden;
@@ -60,8 +60,8 @@ const isGrid = variant === 'grid';
   }
 
   .project-card--dark {
-    --card-fg: #fff;
-    --card-glass: rgba(7, 8, 7, 0.78);
+    --card-fg: var(--c-on-dark);
+    --card-glass: color-mix(in srgb, var(--c-bg-dark-section) 78%, transparent);
   }
 
   .project-card__media,
