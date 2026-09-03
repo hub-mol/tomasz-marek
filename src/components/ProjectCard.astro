@@ -12,7 +12,7 @@ const { project, variant = 'featured', prominent = false } = Astro.props;
 const isGrid = variant === 'grid';
 ---
 
-<a class:list={['project-card', `project-card--${variant}`, `project-card--${project.cardTone}`, { 'project-card--prominent': prominent }]} href={`/portfolio/${project.slug}`}>
+<a class:list={['project-card', `project-card--${variant}`, `project-card--${project.cardTone}`, { 'project-card--prominent': prominent }]} href={`/projekty/${project.slug}`}>
   <span class="project-card__media">
     <ProjectImage
       image={project.img}

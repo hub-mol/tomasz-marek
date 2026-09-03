@@ -1,8 +1,11 @@
 ---
 import { plNoBreak } from '../../utils/typography';
+import type {PortableTextBlock} from '@portabletext/types';
 import ArrowLink from '../ArrowLink.astro';
+import PortableText from '../PortableText.astro';
 import ProjectImage from '../ProjectImage.astro';
 import type {ProjectImage as ProjectImageType} from '../../data/portfolio';
+import {paragraphsToPortableText} from '../../utils/portableText';
 
 // Edytorialny blok o pracowni: tekstowa kolumna i dominujące zdjęcie.
 interface Props {
@@ -11,7 +14,7 @@ interface Props {
   title?: string;
   titleClass?: 'type-h2' | 'type-h3';
   text?: string;
-  paragraphs?: string[];
+  body?: PortableTextBlock[];
   leadFirst?: boolean;
   img?: string | ProjectImageType;
   alt?: string;
@@ -23,13 +26,13 @@ const {
   title = 'ArhiconStudio',
   titleClass = 'type-h2',
   text = 'We reach beyond established trends and apply new creative solutions. Right place for achieving top results.',
-  paragraphs,
+  body,
   leadFirst = true,
   img = '/img/tm-5.jpg',
   alt = '',
 } = Astro.props;
 
-const copy = paragraphs ?? [text];
+const copy = body ?? paragraphsToPortableText([text], 'about');
 ---
 
 <section class="about-hero" id={id}>
@@ -40,12 +43,8 @@ const copy = paragraphs ?? [text];
         <h2 class:list={['about-hero__title', titleClass]}>{plNoBreak(title)}</h2>
       </div>
 
-      <div class="about-hero__intro">
-        {copy.map((paragraph, i) => (
-          <p class:list={['about-hero__paragraph', 'text-pretty', { 'about-hero__lead': leadFirst && i === 0, 'type-h3': leadFirst && i === 0 }]}>
-            {plNoBreak(paragraph)}
-          </p>
-        ))}
+      <div class:list={['about-hero__intro', {'about-hero__intro--lead-first': leadFirst}]}>
+        <PortableText value={copy} />
         <ArrowLink href="/#kontakt">Umów konsultację ze&nbsp;mną</ArrowLink>
       </div>
     </div>
@@ -95,20 +94,21 @@ const copy = paragraphs ?? [text];
     margin-top: var(--space-32);
   }
 
-  .about-hero__lead {
-    max-width: 35rem;
-  }
-
-  .about-hero__paragraph {
+  .about-hero__intro :global(.portable-text p) {
     max-width: 60ch;
     color: color-mix(in srgb, var(--c-on-dark) 70%, transparent);
   }
 
-  .about-hero__paragraph + .about-hero__paragraph {
+  .about-hero__intro :global(.portable-text > p + p) {
     margin-top: var(--space-4);
   }
 
-  .about-hero__paragraph.about-hero__lead {
+  .about-hero__intro--lead-first :global(.portable-text > p:first-child) {
+    max-width: 35rem;
+    font-family: var(--ff-heading);
+    font-size: var(--h3);
+    line-height: 1.08;
+    letter-spacing: var(--tracking-heading);
     color: var(--c-on-dark);
   }
 
@@ -134,6 +134,7 @@ const copy = paragraphs ?? [text];
     max-height: 100%;
     max-width: none;
     object-fit: cover;
+    object-position: 50% 10%;
   }
 
   @media (max-width: 1024px) {
@@ -170,7 +171,8 @@ const copy = paragraphs ?? [text];
     }
 
     .about-hero__col--media {
-      min-height: 20rem;
+      min-height: 0;
+      aspect-ratio: 1;
     }
   }
 </style>

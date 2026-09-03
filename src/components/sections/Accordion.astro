@@ -37,7 +37,7 @@ const {
         return (
           <details class="accordion__item" name={id ?? 'accordion'}>
             <summary class="accordion__head type-heading-lg">
-              {num && <span class="accordion__num type-body-md">{num}</span>}
+              {num && <span class="accordion__num type-body-sm">{num}</span>}
               <span class="accordion__label">{plNoBreak(item.title)}</span>
               <DisclosureIcon />
             </summary>
@@ -83,7 +83,7 @@ const {
 
   .accordion__num {
     min-width: 2.125rem;
-    color: var(--c-gray);
+    color: var(--c-accent);
   }
 
   .accordion__label {

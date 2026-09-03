@@ -102,9 +102,15 @@ const {email, phoneLabel, phoneHref} = settings;
 
   :global(.ftr__logo) {
     display: block;
-    width: 100%;
+    width: clamp(50%, 50vw, 10rem);
     height: auto;
     line-height: 1;
+  }
+
+  @media (width >= 769px) {
+    :global(.ftr__logo) {
+      padding-top: var(--space-8);
+    }
   }
 
   .ftr__brand p {

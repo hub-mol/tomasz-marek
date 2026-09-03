@@ -1,6 +1,8 @@
 import {sanityClient} from 'sanity:client'
+import type {PortableTextBlock} from '@portabletext/types'
 import type {SanityProjectImage} from './portfolio'
 import {faq, procesArchitektura, procesWnetrza} from './home'
+import {normalizePortableText, paragraphsToPortableText} from '../utils/portableText'
 
 export interface SimpleItem {
   title: string
@@ -25,7 +27,7 @@ export interface HomePageData {
   heroImage?: SanityProjectImage
   heroImages: SanityProjectImage[]
   approachTitle: string
-  approachBody: string[]
+  approachBody: PortableTextBlock[]
   approachCallout: string
   approachPillars: ApproachPillar[]
   projectsTitle: string
@@ -36,7 +38,7 @@ export interface HomePageData {
   architectureProcess: SimpleItem[]
   interiorsProcess: SimpleItem[]
   aboutTitle: string
-  aboutParagraphs: string[]
+  aboutParagraphs: PortableTextBlock[]
   aboutImage?: SanityProjectImage
   faqTitle: string
   faq: SimpleItem[]
@@ -87,10 +89,10 @@ export const defaultHomePage: HomePageData = {
   heroLead: 'Od idei po realizację poprowadzimy Cię przez cały proces projektowy i wykonawczy.',
   heroImages: [],
   approachTitle: 'Nie zaczynamy od gotowej odpowiedzi.',
-  approachBody: [
+  approachBody: paragraphsToPortableText([
     'Każdy projekt poprzedzamy analizą miejsca, potrzeb użytkowników, możliwości działki i charakteru inwestycji.',
     'Szukamy rozwiązań, które mają swoje uzasadnienie — funkcjonalne, przestrzenne i estetyczne. Dzięki temu projekt nie jest przypadkowym zestawem pomieszczeń i materiałów, ale spójną przestrzenią stworzoną z myślą o jej przyszłych użytkownikach.',
-  ],
+  ], 'approach'),
   approachCallout: 'Dobra architektura zaczyna się od zrozumienia.',
   approachPillars: [
     {title: 'Miejsce', text: 'Wykorzystujemy potencjał działki, otoczenia, światła i widoków.'},
@@ -118,11 +120,11 @@ export const defaultHomePage: HomePageData = {
   architectureProcess: procesArchitektura,
   interiorsProcess: procesWnetrza,
   aboutTitle: 'Cześć! Tu Tomek.\nTworzę indywidualne projekty architektury i wnętrz.',
-  aboutParagraphs: [
+  aboutParagraphs: paragraphsToPortableText([
     'Posiadam uprawnienia budowlane do projektowania bez ograniczeń w specjalności architektonicznej i jestem członkiem Pomorskiej Izby Architektów RP.',
     'Studiowałem na Wydziale Architektury i Urbanistyki Politechniki Gdańskiej oraz na Faculty of Architecture and Urban Design Politecnico di Milano.',
     'Doświadczenie zdobywałem w pracowniach architektonicznych i wnętrzarskich w Tallinie, Paryżu i Trójmieście.',
-  ],
+  ], 'about'),
   faqTitle: 'Pytania przed rozpoczęciem współpracy',
   faq,
   seoTitle: 'Tomasz Marek — architektura i wnętrza',
@@ -136,7 +138,7 @@ export const defaultSiteSettings: SiteSettingsData = {
   logo: 'TMA',
   logoSuffix: 'Tomasz Marek Architekt',
   navigationLinks: [
-    {label: 'Portfolio', href: '/portfolio'},
+    {label: 'Portfolio', href: '/projekty'},
     {label: 'Oferta', href: '/#oferta'},
     {label: 'Proces', href: '/#proces'},
     {label: 'Blog', href: '/blog'},
@@ -194,6 +196,8 @@ export function getHomePage(): Promise<HomePageData> {
       return {
         ...merged,
         showHeroTitle: data?.showHeroTitle ?? false,
+        approachBody: normalizePortableText(data?.approachBody, defaultHomePage.approachBody, 'approach'),
+        aboutParagraphs: normalizePortableText(data?.aboutParagraphs, defaultHomePage.aboutParagraphs, 'about'),
         heroImages: data?.heroImages?.length
           ? data.heroImages.slice(0, 3)
           : merged.heroImage ? [merged.heroImage] : [],
@@ -207,7 +211,8 @@ export function getSiteSettings(): Promise<SiteSettingsData> {
     .then((data) => ({
       ...defaultSiteSettings,
       ...(data ?? {}),
-      navigationLinks: data?.navigationLinks?.length ? data.navigationLinks : defaultSiteSettings.navigationLinks,
+      navigationLinks: (data?.navigationLinks?.length ? data.navigationLinks : defaultSiteSettings.navigationLinks)
+        .map((item) => ({...item, href: item.href.replace(/^\/portfolio(?=\/|$)/, '/projekty')})),
       areaServed: data?.areaServed?.length ? data.areaServed : defaultSiteSettings.areaServed,
     }))
   return settingsCache

@@ -39,7 +39,7 @@ const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
     pary.map((para, i) => (
       <div class:list={['rows__row', { 'rows__row--swap': i % 2 === 1 }]}>
         {para.map((p) => (
-          <a class="rows__item" href={`/portfolio/${p.slug}`}>
+          <a class="rows__item" href={`/projekty/${p.slug}`}>
             <span class="rows__media">
               <ProjectImage
                 image={p.img}

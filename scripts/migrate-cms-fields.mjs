@@ -2,11 +2,28 @@ import {getCliClient} from 'sanity/cli'
 
 const client = getCliClient({apiVersion: '2026-08-25'})
 
+const textArrayToPortableText = (value, keyPrefix) => {
+  if (!Array.isArray(value) || !value.some((item) => typeof item === 'string')) return undefined
+
+  return value.flatMap((item, index) => {
+    if (typeof item !== 'string') return item
+
+    const key = `${keyPrefix}-${index}`
+    return {
+      _key: key,
+      _type: 'block',
+      style: 'normal',
+      markDefs: [],
+      children: [{_key: `${key}-span`, _type: 'span', marks: [], text: item}],
+    }
+  })
+}
+
 const settings = await client.fetch(`*[_id == "siteSettings"][0]{_id, navigationLinks}`)
 if (settings?._id && !settings.navigationLinks?.length) {
   await client.patch(settings._id).set({
     navigationLinks: [
-      {_key: 'portfolio', _type: 'navigationLink', label: 'Portfolio', href: '/portfolio', openInNewTab: false},
+      {_key: 'portfolio', _type: 'navigationLink', label: 'Portfolio', href: '/projekty', openInNewTab: false},
       {_key: 'offer', _type: 'navigationLink', label: 'Oferta', href: '/#oferta', openInNewTab: false},
       {_key: 'process', _type: 'navigationLink', label: 'Proces', href: '/#proces', openInNewTab: false},
       {_key: 'blog', _type: 'navigationLink', label: 'Blog', href: '/blog', openInNewTab: false},
@@ -20,25 +37,29 @@ if (settings?._id && !settings.navigationLinks?.length) {
 if (settings?._id && settings.navigationLinks?.length) {
   const navigationLinks = settings.navigationLinks.map((item) =>
     item._key === 'portfolio' && item.href === '/#projekty'
-      ? {...item, href: '/portfolio'}
+      ? {...item, href: '/projekty'}
       : item
   )
   if (navigationLinks.some((item, index) => item.href !== settings.navigationLinks[index]?.href)) {
     await client.patch(settings._id).set({navigationLinks}).commit()
-    console.log('✓ Ustawienia: link Portfolio prowadzi do /portfolio')
+    console.log('✓ Ustawienia: link Portfolio prowadzi do /projekty')
   }
 }
 
-const homePage = await client.fetch(`*[_id == "homePage"][0]{_id, showHeroTitle, heroImage, heroImages}`)
+const homePage = await client.fetch(`*[_id == "homePage"][0]{_id, showHeroTitle, heroImage, heroImages, approachBody, aboutParagraphs}`)
 if (homePage?._id) {
   const fields = {}
   if (homePage.showHeroTitle === undefined) fields.showHeroTitle = false
   if (!homePage.heroImages?.length && homePage.heroImage) {
     fields.heroImages = [{...homePage.heroImage, _key: 'hero-1'}]
   }
+  const approachBody = textArrayToPortableText(homePage.approachBody, 'approach')
+  const aboutParagraphs = textArrayToPortableText(homePage.aboutParagraphs, 'about')
+  if (approachBody) fields.approachBody = approachBody
+  if (aboutParagraphs) fields.aboutParagraphs = aboutParagraphs
   if (Object.keys(fields).length > 0) {
     await client.patch(homePage._id).set(fields).commit()
-    console.log('✓ Strona główna: switch nagłówka i slideshow hero')
+    console.log('✓ Strona główna: pola hero i treści rich text')
   }
 }
 

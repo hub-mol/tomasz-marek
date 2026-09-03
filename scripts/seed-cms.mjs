@@ -65,8 +65,8 @@ await client.createOrReplace({
   heroImages: [{...homeHero, _key: 'hero-1'}],
   approachTitle: 'Nie zaczynamy od gotowej odpowiedzi.',
   approachBody: [
-    'Każdy projekt poprzedzamy analizą miejsca, potrzeb użytkowników, możliwości działki i charakteru inwestycji.',
-    'Szukamy rozwiązań, które mają swoje uzasadnienie — funkcjonalne, przestrzenne i estetyczne. Dzięki temu projekt jest spójną przestrzenią stworzoną z myślą o przyszłych użytkownikach.',
+    block('Każdy projekt poprzedzamy analizą miejsca, potrzeb użytkowników, możliwości działki i charakteru inwestycji.', 'approach-1'),
+    block('Szukamy rozwiązań, które mają swoje uzasadnienie — funkcjonalne, przestrzenne i estetyczne. Dzięki temu projekt jest spójną przestrzenią stworzoną z myślą o przyszłych użytkownikach.', 'approach-2'),
   ],
   approachCallout: 'Dobra architektura zaczyna się od zrozumienia.',
   approachPillars: [
@@ -96,9 +96,9 @@ await client.createOrReplace({
   interiorsProcess,
   aboutTitle: 'Cześć! Tu Tomek.\nTworzę indywidualne projekty architektury i wnętrz.',
   aboutParagraphs: [
-    'Posiadam uprawnienia budowlane do projektowania bez ograniczeń w specjalności architektonicznej i jestem członkiem Pomorskiej Izby Architektów RP.',
-    'Studiowałem na Wydziale Architektury i Urbanistyki Politechniki Gdańskiej oraz na Faculty of Architecture and Urban Design Politecnico di Milano.',
-    'Doświadczenie zdobywałem w pracowniach architektonicznych i wnętrzarskich w Tallinie, Paryżu i Trójmieście.',
+    block('Posiadam uprawnienia budowlane do projektowania bez ograniczeń w specjalności architektonicznej i jestem członkiem Pomorskiej Izby Architektów RP.', 'about-1'),
+    block('Studiowałem na Wydziale Architektury i Urbanistyki Politechniki Gdańskiej oraz na Faculty of Architecture and Urban Design Politecnico di Milano.', 'about-2'),
+    block('Doświadczenie zdobywałem w pracowniach architektonicznych i wnętrzarskich w Tallinie, Paryżu i Trójmieście.', 'about-3'),
   ],
   aboutImage,
   faqTitle: 'Pytania przed rozpoczęciem współpracy',
@@ -116,7 +116,7 @@ await client.createOrReplace({
   logo: 'TMA',
   logoSuffix: 'Tomasz Marek Architekt',
   navigationLinks: [
-    {_key: 'portfolio', _type: 'navigationLink', label: 'Portfolio', href: '/portfolio', openInNewTab: false},
+    {_key: 'portfolio', _type: 'navigationLink', label: 'Portfolio', href: '/projekty', openInNewTab: false},
     {_key: 'offer', _type: 'navigationLink', label: 'Oferta', href: '/#oferta', openInNewTab: false},
     {_key: 'process', _type: 'navigationLink', label: 'Proces', href: '/#proces', openInNewTab: false},
     {_key: 'blog', _type: 'navigationLink', label: 'Blog', href: '/blog', openInNewTab: false},

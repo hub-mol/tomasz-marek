@@ -1,5 +1,8 @@
 ---
 import { plNoBreak } from '../../utils/typography';
+import type {PortableTextBlock} from '@portabletext/types';
+import PortableText from '../PortableText.astro';
+import {paragraphsToPortableText} from '../../utils/portableText';
 
 export interface ApproachPillar {
   title: string;
@@ -8,7 +11,7 @@ export interface ApproachPillar {
 
 interface Props {
   title?: string;
-  body?: string[];
+  body?: PortableTextBlock[];
   callout?: string;
   pillars?: ApproachPillar[];
 }
@@ -30,10 +33,10 @@ const defaultPillars = [
 
 const {
   title = 'Nie zaczynamy od gotowej odpowiedzi.',
-  body = [
+  body = paragraphsToPortableText([
     'Każdy projekt poprzedzamy analizą miejsca, potrzeb użytkowników, możliwości działki i charakteru inwestycji.',
     'Szukamy rozwiązań, które mają swoje uzasadnienie — funkcjonalne, przestrzenne i estetyczne. Dzięki temu projekt nie jest przypadkowym zestawem pomieszczeń i materiałów, ale spójną przestrzenią stworzoną z myślą o jej przyszłych użytkownikach.',
-  ],
+  ], 'approach'),
   callout = 'Dobra architektura zaczyna się od zrozumienia.',
   pillars = defaultPillars,
 } = Astro.props;
@@ -45,7 +48,7 @@ const {
       <p class="tagline">Podejście</p>
       <h2 class="type-h3">{title}</h2>
       <div class="approach__body">
-        {body.map((paragraph) => <p class="text-pretty">{plNoBreak(paragraph)}</p>)}
+        <PortableText value={body} />
       </div>
     </div>
 
@@ -74,7 +77,7 @@ const {
     color: var(--c-muted);
   }
 
-  .approach__body p + p {
+  .approach__body :global(.portable-text > p + p) {
     margin-top: var(--space-4);
   }
 

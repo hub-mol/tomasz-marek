@@ -9,6 +9,24 @@ const imageWithAlt = (name: string, title: string, group: string) => defineField
   fields: [defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string', validation: (rule) => rule.required()})],
 })
 
+const richText = (name: string, title: string, group: string) => defineField({
+  name,
+  title,
+  group,
+  type: 'array',
+  of: [defineArrayMember({
+    type: 'block',
+    marks: {
+      annotations: [defineField({
+        name: 'link',
+        title: 'Link',
+        type: 'object',
+        fields: [defineField({name: 'href', title: 'Adres', type: 'url', options: {allowRelative: true}})],
+      })],
+    },
+  })],
+})
+
 const accordionItems = (name: string, title: string, group: string) => defineField({
   name,
   title,
@@ -67,7 +85,7 @@ export const homePage = defineType({
     defineField({name: 'heroImage', title: 'Poprzednie zdjęcie główne', type: 'image', group: 'hero', hidden: true}),
 
     defineField({name: 'approachTitle', title: 'Nagłówek', type: 'string', group: 'approach'}),
-    defineField({name: 'approachBody', title: 'Akapity', type: 'array', of: [defineArrayMember({type: 'text', rows: 4})], group: 'approach'}),
+    richText('approachBody', 'Treść', 'approach'),
     defineField({name: 'approachCallout', title: 'Duże hasło', type: 'string', group: 'approach'}),
     defineField({name: 'approachPillars', title: 'Filary', type: 'array', group: 'approach', of: [defineArrayMember({type: 'object', name: 'approachPillar', title: 'Filar', fields: [
       defineField({name: 'title', title: 'Nazwa', type: 'string', validation: (rule) => rule.required()}),
@@ -92,7 +110,7 @@ export const homePage = defineType({
     accordionItems('interiorsProcess', 'Proces wnętrza', 'process'),
 
     defineField({name: 'aboutTitle', title: 'Nagłówek', type: 'text', rows: 3, group: 'about'}),
-    defineField({name: 'aboutParagraphs', title: 'Akapity', type: 'array', of: [defineArrayMember({type: 'text', rows: 4})], group: 'about'}),
+    richText('aboutParagraphs', 'Treść', 'about'),
     imageWithAlt('aboutImage', 'Zdjęcie „O mnie”', 'about'),
 
     defineField({name: 'faqTitle', title: 'Nagłówek sekcji', type: 'string', group: 'faq'}),
