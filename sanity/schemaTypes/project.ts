@@ -58,7 +58,6 @@ export const project = defineType({
       validation: (rule) => rule.required().min(1),
     }),
     defineField({name: 'description', title: 'Stary opis', type: 'text', rows: 8, group: 'content', hidden: true}),
-    defineField({name: 'award', title: 'Nagroda / wyróżnienie', type: 'string', group: 'content'}),
     defineField({name: 'gallery', title: 'Stara galeria', type: 'array', group: 'content', of: [defineArrayMember(imageField)], options: {layout: 'grid'}, hidden: true}),
     defineField({name: 'order', title: 'Kolejność', type: 'number', group: 'content', fieldset: 'thumbnail', initialValue: 100, validation: (rule) => rule.required().integer().min(0)}),
     defineField({name: 'featured', title: 'Pokaż na stronie głównej', type: 'boolean', group: 'content', fieldset: 'thumbnail', initialValue: true}),

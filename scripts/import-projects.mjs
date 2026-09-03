@@ -50,7 +50,6 @@ const projects = [
     slug: 'zwyciestwa-gliwice',
     title: 'Koncepcja zagospodarowania terenu wzdłuż ul. Zwycięstwa w Gliwicach', shortTitle: 'Ulica Zwycięstwa',
     category: 'Urbanistyka', location: 'Gliwice', status: 'Koncepcja',
-    award: 'Wyróżnienie w konkursie organizowanym przez Urząd Miasta w Gliwicach',
     images: projectImages(['zwyciestwa-1.png', 'zwyciestwa-2.png', 'zwyciestwa-3.png', 'zwyciestwa-4.png', 'zwyciestwa-5.png', 'zwyciestwa-akso-1.png', 'zwyciestwa-akso-2.png', 'zwyciestwa-analiza.png', 'zwyciestwa-pzt.png']),
   },
   {

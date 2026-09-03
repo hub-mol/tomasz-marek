@@ -110,7 +110,7 @@ for (const publication of publications) {
   }
 }
 
-const projects = await client.fetch(`*[_type == "project" && defined(content)]{_id, title, layout, cardTone, content}`)
+const projects = await client.fetch(`*[_type == "project" && defined(content)]{_id, title, layout, cardTone, award, content}`)
 for (const project of projects) {
   let changed = false
   const content = project.content.map((block) => {
@@ -125,7 +125,7 @@ for (const project of projects) {
     return block
   })
 
-  const obsoleteFields = ['layout', 'cardTone'].filter((field) => project[field] !== undefined)
+  const obsoleteFields = ['layout', 'cardTone', 'award'].filter((field) => project[field] !== undefined)
   if (changed || obsoleteFields.length > 0) {
     let patch = client.patch(project._id)
     if (changed) patch = patch.set({content})

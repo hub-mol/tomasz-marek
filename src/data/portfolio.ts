@@ -59,7 +59,6 @@ export interface Project {
   seoDescription?: string;
   socialImage?: SanityProjectImage;
   content?: ProjectContentBlock[];
-  award?: string;
   img: ProjectImage;
   gallery: ProjectImage[];
   alt: string;
@@ -194,7 +193,6 @@ export const projects: Project[] = [
     category: 'Urbanistyka',
     location: 'Gliwice',
     status: 'Koncepcja',
-    award: 'Wyróżnienie w konkursie organizowanym przez Urząd Miasta w Gliwicach',
     img: zwyciestwa1,
     gallery: [zwyciestwa2, zwyciestwa3, zwyciestwa4, zwyciestwa5, zwyciestwaAkso1, zwyciestwaAkso2, zwyciestwaAnaliza, zwyciestwaPzt],
     alt: 'Koncepcja zagospodarowania terenu wzdłuż ulicy Zwycięstwa w Gliwicach',

@@ -41,7 +41,6 @@ const projectsQuery = `*[
       alt
     }
   },
-  award,
   featured,
   "img": cover {
     "url": asset->url,
