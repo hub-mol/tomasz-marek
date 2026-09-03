@@ -90,10 +90,9 @@ const strengthenContrast = ({r, g, b}: Rgb, text: ReadableText): Rgb => {
 const colorDistance = (first: Rgb, second: Rgb) =>
   Math.hypot(first.r - second.r, first.g - second.g, first.b - second.b);
 
-const ensureDistinctBottom = (top: Rgb, bottom: Rgb): Rgb => {
+const ensureDistinctBottom = (top: Rgb, bottom: Rgb, text: ReadableText): Rgb => {
   if (colorDistance(top, bottom) >= 24) return bottom;
-  const topBrightness = top.r + top.g + top.b;
-  const factor = topBrightness > 330 ? 0.82 : 1.18;
+  const factor = text === '#2b2a26' ? 1.18 : 0.82;
   return {
     r: Math.min(255, Math.round(bottom.r * factor)),
     g: Math.min(255, Math.round(bottom.g * factor)),
@@ -135,7 +134,7 @@ const calculateEdgeColors = async (image: ProjectImage): Promise<ImageEdgeColors
       sample(cropTop + cropHeight - bandHeight),
     ]);
     const top = desaturate(rawTop, 0.33);
-    const bottom = ensureDistinctBottom(top, rawBottom);
+    const bottom = ensureDistinctBottom(top, rawBottom, readableText(rawBottom));
     const navText = readableText(top);
     const titleText = readableText(bottom);
 
