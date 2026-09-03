@@ -132,7 +132,7 @@ const slides = images?.length ? images.slice(0, 3) : [img];
 
   :global(.hero__brand) {
     display: block;
-    width: clamp(50%, 50vw, 30rem);
+    width: clamp(50%, 50vw, 10rem);
     height: auto;
   }
 
@@ -160,9 +160,9 @@ const slides = images?.length ? images.slice(0, 3) : [img];
     }
   }
 
-  @media (min-width: 769px) {
+  @media (width >= 769px) {
     :global(.hero__brand) {
-      padding-left: var(--space-8);
+      padding-top: var(--space-8);
     }
   }
 

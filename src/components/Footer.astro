@@ -1,5 +1,6 @@
 ---
 import ArrowLink from './ArrowLink.astro';
+import BrandLogo from './BrandLogo.astro';
 import { plNoBreak } from '../utils/typography';
 import {getSiteSettings} from '../data/site';
 
@@ -28,8 +29,9 @@ const {email, phoneLabel, phoneHref} = settings;
 
   <div class="section ftr__details">
     <div class="ftr__brand">
-      <a class="ftr__logo type-h2" href="/">{settings.logo}</a>
-      <p>{settings.logoSuffix}</p>
+      <a href="/" aria-label={settings.logo}>
+        <BrandLogo class="ftr__logo" />
+      </a>
     </div>
 
     <address class="ftr__block">
@@ -98,7 +100,10 @@ const {email, phoneLabel, phoneHref} = settings;
     border-top: 1px solid color-mix(in srgb, var(--c-on-dark) 25%, transparent);
   }
 
-  .ftr__logo {
+  :global(.ftr__logo) {
+    display: block;
+    width: 100%;
+    height: auto;
     line-height: 1;
   }
 
