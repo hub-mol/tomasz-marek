@@ -59,15 +59,6 @@ export const homePage = defineType({
     {name: 'seo', title: 'SEO'},
   ],
   fields: [
-    defineField({name: 'heroTitle', title: 'Nagłówek główny', type: 'text', rows: 3, group: 'hero', validation: (rule) => rule.required()}),
-    defineField({
-      name: 'showHeroTitle',
-      title: 'Pokaż nagłówek na zdjęciu',
-      description: 'Po wyłączeniu tekst wprowadzający i przycisk pozostają w tym samym miejscu.',
-      type: 'boolean',
-      group: 'hero',
-      initialValue: false,
-    }),
     defineField({name: 'heroLead', title: 'Wprowadzenie', type: 'text', rows: 4, group: 'hero', validation: (rule) => rule.required()}),
     defineField({
       name: 'heroImages',
@@ -106,7 +97,9 @@ export const homePage = defineType({
     ], preview: {select: {title: 'title'}}})]}),
 
     defineField({name: 'processTitle', title: 'Nagłówek sekcji', type: 'string', group: 'process'}),
+    defineField({name: 'showArchitectureProcess', title: 'Pokaż „Proces architektura”', type: 'boolean', group: 'process', initialValue: true}),
     accordionItems('architectureProcess', 'Proces architektura', 'process'),
+    defineField({name: 'showInteriorsProcess', title: 'Pokaż „Proces wnętrza”', type: 'boolean', group: 'process', initialValue: true}),
     accordionItems('interiorsProcess', 'Proces wnętrza', 'process'),
 
     defineField({name: 'aboutTitle', title: 'Nagłówek', type: 'text', rows: 3, group: 'about'}),

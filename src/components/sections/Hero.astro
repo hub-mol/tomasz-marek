@@ -7,10 +7,6 @@ import ProjectImage from '../ProjectImage.astro';
 import type {ProjectImage as ProjectImageType} from '../../data/portfolio';
 
 interface Props {
-  title?: string;
-  showTitle?: boolean;
-  titleStart?: string;
-  titleEnd?: string;
   text?: string;
   img?: ProjectImageType;
   images?: ProjectImageType[];
@@ -18,10 +14,6 @@ interface Props {
 }
 
 const {
-  title = 'Architektura zainspirowana miejscem i ludźmi.',
-  showTitle = false,
-  titleStart,
-  titleEnd,
   text = 'Od idei po realizację poprowadzimy Cię przez cały proces projektowy i wykonawczy.',
   img = heroImage,
   images,
@@ -49,15 +41,7 @@ const slides = images?.length ? images.slice(0, 3) : [img];
   </div>
 
   <div class="hero__content">
-    {showTitle ? (
-      <h1 class="hero__title type-h1">
-        {titleStart && titleEnd ? (
-          <>{plNoBreak(titleStart)}<span class="hero__star">*</span>{plNoBreak(titleEnd)}</>
-        ) : plNoBreak(title)}
-      </h1>
-    ) : (
-      <BrandLogo class="hero__brand" />
-    )}
+    <BrandLogo class="hero__brand" />
     <div class="hero__aside">
       <p class="hero__note type-heading-lg">{plNoBreak(text)}</p>
       <ArrowLink href="/#kontakt">Umów konsultację z&nbsp;architektem</ArrowLink>
@@ -119,13 +103,6 @@ const slides = images?.length ? images.slice(0, 3) : [img];
     padding-bottom: clamp(var(--space-12), 8vh, var(--space-24));
   }
 
-  .hero__title {
-    max-width: 18ch;
-    margin: 0;
-    /* nagłówek łamiemy ręcznie znakami nowej linii z propsa */
-    white-space: pre-line;
-  }
-
   .hero__aside {
     grid-column: 2;
   }
@@ -134,10 +111,6 @@ const slides = images?.length ? images.slice(0, 3) : [img];
     display: block;
     width: clamp(50%, 50vw, 30rem);
     height: auto;
-  }
-
-  .hero__star {
-    color: var(--c-accent);
   }
 
   .hero__aside :global(.arrow-link) {

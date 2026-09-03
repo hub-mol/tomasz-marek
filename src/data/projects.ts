@@ -1,6 +1,7 @@
 import {sanityClient} from 'sanity:client'
 import type {PortableTextBlock} from '@portabletext/types'
 import type {Project, ProjectContentBlock, SanityProjectImage} from './portfolio'
+import {getImageEdgeColors} from '../lib/imagePalette'
 
 interface SanityProject extends Omit<Project, 'img' | 'gallery' | 'alt' | 'content'> {
   img: SanityProjectImage
@@ -24,6 +25,8 @@ const projectsQuery = `*[
   surface,
   status,
   description,
+  seoTitle,
+  seoDescription,
   "content": content[] {
     _key,
     _type,
@@ -39,8 +42,6 @@ const projectsQuery = `*[
     }
   },
   award,
-  layout,
-  cardTone,
   featured,
   "img": cover {
     "url": asset->url,
@@ -49,6 +50,12 @@ const projectsQuery = `*[
     alt
   },
   "gallery": gallery[] {
+    "url": asset->url,
+    "width": asset->metadata.dimensions.width,
+    "height": asset->metadata.dimensions.height,
+    alt
+  },
+  "socialImage": socialImage {
     "url": asset->url,
     "width": asset->metadata.dimensions.width,
     "height": asset->metadata.dimensions.height,
@@ -66,18 +73,20 @@ export function getProjects(): Promise<Project[]> {
         throw new Error('Brak opublikowanych projektów w Sanity.')
       }
 
-      return items.map((item) => {
+      return Promise.all(items.map(async (item) => {
         const content = item.content?.map((block) => block._type === 'projectImageBlock'
           ? {...block, images: block.images ?? []}
           : block) as ProjectContentBlock[] | undefined
 
+        const palette = await getImageEdgeColors(item.img)
         return {
           ...item,
           content,
           gallery: item.gallery ?? [],
           alt: item.img.alt ?? item.title,
+          cardTone: palette.titleText === '#fff' ? 'dark' : 'light',
         }
-      })
+      }))
     })
 
   return cache

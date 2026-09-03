@@ -14,7 +14,7 @@ const { architecture, interiors, title = 'Rozmowa / Realizacja' } = Astro.props;
 const groups = [
   { title: 'Proces architektura', items: architecture },
   { title: 'Proces wnętrza', items: interiors },
-];
+].filter((group) => group.items.length > 0);
 ---
 
 <section class="section section-spaced process" id="proces">
@@ -22,7 +22,7 @@ const groups = [
     <h2>{title}</h2>
   </header>
 
-  <div class="process__groups">
+  <div class:list={['process__groups', {'process__groups--single': groups.length === 1}]}>
     {
       groups.map((group) => (
         <article class="process__group">
@@ -67,6 +67,10 @@ const groups = [
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(var(--space-12), 6vw, var(--space-24));
+  }
+
+  .process__groups--single {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .process__group-title {

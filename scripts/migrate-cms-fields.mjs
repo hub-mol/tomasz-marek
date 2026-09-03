@@ -19,7 +19,7 @@ const textArrayToPortableText = (value, keyPrefix) => {
   })
 }
 
-const settings = await client.fetch(`*[_id == "siteSettings"][0]{_id, navigationLinks}`)
+const settings = await client.fetch(`*[_id == "siteSettings"][0]{_id, navigationLinks, logo, logoImage}`)
 if (settings?._id && !settings.navigationLinks?.length) {
   await client.patch(settings._id).set({
     navigationLinks: [
@@ -46,10 +46,16 @@ if (settings?._id && settings.navigationLinks?.length) {
   }
 }
 
-const homePage = await client.fetch(`*[_id == "homePage"][0]{_id, showHeroTitle, heroImage, heroImages, approachBody, aboutParagraphs}`)
+if (settings?._id && (settings.logo !== undefined || settings.logoImage !== undefined)) {
+  await client.patch(settings._id).unset(['logo', 'logoImage']).commit()
+  console.log('✓ Ustawienia: usunięte nieużywane pola logo')
+}
+
+const homePage = await client.fetch(`*[_id == "homePage"][0]{_id, heroTitle, showHeroTitle, showArchitectureProcess, showInteriorsProcess, heroImage, heroImages, approachBody, aboutParagraphs}`)
 if (homePage?._id) {
   const fields = {}
-  if (homePage.showHeroTitle === undefined) fields.showHeroTitle = false
+  if (homePage.showArchitectureProcess === undefined) fields.showArchitectureProcess = true
+  if (homePage.showInteriorsProcess === undefined) fields.showInteriorsProcess = true
   if (!homePage.heroImages?.length && homePage.heroImage) {
     fields.heroImages = [{...homePage.heroImage, _key: 'hero-1'}]
   }
@@ -57,8 +63,12 @@ if (homePage?._id) {
   const aboutParagraphs = textArrayToPortableText(homePage.aboutParagraphs, 'about')
   if (approachBody) fields.approachBody = approachBody
   if (aboutParagraphs) fields.aboutParagraphs = aboutParagraphs
-  if (Object.keys(fields).length > 0) {
-    await client.patch(homePage._id).set(fields).commit()
+  const obsoleteFields = ['heroTitle', 'showHeroTitle'].filter((field) => homePage[field] !== undefined)
+  if (Object.keys(fields).length > 0 || obsoleteFields.length > 0) {
+    let patch = client.patch(homePage._id)
+    if (Object.keys(fields).length > 0) patch = patch.set(fields)
+    if (obsoleteFields.length > 0) patch = patch.unset(obsoleteFields)
+    await patch.commit()
     console.log('✓ Strona główna: pola hero i treści rich text')
   }
 }
@@ -100,7 +110,7 @@ for (const publication of publications) {
   }
 }
 
-const projects = await client.fetch(`*[_type == "project" && defined(content)]{_id, title, content}`)
+const projects = await client.fetch(`*[_type == "project" && defined(content)]{_id, title, layout, cardTone, content}`)
 for (const project of projects) {
   let changed = false
   const content = project.content.map((block) => {
@@ -115,8 +125,12 @@ for (const project of projects) {
     return block
   })
 
-  if (changed) {
-    await client.patch(project._id).set({content}).commit()
+  const obsoleteFields = ['layout', 'cardTone'].filter((field) => project[field] !== undefined)
+  if (changed || obsoleteFields.length > 0) {
+    let patch = client.patch(project._id)
+    if (changed) patch = patch.set({content})
+    if (obsoleteFields.length > 0) patch = patch.unset(obsoleteFields)
+    await patch.commit()
     console.log(`✓ Projekt: ${project.title}`)
   }
 }

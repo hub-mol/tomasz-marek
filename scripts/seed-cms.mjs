@@ -58,8 +58,6 @@ const faq = [
 await client.createOrReplace({
   _id: 'homePage',
   _type: 'homePage',
-  heroTitle: 'Architektura zainspirowana miejscem i ludźmi.',
-  showHeroTitle: false,
   heroLead: 'Od idei po realizację poprowadzimy Cię przez cały proces projektowy i wykonawczy.',
   heroImage: homeHero,
   heroImages: [{...homeHero, _key: 'hero-1'}],
@@ -92,7 +90,9 @@ await client.createOrReplace({
     ]},
   ],
   processTitle: 'Rozmowa / Realizacja',
+  showArchitectureProcess: true,
   architectureProcess,
+  showInteriorsProcess: true,
   interiorsProcess,
   aboutTitle: 'Cześć! Tu Tomek.\nTworzę indywidualne projekty architektury i wnętrz.',
   aboutParagraphs: [
@@ -113,7 +113,6 @@ await client.createOrReplace({
   siteTitle: 'Tomasz Marek Architekt',
   defaultSeoTitle: 'Tomasz Marek — architektura i wnętrza',
   defaultSeoDescription: 'Kompleksowa obsługa inwestycji — od analizy działki, przez projekt i formalności, po wnętrza i nadzór autorski.',
-  logo: 'TMA',
   logoSuffix: 'Tomasz Marek Architekt',
   navigationLinks: [
     {_key: 'portfolio', _type: 'navigationLink', label: 'Portfolio', href: '/projekty', openInNewTab: false},

@@ -4,8 +4,6 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import ProjectNav from '../../components/project/ProjectNav.astro';
 import ProjectEditorial from '../../components/project/ProjectEditorial.astro';
-import ProjectImmersive from '../../components/project/ProjectImmersive.astro';
-import ProjectMosaic from '../../components/project/ProjectMosaic.astro';
 import { getProjects } from '../../data/projects';
 import {getImageEdgeColors} from '../../lib/imagePalette';
 
@@ -23,11 +21,23 @@ export async function getStaticPaths() {
 
 const { project, prev, next } = Astro.props;
 const heroColors = await getImageEdgeColors(project.img);
+const seoDescription = project.seoDescription ?? `${project.category}. ${project.location}${project.surface ? `, ${project.surface}` : ''}.`;
+const socialImage = project.socialImage?.url ?? ('url' in project.img ? project.img.url : undefined);
+const projectJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: project.seoTitle ?? project.title,
+  description: seoDescription,
+  ...(socialImage ? {image: socialImage} : {}),
+  url: new URL(`/projekty/${project.slug}`, Astro.site ?? 'https://tomaszmarek.com').toString(),
+}).replace(/</g, '\\u003c');
 ---
 
 <Base
-  title={`${project.title} — Tomasz Marek Architekt`}
-  description={`${project.category}. ${project.location}${project.surface ? `, ${project.surface}` : ''}.`}
+  title={`${project.seoTitle ?? project.title} — Tomasz Marek Architekt`}
+  description={seoDescription}
+  canonical={`/projekty/${project.slug}`}
+  socialImage={socialImage}
 >
   <Header
     variant="overlay"
@@ -36,9 +46,8 @@ const heroColors = await getImageEdgeColors(project.img);
   />
 
   <main>
-    {project.layout === 'editorial' && <ProjectEditorial project={project} />}
-    {project.layout === 'immersive' && <ProjectImmersive project={project} />}
-    {project.layout === 'mosaic' && <ProjectMosaic project={project} />}
+    <script type="application/ld+json" set:html={projectJsonLd} />
+    <ProjectEditorial project={project} />
 
     <ProjectNav prev={prev} next={next} />
   </main>

@@ -21,8 +21,6 @@ export interface OfferGroup {
 }
 
 export interface HomePageData {
-  heroTitle: string
-  showHeroTitle: boolean
   heroLead: string
   heroImage?: SanityProjectImage
   heroImages: SanityProjectImage[]
@@ -35,7 +33,9 @@ export interface HomePageData {
   offerTitle: string
   offers: OfferGroup[]
   processTitle: string
+  showArchitectureProcess: boolean
   architectureProcess: SimpleItem[]
+  showInteriorsProcess: boolean
   interiorsProcess: SimpleItem[]
   aboutTitle: string
   aboutParagraphs: PortableTextBlock[]
@@ -50,9 +50,7 @@ export interface SiteSettingsData {
   siteTitle: string
   defaultSeoTitle: string
   defaultSeoDescription: string
-  logo: string
   logoSuffix: string
-  logoImage?: SanityProjectImage
   navigationLinks: NavigationLink[]
   email: string
   phoneLabel: string
@@ -84,8 +82,6 @@ export interface NavigationLink {
 }
 
 export const defaultHomePage: HomePageData = {
-  heroTitle: 'Architektura zainspirowana miejscem i ludźmi.',
-  showHeroTitle: false,
   heroLead: 'Od idei po realizację poprowadzimy Cię przez cały proces projektowy i wykonawczy.',
   heroImages: [],
   approachTitle: 'Nie zaczynamy od gotowej odpowiedzi.',
@@ -117,7 +113,9 @@ export const defaultHomePage: HomePageData = {
     ]},
   ],
   processTitle: 'Rozmowa / Realizacja',
+  showArchitectureProcess: true,
   architectureProcess: procesArchitektura,
+  showInteriorsProcess: true,
   interiorsProcess: procesWnetrza,
   aboutTitle: 'Cześć! Tu Tomek.\nTworzę indywidualne projekty architektury i wnętrz.',
   aboutParagraphs: paragraphsToPortableText([
@@ -135,7 +133,6 @@ export const defaultSiteSettings: SiteSettingsData = {
   siteTitle: 'Tomasz Marek Architekt',
   defaultSeoTitle: 'Tomasz Marek — architektura i wnętrza',
   defaultSeoDescription: 'Kompleksowa obsługa inwestycji — od analizy działki, przez projekt i formalności, po wnętrza i nadzór autorski.',
-  logo: 'TMA',
   logoSuffix: 'Tomasz Marek Architekt',
   navigationLinks: [
     {label: 'Portfolio', href: '/projekty'},
@@ -181,10 +178,7 @@ const homePageQuery = `*[_id == "homePage"][0] {
   "aboutImage": aboutImage ${imageProjection}
 }`
 
-const siteSettingsQuery = `*[_id == "siteSettings"][0] {
-  ...,
-  "logoImage": logoImage ${imageProjection}
-}`
+const siteSettingsQuery = `*[_id == "siteSettings"][0]`
 
 let homePageCache: Promise<HomePageData> | undefined
 let settingsCache: Promise<SiteSettingsData> | undefined
@@ -195,7 +189,8 @@ export function getHomePage(): Promise<HomePageData> {
       const merged = {...defaultHomePage, ...(data ?? {})}
       return {
         ...merged,
-        showHeroTitle: data?.showHeroTitle ?? false,
+        showArchitectureProcess: data?.showArchitectureProcess ?? true,
+        showInteriorsProcess: data?.showInteriorsProcess ?? true,
         approachBody: normalizePortableText(data?.approachBody, defaultHomePage.approachBody, 'approach'),
         aboutParagraphs: normalizePortableText(data?.aboutParagraphs, defaultHomePage.aboutParagraphs, 'about'),
         heroImages: data?.heroImages?.length

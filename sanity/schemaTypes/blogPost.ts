@@ -13,11 +13,11 @@ export const blogPost = defineType({
     defineField({
       name: 'routeType',
       title: 'Rodzaj strony',
-      description: 'Określa, czy publikacja pojawi się pod /blog/, czy pod /oferta/.',
       type: 'string',
       group: 'publishing',
       initialValue: 'blog',
-      options: {list: [{title: 'Artykuł blogowy', value: 'blog'}, {title: 'Strona oferty', value: 'offer'}], layout: 'radio'},
+      hidden: true,
+      readOnly: true,
       validation: (rule) => rule.required(),
     }),
     defineField({name: 'excerpt', title: 'Zajawka', type: 'text', rows: 3, group: 'content', validation: (rule) => rule.required().max(240)}),

@@ -55,12 +55,14 @@ export interface Project {
   surface?: string;
   status: string;
   description?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  socialImage?: SanityProjectImage;
   content?: ProjectContentBlock[];
   award?: string;
   img: ProjectImage;
   gallery: ProjectImage[];
   alt: string;
-  layout: 'editorial' | 'immersive' | 'mosaic';
   cardTone: 'light' | 'dark';
   featured?: boolean;
 }
@@ -103,7 +105,6 @@ export const projects: Project[] = [
     img: domDrz1,
     gallery: [domDrz2],
     alt: 'Projekt architektoniczny Dom DRZ',
-    layout: 'editorial',
     cardTone: 'dark',
   },
   {
@@ -117,7 +118,6 @@ export const projects: Project[] = [
     img: domKw1,
     gallery: [domKw2, domKw3, domKw4, domKw5],
     alt: 'Koncepcja domu prywatnego Dom KR na Pomorzu',
-    layout: 'mosaic',
     cardTone: 'dark',
   },
   {
@@ -131,7 +131,6 @@ export const projects: Project[] = [
     img: domPoznan1,
     gallery: [domPoznan2, domPoznan3, domPoznan4],
     alt: 'Projekt domu prywatnego Dom POZ w Wielkopolsce',
-    layout: 'immersive',
     cardTone: 'light',
   },
   {
@@ -145,7 +144,6 @@ export const projects: Project[] = [
     img: radacz1,
     gallery: [radaczAkso, radacz2],
     alt: 'Koncepcja ośrodka wypoczynkowo-rehabilitacyjnego w Radaczu',
-    layout: 'immersive',
     cardTone: 'dark',
   },
   {
@@ -160,7 +158,6 @@ export const projects: Project[] = [
     img: estetica1,
     gallery: [estetica2, estetica3, estetica4, estetica5],
     alt: 'Projekt wnętrza Estetica',
-    layout: 'editorial',
     cardTone: 'light',
   },
   {
@@ -174,7 +171,6 @@ export const projects: Project[] = [
     img: neonatolin1,
     gallery: [neonatolin2, neonatolin3, neonatolin4, neonatolin5, neonatolin6, neonatolin7, neonatolin8],
     alt: 'Projekt wnętrza mieszkania na warszawskim Neonatolinie',
-    layout: 'editorial',
     cardTone: 'light',
   },
   {
@@ -189,7 +185,6 @@ export const projects: Project[] = [
     img: narutowicza1,
     gallery: [narutowicza2, narutowicza3, narutowicza4, narutowicza5, narutowicza6, narutowicza7],
     alt: 'Projekt mieszkania przy ulicy Narutowicza',
-    layout: 'immersive',
     cardTone: 'dark',
   },
   {
@@ -203,7 +198,6 @@ export const projects: Project[] = [
     img: zwyciestwa1,
     gallery: [zwyciestwa2, zwyciestwa3, zwyciestwa4, zwyciestwa5, zwyciestwaAkso1, zwyciestwaAkso2, zwyciestwaAnaliza, zwyciestwaPzt],
     alt: 'Koncepcja zagospodarowania terenu wzdłuż ulicy Zwycięstwa w Gliwicach',
-    layout: 'mosaic',
     cardTone: 'light',
   },
   {
@@ -216,7 +210,6 @@ export const projects: Project[] = [
     img: hotelPodwale,
     gallery: [],
     alt: 'Koncepcja hotelu przy ulicy Podwale Przedmiejskie w Gdańsku',
-    layout: 'editorial',
     cardTone: 'dark',
   },
 ];

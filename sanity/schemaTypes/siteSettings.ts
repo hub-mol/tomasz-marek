@@ -6,7 +6,7 @@ export const siteSettings = defineType({
   type: 'document',
   groups: [
     {name: 'general', title: 'Ogólne', default: true},
-    {name: 'navigation', title: 'Logo i nawigacja'},
+    {name: 'navigation', title: 'Nawigacja'},
     {name: 'contact', title: 'Kontakt'},
     {name: 'footer', title: 'Stopka'},
     {name: 'structuredData', title: 'Dane strukturalne'},
@@ -15,19 +15,7 @@ export const siteSettings = defineType({
     defineField({name: 'siteTitle', title: 'Nazwa strony', type: 'string', group: 'general', validation: (rule) => rule.required()}),
     defineField({name: 'defaultSeoTitle', title: 'Domyślny tytuł SEO', type: 'string', group: 'general', validation: (rule) => rule.required()}),
     defineField({name: 'defaultSeoDescription', title: 'Domyślny opis SEO', type: 'text', rows: 3, group: 'general', validation: (rule) => rule.required().max(180)}),
-    defineField({name: 'logo', title: 'Skrót logo', description: 'Tekst wyświetlany, gdy nie dodano pliku logo.', type: 'string', group: 'navigation', validation: (rule) => rule.required().max(12)}),
-    defineField({name: 'logoSuffix', title: 'Nazwa przy logo', description: 'Dopisek wyświetlany obok tekstowego skrótu logo.', type: 'string', group: 'navigation'}),
-    defineField({
-      name: 'logoImage',
-      title: 'Plik logo w nagłówku',
-      description: 'Opcjonalne logo jednokolorowe z przezroczystym tłem. Zastępuje tekstowe logo i automatycznie dopasowuje kolor do nagłówka.',
-      type: 'image',
-      group: 'navigation',
-      options: {accept: 'image/svg+xml,image/png,image/webp'},
-      fields: [
-        defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string', validation: (rule) => rule.required()}),
-      ],
-    }),
+    defineField({name: 'logoSuffix', title: 'Logo tekstowe', description: 'Tekst wyświetlany w nagłówku na podstronach.', type: 'string', group: 'navigation'}),
     defineField({
       name: 'navigationLinks',
       title: 'Linki nawigacji',

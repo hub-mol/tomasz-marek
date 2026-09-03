@@ -5,7 +5,6 @@ interface Props {
   // overlay — przezroczysty, biały, nałożony na hero (strona główna)
   // solid   — jasne tło, czarny tekst, w normalnym przepływie (podstrony)
   variant?: 'overlay' | 'solid';
-  logo?: string;
   logoStart?: string;
   logoEnd?: string;
   /** dopisek za logo, składany cieńszą grubością */
@@ -16,11 +15,8 @@ interface Props {
 }
 
 const settings = await getSiteSettings();
-const hasLogoOverride = Astro.props.logo !== undefined || Astro.props.logoStart !== undefined || Astro.props.logoEnd !== undefined;
-
 const {
   variant = 'solid',
-  logo = settings.logo,
   logoStart,
   logoEnd,
   logoSuffix = settings.logoSuffix,
@@ -34,10 +30,6 @@ const headerStyle = variant === 'overlay'
   : undefined;
 
 const menu = settings.navigationLinks;
-const cmsLogo = !hasLogoOverride ? settings.logoImage : undefined;
-const logoImageStyle = cmsLogo
-  ? `--logo-image: url("${cmsLogo.url}"); --logo-ratio: ${cmsLogo.width && cmsLogo.height ? cmsLogo.width / cmsLogo.height : 4};`
-  : undefined;
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => !href.includes('#') && href === path;
@@ -52,17 +44,10 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
 <nav class:list={['hdr', `hdr--${variant}`]} style={headerStyle} aria-label="Główna">
   <div class="hdr__inner">
     {!hideLogo && <a class="hdr__link type-nav" href="/">
-      {cmsLogo ? (
-        <span
-          class="hdr__logo-image"
-          style={logoImageStyle}
-          role="img"
-          aria-label={cmsLogo.alt ?? settings.siteTitle}
-        ></span>
-      ) : logoStart && logoEnd ? (
+      {logoStart && logoEnd ? (
         <>{logoStart}<span class="hdr__star">*</span>{logoEnd}</>
       ) : (
-        <>{logoSuffix || logo}</>
+        <>{logoSuffix}</>
       )}
     </a>}
 
@@ -123,16 +108,6 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
 
   .hdr__inner > .hdr__link {
     flex-shrink: 0;
-  }
-
-  .hdr__logo-image {
-    display: block;
-    width: calc(1.5rem * var(--logo-ratio, 4));
-    max-width: 14rem;
-    height: 1.5rem;
-    background: currentColor;
-    -webkit-mask: var(--logo-image) center / contain no-repeat;
-    mask: var(--logo-image) center / contain no-repeat;
   }
 
   .hdr__star {

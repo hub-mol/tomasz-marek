@@ -24,8 +24,6 @@ const home = await getHomePage();
 
   <main>
     <Hero
-      title={home.heroTitle}
-      showTitle={home.showHeroTitle}
       text={home.heroLead}
       images={home.heroImages}
     />
@@ -36,11 +34,13 @@ const home = await getHomePage();
 
     <OfferList title={home.offerTitle} offers={home.offers} />
 
-    <ProcessOverview
-      title={home.processTitle}
-      architecture={home.architectureProcess}
-      interiors={home.interiorsProcess}
-    />
+    {(home.showArchitectureProcess || home.showInteriorsProcess) && (
+      <ProcessOverview
+        title={home.processTitle}
+        architecture={home.showArchitectureProcess ? home.architectureProcess : []}
+        interiors={home.showInteriorsProcess ? home.interiorsProcess : []}
+      />
+    )}
 
     <AboutHero
       id="o-mnie"
