@@ -132,8 +132,9 @@ const slides = images?.length ? images.slice(0, 3) : [img];
 
   .hero__brand {
     display: block;
-    width: min(100%, 32rem);
+    width: min(50vw, 30rem);
     height: auto;
+    padding-left: var(--space-8);
   }
 
   .hero__star {
@@ -168,6 +169,14 @@ const slides = images?.length ? images.slice(0, 3) : [img];
 
     .hero__aside {
       grid-column: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .hero__brand {
+      padding-left: 0;
     }
   }
 </style>
