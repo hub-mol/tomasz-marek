@@ -3,6 +3,7 @@ import type { Project } from '../../data/portfolio';
 import ProjectImage from '../ProjectImage.astro';
 import ProjectFacts from './ProjectFacts.astro';
 import ProjectContent from './ProjectContent.astro';
+import ProjectHero from './ProjectHero.astro';
 
 interface Props {
   project: Project;
@@ -14,21 +15,7 @@ const hasContent = Boolean(project.content?.length);
 ---
 
 <article class="project-immersive">
-  <header class="project-immersive__hero">
-    <ProjectImage
-      image={project.img}
-      alt={project.alt}
-      widths={[768, 1280, 1920, 2400]}
-      sizes="100vw"
-      format="avif"
-      loading="eager"
-      fetchpriority="high"
-    />
-    <div class="section project-immersive__title">
-      <p class="tagline">{project.category}</p>
-      <h1 class="type-h1">{project.title}</h1>
-    </div>
-  </header>
+  <ProjectHero project={project} />
 
   {hasContent ? (
     <>
@@ -63,45 +50,6 @@ const hasContent = Boolean(project.content?.length);
 </article>
 
 <style>
-  .project-immersive__hero {
-    position: relative;
-    height: 66svh;
-    max-height: 66svh;
-    overflow: hidden;
-    background: #171816;
-    color: #fff;
-  }
-
-  .project-immersive__hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.58), transparent 58%);
-  }
-
-  .project-immersive__hero > :global(img) {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .project-immersive__title {
-    position: absolute;
-    inset: auto 0 0;
-    z-index: 1;
-    padding-bottom: var(--space-16);
-  }
-
-  .project-immersive__title .tagline {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .project-immersive__title h1 {
-    max-width: 16ch;
-  }
-
   .project-immersive__intro {
     align-items: start;
   }
@@ -133,10 +81,6 @@ const hasContent = Boolean(project.content?.length);
   }
 
   @media (max-width: 768px) {
-    .project-immersive__title {
-      padding-bottom: var(--space-8);
-    }
-
     .project-immersive__intro > p {
       justify-self: start;
     }

@@ -1,43 +1,63 @@
-# Astro Starter Kit: Minimal
+# Tomasz Marek — strona pracowni
+
+Statyczna strona Astro z treścią zarządzaną w Sanity i wdrażana jako Cloudflare Worker z zasobami statycznymi.
+
+## Praca lokalna
+
+Wymagany jest Node.js 22.12 lub nowszy.
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev -- --background
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Serwer w tle można sprawdzić i zatrzymać poleceniami:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm run astro -- dev status
+npm run astro -- dev logs
+npm run astro -- dev stop
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Panel Sanity jest dostępny lokalnie oraz po wdrożeniu pod `/admin`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Publikacje: blog i oferta
 
-Any static assets, like images, can be placed in the `public/` directory.
+W Sanity wybierz **Blog i oferta**, utwórz publikację i ustaw pole **Rodzaj strony**:
 
-## 🧞 Commands
+- **Artykuł blogowy** generuje `/blog/[slug]` i pojawia się na liście `/blog`.
+- **Strona oferty** generuje `/oferta/[slug]` i nie pojawia się na liście bloga.
 
-All commands are run from the root of the project, from a terminal:
+Publikacje są sortowane od najnowszej daty `publishedAt`. Data w przyszłości ukrywa publikację aż do kolejnego buildu wykonanego po tej dacie.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Portfolio
 
-## 👀 Want to learn more?
+Pole **Treść projektu** jest listą bloków, które można przeciągać w Sanity. Dostępne są:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- blok tekstowy z opcjonalnym tagline i wielkością H3/H4,
+- blok zdjęciowy z układem 1, 2, 3 albo 4 kolumn.
+
+Na telefonach każdy blok zdjęciowy przechodzi do jednej kolumny.
+
+## Walidacja i build
+
+```sh
+npm run cms:validate
+npm run build
+```
+
+Build pobiera opublikowane dane z Sanity, dlatego wymaga dostępu do sieci. Wynik trafia do `dist/`.
+
+## Automatyczny deploy po publikacji w Sanity
+
+Strona jest statyczna: samo opublikowanie dokumentu w Sanity nie zmienia istniejących plików HTML. Webhook powinien uruchomić nowy build na Cloudflare:
+
+1. Worker `tomasz-marek` musi być połączony z repozytorium GitHub i branch `main` w Cloudflare Workers Builds.
+2. W Cloudflare otwórz **Workers & Pages → tomasz-marek → Settings → Builds → Deploy Hooks**.
+3. Utwórz hook np. `Sanity production`, wybierz branch `main` i skopiuj jego URL.
+4. W `sanity.io/manage` otwórz projekt `o8oniqgy`, następnie **API → Webhooks → Create webhook**.
+5. Wklej URL hooka, wybierz dataset `production`, metodę `POST` i zdarzenia create/update/delete.
+6. Ustaw filtr `_type in ["blogPost", "project", "homePage", "siteSettings"]` oraz pozostaw wyłączone wyzwalanie dla draftów i wersji.
+7. Opublikuj testową zmianę i sprawdź build oznaczony jako `deploy hook` w historii Cloudflare.
+
+URL Deploy Hooka jest sekretem: nie należy zapisywać go w repozytorium ani udostępniać publicznie.

@@ -1,0 +1,104 @@
+---
+import type {BlogPost} from '../../data/blogPosts';
+import {getPostHref} from '../../data/blogPosts';
+import ProjectImage from '../ProjectImage.astro';
+
+interface Props {
+  prev?: BlogPost;
+  next?: BlogPost;
+}
+
+const {prev, next} = Astro.props;
+const itemName = (post: BlogPost) => post.routeType === 'offer' ? 'strona oferty' : 'artykuł';
+---
+
+<nav class="section article-nav" aria-label="Kolejna publikacja">
+  {prev && (
+    <a class="article-nav__link article-nav__link--prev" href={getPostHref(prev)}>
+      {prev.cover && (
+        <span class="article-nav__media">
+          <ProjectImage image={prev.cover} alt="" widths={[64, 128]} sizes="64px" format="avif" loading="lazy" />
+        </span>
+      )}
+      <span class="article-nav__copy">
+        <span class="article-nav__dir type-label">Poprzedni {itemName(prev)}</span>
+        <span class="article-nav__title type-heading-lg">{prev.title}</span>
+      </span>
+    </a>
+  )}
+  {next && (
+    <a class="article-nav__link article-nav__link--next" href={getPostHref(next)}>
+      <span class="article-nav__copy">
+        <span class="article-nav__dir type-label">Następny {itemName(next)}</span>
+        <span class="article-nav__title type-heading-lg">{next.title}</span>
+      </span>
+      {next.cover && (
+        <span class="article-nav__media">
+          <ProjectImage image={next.cover} alt="" widths={[64, 128]} sizes="64px" format="avif" loading="lazy" />
+        </span>
+      )}
+    </a>
+  )}
+</nav>
+
+<style>
+  .article-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-8);
+    padding-block: var(--space-16);
+    border-top: 1px solid var(--c-line);
+  }
+
+  .article-nav__link {
+    display: grid;
+    grid-template-columns: var(--space-16) minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: center;
+    max-width: 42rem;
+  }
+
+  .article-nav__link--next {
+    grid-template-columns: minmax(0, 1fr) var(--space-16);
+    margin-left: auto;
+    text-align: right;
+  }
+
+  .article-nav__media {
+    width: var(--space-16);
+    height: var(--space-16);
+    overflow: hidden;
+    background: var(--c-bg-alt);
+  }
+
+  .article-nav__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+
+  .article-nav__dir {
+    display: block;
+    color: var(--c-muted);
+  }
+
+  .article-nav__title {
+    display: block;
+    margin-top: var(--space-2);
+    transition: color 0.3s ease;
+  }
+
+  .article-nav__link:hover .article-nav__media :global(img) { transform: scale(1.06); }
+
+  @media (max-width: 768px) {
+    .article-nav { flex-direction: column; justify-content: flex-start; }
+    .article-nav__link {
+      grid-template-columns: var(--space-16) minmax(0, 1fr);
+      width: 100%;
+      text-align: left;
+    }
+    .article-nav__link--next { margin-left: 0; }
+    .article-nav__link--next .article-nav__media { order: -1; }
+  }
+</style>

@@ -77,12 +77,15 @@ export type ProjectImage = ImageMetadata | SanityProjectImage;
 export interface ProjectTextBlock {
   _key: string;
   _type: 'projectTextBlock';
+  tagline?: string;
+  textSize?: 'h3' | 'h4';
   body: PortableTextBlock[];
 }
 
 export interface ProjectImageBlock {
   _key: string;
   _type: 'projectImageBlock';
+  columns?: 1 | 2 | 3 | 4;
   images: ProjectImage[];
 }
 

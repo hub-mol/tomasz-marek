@@ -3,46 +3,180 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import ProjectImage from '../../components/ProjectImage.astro';
-import {getBlogPosts} from '../../data/blogPosts';
+import ArrowLink from '../../components/ArrowLink.astro';
+import {getBlogPosts, getPostHref} from '../../data/blogPosts';
 
 const posts = await getBlogPosts();
-const dateFormatter = new Intl.DateTimeFormat('pl-PL', {day: 'numeric', month: 'long', year: 'numeric'});
+const [featuredPost, ...otherPosts] = posts;
 ---
 
 <Base title="Blog — Tomasz Marek Architekt" description="Notatki o projektowaniu architektury i wnętrz.">
   <Header />
   <main class="section section-spaced blog-index">
-    <header class="blog-index__head">
-      <p class="tagline">Blog</p>
-      <h1 class="type-h1">O projektowaniu</h1>
-    </header>
+    <div class="blog-index__layout">
+      <header class="blog-index__head">
+        <h1 class="type-h1">Blog</h1>
+        <div class="blog-index__intro">
+          <p>Dzielimy się wiedzą zdobytą podczas projektowania architektury i wnętrz oraz prowadzenia inwestycji od pierwszej rozmowy po realizację.</p>
+          <p>Wyjaśniamy proces, decyzje i formalności prostym językiem — tak, żeby łatwiej było świadomie rozpocząć własny projekt.</p>
+        </div>
+      </header>
 
-    <ul class="blog-index__grid">
-      {posts.map((post) => (
-        <li>
-          <article class="blog-card">
-            {post.cover && (
-              <a class="blog-card__media" href={`/blog/${post.slug}`}>
-                <ProjectImage image={post.cover} alt={post.cover.alt ?? post.title} widths={[480, 768, 1100]} sizes="(max-width: 768px) 100vw, 50vw" format="avif" loading="lazy" />
-              </a>
+      {featuredPost ? (
+        <div class="blog-index__feed">
+          <a class="blog-featured" href={getPostHref(featuredPost)}>
+            {featuredPost.cover && (
+              <span class="blog-featured__media">
+                <ProjectImage image={featuredPost.cover} alt={featuredPost.cover.alt ?? featuredPost.title} widths={[640, 960, 1440]} sizes="(max-width: 768px) 100vw, 58vw" format="avif" loading="eager" fetchpriority="high" />
+              </span>
             )}
-            <p class="tagline">{dateFormatter.format(new Date(post.publishedAt))}{post.categories[0] ? ` · ${post.categories[0]}` : ''}</p>
-            <h2 class="type-h3"><a href={`/blog/${post.slug}`}>{post.title}</a></h2>
-            <p>{post.excerpt}</p>
-          </article>
-        </li>
-      ))}
-    </ul>
+            <span class="blog-featured__content">
+              <span class="tagline">{featuredPost.categories[0] ?? 'Artykuł'}</span>
+              <span class="blog-featured__title type-h2">{featuredPost.title}</span>
+              <span class="blog-featured__footer">
+                <span class="blog-featured__excerpt">{featuredPost.excerpt}</span>
+                <ArrowLink as="span" class="blog-featured__action">Przeczytaj</ArrowLink>
+              </span>
+            </span>
+          </a>
+
+          {otherPosts.length > 0 && (
+            <ul class="blog-index__list">
+              {otherPosts.map((post) => (
+                <li>
+                  <a class="blog-card" href={getPostHref(post)}>
+                    {post.cover && (
+                      <span class="blog-card__media">
+                        <ProjectImage image={post.cover} alt={post.cover.alt ?? post.title} widths={[320, 480, 720]} sizes="(max-width: 768px) 100vw, 20vw" format="avif" loading="lazy" />
+                      </span>
+                    )}
+                    <span class="blog-card__content">
+                      <span class="tagline">{post.categories[0] ?? 'Artykuł'}</span>
+                      <span class="blog-card__title type-h3">{post.title}</span>
+                      <ArrowLink as="span" class="blog-card__action">Przeczytaj</ArrowLink>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ) : (
+        <p class="blog-index__empty">Pierwsze artykuły pojawią się wkrótce.</p>
+      )}
+    </div>
   </main>
   <Footer />
 </Base>
 
 <style>
-  .blog-index__head { margin-bottom: var(--space-16); }
-  .blog-index__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-16) var(--space-8); }
-  .blog-card__media { display: block; margin-bottom: var(--space-6); overflow: hidden; background: var(--c-bg-alt); }
-  .blog-card__media :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-  .blog-card h2 { margin-top: var(--space-2); }
-  .blog-card > p:last-child { max-width: 58ch; margin-top: var(--space-3); color: var(--c-muted); }
-  @media (max-width: 768px) { .blog-index__grid { grid-template-columns: 1fr; } }
+  .blog-index__layout {
+    display: grid;
+    grid-template-columns: minmax(17.5rem, 0.8fr) minmax(0, 1.8fr);
+    gap: clamp(var(--space-16), 8vw, var(--space-32));
+    align-items: start;
+  }
+
+  .blog-index__head {
+    position: sticky;
+    top: var(--space-8);
+  }
+
+  .blog-index__intro {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 42ch;
+    margin-top: var(--space-12);
+    color: var(--c-muted);
+  }
+
+  .blog-index__feed,
+  .blog-index__list { display: grid; gap: var(--space-4); }
+
+  .blog-featured,
+  .blog-card {
+    display: grid;
+    overflow: hidden;
+    background: var(--c-bg-alt);
+  }
+
+  .blog-featured__media,
+  .blog-card__media { display: block; overflow: hidden; }
+
+  .blog-featured__media :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .blog-featured__content {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    min-height: 24rem;
+    padding: var(--space-8);
+  }
+
+  .blog-featured__title {
+    display: block;
+    max-width: 19ch;
+    margin-top: var(--space-4);
+  }
+
+  .blog-featured__footer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-8);
+    align-items: end;
+    align-self: end;
+    margin-top: var(--space-12);
+  }
+
+  .blog-featured__excerpt {
+    display: block;
+    max-width: 58ch;
+    color: var(--c-muted);
+  }
+
+  .blog-featured__action { justify-self: end; }
+
+  .blog-card__action {
+    justify-self: end;
+    align-self: end;
+    margin-top: var(--space-12);
+  }
+
+  .blog-card {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    min-height: 19rem;
+  }
+
+  .blog-card:not(:has(.blog-card__media)) { grid-template-columns: 1fr; }
+
+  .blog-card__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .blog-card__content { display: grid; padding: var(--space-8); }
+  .blog-card__title { display: block; max-width: 18ch; margin-top: var(--space-3); }
+  .blog-featured:hover :global(img),
+  .blog-card:hover :global(img) { transform: scale(1.035); }
+  @media (max-width: 1024px) {
+    .blog-index__layout { grid-template-columns: 1fr; gap: var(--space-16); }
+    .blog-index__head { position: static; }
+  }
+
+  @media (max-width: 768px) {
+    .blog-featured__content,
+    .blog-card__content { padding: var(--space-6); }
+    .blog-featured__content { min-height: 22rem; }
+    .blog-featured__footer { grid-template-columns: 1fr; }
+    .blog-featured__action { justify-self: end; }
+    .blog-card { grid-template-columns: 1fr; min-height: 0; }
+    .blog-card__media :global(img) { aspect-ratio: 16 / 10; }
+    .blog-card__content { min-height: 17rem; }
+  }
 </style>

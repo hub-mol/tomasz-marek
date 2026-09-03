@@ -15,7 +15,7 @@ export default defineConfig({
         S.listItem().title('Ustawienia strony').child(S.document().schemaType('siteSettings').documentId('siteSettings')),
         S.divider(),
         S.documentTypeListItem('project').title('Projekty'),
-        S.documentTypeListItem('blogPost').title('Blog'),
+        S.documentTypeListItem('blogPost').title('Blog i oferta'),
       ]),
     }),
     visionTool(),

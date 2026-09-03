@@ -8,7 +8,24 @@ interface Props {
 }
 
 const {value = [], class: className} = Astro.props;
-const html = toHTML(value);
+const escapeAttribute = (input: unknown) => String(input ?? '')
+  .replaceAll('&', '&amp;')
+  .replaceAll('"', '&quot;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;');
+const html = toHTML(value, {
+  components: {
+    types: {
+      image: ({value: image}) => {
+        const url = typeof image.url === 'string' ? image.url : '';
+        if (!url) return '';
+        const width = typeof image.width === 'number' ? image.width : undefined;
+        const height = typeof image.height === 'number' ? image.height : undefined;
+        return `<figure class="portable-text__image"><img src="${escapeAttribute(url)}"${width ? ` width="${width}"` : ''}${height ? ` height="${height}"` : ''} alt="${escapeAttribute(image.alt)}" loading="lazy" /></figure>`;
+      },
+    },
+  },
+});
 ---
 
 {html && <div class:list={['portable-text', className]} set:html={html} />}
@@ -51,5 +68,14 @@ const html = toHTML(value);
   .portable-text :global(a) {
     text-decoration: underline;
     text-underline-offset: 0.18em;
+  }
+
+  .portable-text :global(.portable-text__image) {
+    margin-block: var(--space-12);
+  }
+
+  .portable-text :global(.portable-text__image img) {
+    width: 100%;
+    height: auto;
   }
 </style>

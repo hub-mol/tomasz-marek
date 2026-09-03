@@ -1,4 +1,7 @@
-import type { AccordionItem } from '../components/sections/Accordion.astro';
+export interface AccordionItem {
+  title: string;
+  body: string;
+}
 
 export const procesArchitektura: AccordionItem[] = [
   {

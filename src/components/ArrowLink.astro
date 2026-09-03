@@ -1,15 +1,18 @@
 ---
 interface Props {
-  href: string;
+  href?: string;
   class?: string;
   ariaLabel?: string;
   typeClass?: string;
+  as?: 'a' | 'span';
 }
 
-const { href, class: className, ariaLabel, typeClass = 'type-heading-lg' } = Astro.props;
+const {href, class: className, ariaLabel, typeClass = 'type-heading-lg', as = 'a'} = Astro.props;
+const Element = as;
+const elementProps = as === 'a' ? {href} : {};
 ---
 
-<a class:list={['arrow-link', typeClass, className]} href={href} aria-label={ariaLabel}>
+<Element {...elementProps} class:list={['arrow-link', typeClass, className]} aria-label={ariaLabel}>
   <span class="arrow-link__label"><slot /></span>
   <svg
     class="arrow-link__arrow"
@@ -21,7 +24,7 @@ const { href, class: className, ariaLabel, typeClass = 'type-heading-lg' } = Ast
     <path d="M1.25 14.75 14.75 1.25" />
     <path d="M4.125 1.25H14.75v10.625" />
   </svg>
-</a>
+</Element>
 
 <style>
   .arrow-link {
@@ -43,10 +46,6 @@ const { href, class: className, ariaLabel, typeClass = 'type-heading-lg' } = Ast
     stroke-width: 1.5px;
     stroke-linejoin: round;
     transition: transform 0.3s cubic-bezier(0.16, 0.48, 0.36, 1);
-  }
-
-  .arrow-link:hover {
-    color: var(--c-accent);
   }
 
   .arrow-link:hover .arrow-link__arrow {

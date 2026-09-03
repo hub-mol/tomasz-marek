@@ -60,6 +60,15 @@ export interface SiteSettingsData {
   businessAddress: string[]
   nip?: string
   regon?: string
+  founderName?: string
+  studioStreet?: string
+  studioPostalCode?: string
+  studioCity?: string
+  studioRegion?: string
+  studioCountry?: string
+  areaServed?: string[]
+  iarpNumber?: string
+  iarpUrl?: string
 }
 
 export const defaultHomePage: HomePageData = {
@@ -126,6 +135,14 @@ export const defaultSiteSettings: SiteSettingsData = {
   businessAddress: ['Stary Grabiąż 6A', '78-460 Stary Grabiąż'],
   nip: '6731917259',
   regon: '528600458',
+  founderName: 'Tomasz Marek',
+  studioStreet: 'ul. Magellana 2/29',
+  studioPostalCode: '80-288',
+  studioCity: 'Gdańsk',
+  studioRegion: 'Pomorskie',
+  studioCountry: 'PL',
+  areaServed: ['Gdańsk', 'województwo pomorskie', 'województwo zachodniopomorskie', 'Polska'],
+  iarpNumber: 'PO-1963',
 }
 
 const imageProjection = `{
@@ -152,6 +169,10 @@ export function getHomePage(): Promise<HomePageData> {
 
 export function getSiteSettings(): Promise<SiteSettingsData> {
   settingsCache ??= sanityClient.fetch<Partial<SiteSettingsData> | null>('*[_id == "siteSettings"][0]')
-    .then((data) => ({...defaultSiteSettings, ...(data ?? {})}))
+    .then((data) => ({
+      ...defaultSiteSettings,
+      ...(data ?? {}),
+      areaServed: data?.areaServed?.length ? data.areaServed : defaultSiteSettings.areaServed,
+    }))
   return settingsCache
 }

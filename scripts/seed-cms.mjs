@@ -125,6 +125,14 @@ await client.createOrReplace({
   businessAddress: ['Stary Grabiąż 6A', '78-460 Stary Grabiąż'],
   nip: '6731917259',
   regon: '528600458',
+  founderName: 'Tomasz Marek',
+  studioStreet: 'ul. Magellana 2/29',
+  studioPostalCode: '80-288',
+  studioCity: 'Gdańsk',
+  studioRegion: 'Pomorskie',
+  studioCountry: 'PL',
+  areaServed: ['Gdańsk', 'województwo pomorskie', 'województwo zachodniopomorskie', 'Polska'],
+  iarpNumber: 'PO-1963',
 })
 
 await client.createOrReplace({
@@ -132,10 +140,16 @@ await client.createOrReplace({
   _type: 'blogPost',
   title: 'Jak przygotować się do pierwszej rozmowy z architektem?',
   slug: {_type: 'slug', current: 'jak-przygotowac-sie-do-pierwszej-rozmowy-z-architektem'},
+  routeType: 'blog',
   excerpt: 'Kilka informacji wystarczy, aby pierwsze spotkanie było konkretne i pozwoliło dobrze określić zakres projektu.',
   categories: ['Poradnik'],
   publishedAt: '2026-08-25T10:00:00.000Z',
+  author: 'Tomasz Marek',
+  readingTime: 4,
+  seoTitle: 'Jak przygotować się do pierwszej rozmowy z architektem?',
+  seoDescription: 'Sprawdź, jakie informacje o działce, potrzebach, budżecie i inspiracjach warto przygotować przed pierwszą rozmową z architektem.',
   cover: blogCover,
+  socialImage: blogCover,
   body: [
     block('Pierwsza rozmowa nie wymaga kompletnej dokumentacji ani gotowych odpowiedzi. Jej celem jest poznanie inwestycji, potrzeb i ograniczeń, które będą miały wpływ na dalszą pracę.', 'intro'),
     block('Co warto przygotować?', 'heading-prep', 'h2'),
@@ -154,13 +168,13 @@ for (const project of projects) {
   if (project.content?.length) continue
   const content = []
   if (project.description) {
-    content.push({_key: 'intro-text', _type: 'projectTextBlock', body: [block(project.description, 'intro-paragraph')]})
+    content.push({_key: 'intro-text', _type: 'projectTextBlock', textSize: 'h3', body: [block(project.description, 'intro-paragraph')]})
   }
   for (const [index, image] of (project.gallery ?? []).entries()) {
-    content.push({_key: `image-block-${index}`, _type: 'projectImageBlock', images: [{...image, _key: `image-${index}`}]})
+    content.push({_key: `image-block-${index}`, _type: 'projectImageBlock', columns: 1, images: [{...image, _key: `image-${index}`}]})
   }
   if (content.length === 0) {
-    content.push({_key: 'intro-text', _type: 'projectTextBlock', body: [block('Opis projektu zostanie uzupełniony.', 'intro-paragraph')]})
+    content.push({_key: 'intro-text', _type: 'projectTextBlock', textSize: 'h3', body: [block('Opis projektu zostanie uzupełniony.', 'intro-paragraph')]})
   }
   await client.patch(project._id).set({content}).commit()
   console.log(`✓ Bloki: ${project.title}`)

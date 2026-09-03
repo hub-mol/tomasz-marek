@@ -1,11 +1,7 @@
 ---
 import { plNoBreak } from '../../utils/typography';
+import type {AccordionItem} from '../../data/home';
 import DisclosureIcon from '../DisclosureIcon.astro';
-
-export interface AccordionItem {
-  title: string;
-  body: string;
-}
 
 interface Props {
   id?: string;
@@ -92,10 +88,6 @@ const {
 
   .accordion__label {
     flex: 1;
-  }
-
-  details.accordion__item .accordion__head:hover .accordion__label {
-    color: var(--c-accent);
   }
 
   .accordion__body {

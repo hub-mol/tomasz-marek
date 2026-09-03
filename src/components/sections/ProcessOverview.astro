@@ -1,5 +1,5 @@
 ---
-import type { AccordionItem } from './Accordion.astro';
+import type { AccordionItem } from '../../data/home';
 import { plNoBreak } from '../../utils/typography';
 import DisclosureIcon from '../DisclosureIcon.astro';
 
@@ -101,10 +101,6 @@ const groups = [
 
   .process__label {
     transition: color 0.25s ease;
-  }
-
-  .process__summary:hover .process__label {
-    color: var(--c-accent);
   }
 
   .process__body {

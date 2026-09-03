@@ -3,6 +3,7 @@ import type { Project } from '../../data/portfolio';
 import ProjectImage from '../ProjectImage.astro';
 import ProjectFacts from './ProjectFacts.astro';
 import ProjectContent from './ProjectContent.astro';
+import ProjectHero from './ProjectHero.astro';
 
 interface Props {
   project: Project;
@@ -14,22 +15,7 @@ const hasContent = Boolean(project.content?.length);
 ---
 
 <article class="project-editorial">
-  <header class="section section-spaced project-editorial__head split-golden">
-    <p class="tagline">{project.category}</p>
-    <h1 class="type-h1">{project.title}</h1>
-  </header>
-
-  <figure class="project-editorial__cover">
-    <ProjectImage
-      image={project.img}
-      alt={project.alt}
-      widths={[768, 1280, 1920, 2400]}
-      sizes="100vw"
-      format="avif"
-      loading="eager"
-      fetchpriority="high"
-    />
-  </figure>
+  <ProjectHero project={project} />
 
   {hasContent ? (
     <>
@@ -64,25 +50,6 @@ const hasContent = Boolean(project.content?.length);
 </article>
 
 <style>
-  .project-editorial__head {
-    align-items: end;
-  }
-
-  .project-editorial__head h1 {
-    max-width: 17ch;
-  }
-
-  .project-editorial__cover {
-    overflow: hidden;
-    background: var(--c-bg-alt);
-  }
-
-  .project-editorial__cover :global(img) {
-    width: 100%;
-    max-height: 88svh;
-    object-fit: cover;
-  }
-
   .project-editorial__intro {
     display: grid;
     gap: var(--space-32);

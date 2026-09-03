@@ -9,23 +9,29 @@ interface Props {
 }
 
 const {blocks, projectAlt} = Astro.props;
+const imageSizes = (columns = 1) => columns === 1
+  ? '(max-width: 768px) 100vw, 92vw'
+  : `(max-width: 768px) 100vw, ${Math.ceil(92 / columns)}vw`;
 ---
 
 <div class="project-content">
   {blocks.map((block, blockIndex) => (
     block._type === 'projectTextBlock' ? (
-      <section class="section section-spaced project-content__text">
-        <PortableText value={block.body} />
+      <section class:list={['section', 'section-spaced', 'project-content__text', `project-content__text--${block.textSize ?? 'h3'}`]}>
+        <div class="project-content__text-inner">
+          {block.tagline && <p class="tagline">{block.tagline}</p>}
+          <PortableText value={block.body} />
+        </div>
       </section>
     ) : (
-      <section class="section project-content__images">
+      <section class:list={['section', 'project-content__images', `project-content__images--${block.columns ?? 1}`]}>
         {block.images.map((image, imageIndex) => (
           <figure>
             <ProjectImage
               image={image}
               alt={'alt' in image && image.alt ? image.alt : `${projectAlt} — widok ${blockIndex + imageIndex + 2}`}
               widths={[768, 1280, 1920, 2400]}
-              sizes="(max-width: 768px) 100vw, 92vw"
+              sizes={imageSizes(block.columns)}
               format="avif"
               loading="lazy"
             />
@@ -42,19 +48,37 @@ const {blocks, projectAlt} = Astro.props;
     grid-template-columns: minmax(0, 1.6fr) minmax(17.5rem, 1fr);
   }
 
-  .project-content__text :global(.portable-text) {
+  .project-content__text-inner {
     grid-column: 1;
     max-width: 56rem;
+  }
+
+  .project-content__text-inner > .tagline { margin-bottom: var(--space-6); }
+
+  .project-content__text :global(.portable-text) {
     font-family: var(--ff-heading);
-    font-size: clamp(1.5rem, 2.3vw, 2.5rem);
     line-height: 1.18;
+  }
+
+  .project-content__text--h3 :global(.portable-text) {
+    font-size: clamp(1.5rem, 2.3vw, 2.5rem);
+  }
+
+  .project-content__text--h4 :global(.portable-text) {
+    max-width: 46rem;
+    font-size: clamp(1.25rem, 1.6vw, 1.75rem);
   }
 
   .project-content__images {
     display: grid;
+    grid-template-columns: 1fr;
     gap: var(--space-8);
     padding-bottom: var(--space-8);
   }
+
+  .project-content__images--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .project-content__images--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .project-content__images--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
   .project-content__images figure {
     overflow: hidden;
@@ -73,6 +97,7 @@ const {blocks, projectAlt} = Astro.props;
     }
 
     .project-content__images {
+      grid-template-columns: 1fr;
       gap: var(--space-4);
       padding-inline: 0;
       padding-bottom: var(--space-4);

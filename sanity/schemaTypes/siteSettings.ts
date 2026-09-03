@@ -8,6 +8,7 @@ export const siteSettings = defineType({
     {name: 'general', title: 'Ogólne', default: true},
     {name: 'contact', title: 'Kontakt'},
     {name: 'footer', title: 'Stopka'},
+    {name: 'structuredData', title: 'Dane strukturalne'},
   ],
   fields: [
     defineField({name: 'siteTitle', title: 'Nazwa strony', type: 'string', group: 'general', validation: (rule) => rule.required()}),
@@ -29,6 +30,16 @@ export const siteSettings = defineType({
     defineField({name: 'businessAddress', title: 'Adres działalności', type: 'array', of: [defineArrayMember({type: 'string'})], group: 'footer'}),
     defineField({name: 'nip', title: 'NIP', type: 'string', group: 'footer'}),
     defineField({name: 'regon', title: 'REGON', type: 'string', group: 'footer'}),
+
+    defineField({name: 'founderName', title: 'Imię i nazwisko architekta', type: 'string', group: 'structuredData'}),
+    defineField({name: 'studioStreet', title: 'Ulica i numer pracowni', type: 'string', group: 'structuredData'}),
+    defineField({name: 'studioPostalCode', title: 'Kod pocztowy pracowni', type: 'string', group: 'structuredData'}),
+    defineField({name: 'studioCity', title: 'Miasto pracowni', type: 'string', group: 'structuredData'}),
+    defineField({name: 'studioRegion', title: 'Województwo', type: 'string', group: 'structuredData'}),
+    defineField({name: 'studioCountry', title: 'Kod kraju', description: 'Dwuliterowy kod, np. PL.', type: 'string', group: 'structuredData', validation: (rule) => rule.max(2)}),
+    defineField({name: 'areaServed', title: 'Obszar działania', description: 'Obszary obsługiwane lokalnie i zdalnie, np. Gdańsk, województwo pomorskie, Polska.', type: 'array', of: [defineArrayMember({type: 'string'})], group: 'structuredData'}),
+    defineField({name: 'iarpNumber', title: 'Numer wpisu IARP', description: 'Np. PO-1963.', type: 'string', group: 'structuredData'}),
+    defineField({name: 'iarpUrl', title: 'Link do wpisu IARP', type: 'url', group: 'structuredData'}),
   ],
   preview: {prepare: () => ({title: 'Ustawienia strony'})},
 })

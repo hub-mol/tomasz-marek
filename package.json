@@ -12,7 +12,8 @@
     "astro": "astro",
     "cms:validate": "sanity schema validate",
     "cms:import": "sanity exec scripts/import-projects.mjs --with-user-token",
-    "cms:seed": "sanity exec scripts/seed-cms.mjs --with-user-token"
+    "cms:seed": "sanity exec scripts/seed-cms.mjs --with-user-token",
+    "cms:migrate": "sanity exec scripts/migrate-cms-fields.mjs --with-user-token"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.4",
@@ -23,9 +24,11 @@
     "astro": "^7.1.5",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "sanity": "^6.10.1"
+    "sanity": "^6.10.1",
+    "sharp": "^0.35.4"
   },
   "devDependencies": {
+    "@types/node": "^24.13.3",
     "wrangler": "^4.125.0"
   }
 }

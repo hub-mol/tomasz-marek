@@ -2,12 +2,12 @@ import {sanityClient} from 'sanity:client'
 import type {PortableTextBlock} from '@portabletext/types'
 import type {Project, ProjectContentBlock, SanityProjectImage} from './portfolio'
 
-interface SanityProject extends Omit<Project, 'img' | 'gallery' | 'alt'> {
+interface SanityProject extends Omit<Project, 'img' | 'gallery' | 'alt' | 'content'> {
   img: SanityProjectImage
   gallery?: SanityProjectImage[]
   content?: Array<
-    | {_key: string; _type: 'projectTextBlock'; body: PortableTextBlock[]}
-    | {_key: string; _type: 'projectImageBlock'; images?: SanityProjectImage[]}
+    | {_key: string; _type: 'projectTextBlock'; tagline?: string; textSize?: 'h3' | 'h4'; body: PortableTextBlock[]}
+    | {_key: string; _type: 'projectImageBlock'; columns?: 1 | 2 | 3 | 4; images?: SanityProjectImage[]}
   >
 }
 
@@ -27,6 +27,9 @@ const projectsQuery = `*[
   "content": content[] {
     _key,
     _type,
+    tagline,
+    textSize,
+    columns,
     body,
     "images": images[] {
       "url": asset->url,

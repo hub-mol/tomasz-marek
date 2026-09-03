@@ -10,6 +10,8 @@ interface Props {
   logoEnd?: string;
   /** dopisek za logo, składany cieńszą grubością */
   logoSuffix?: string;
+  overlayColor?: '#111' | '#fff';
+  overlayColorMobile?: '#111' | '#fff';
 }
 
 const settings = await getSiteSettings();
@@ -20,7 +22,13 @@ const {
   logoStart,
   logoEnd,
   logoSuffix = settings.logoSuffix,
+  overlayColor = '#fff',
+  overlayColorMobile = overlayColor,
 } = Astro.props;
+
+const headerStyle = variant === 'overlay'
+  ? `--header-overlay-color: ${overlayColor}; --header-overlay-color-mobile: ${overlayColorMobile};`
+  : undefined;
 
 const menu = [
   { label: 'Portfolio', href: '/#projekty' },
@@ -41,7 +49,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
 
 {/* Cały pasek to jeden <nav>: logo, kreska i pozycje menu. Dzięki temu
     przy otwartym menu nie łapie przygaszenia nakładanego na resztę strony. */}
-<nav class:list={['hdr', `hdr--${variant}`]} aria-label="Główna">
+<nav class:list={['hdr', `hdr--${variant}`]} style={headerStyle} aria-label="Główna">
   <div class="hdr__inner">
     <a class="hdr__logo" href="/">
       {logoStart && logoEnd ? (
@@ -90,7 +98,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     position: absolute;
     inset: 0 0 auto;
     background: transparent;
-    color: #fff;
+    color: var(--header-overlay-color, #fff);
   }
 
   .hdr__inner {
@@ -106,7 +114,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
   }
 
   .hdr--overlay .hdr__inner {
-    border-bottom-color: rgba(255, 255, 255, 0.35);
+    border-bottom-color: color-mix(in srgb, currentColor 35%, transparent);
   }
 
   .hdr--solid .hdr__inner {
@@ -169,11 +177,11 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     transform-origin: left center;
   }
 
-  .hdr__link:hover {
-    color: var(--c-accent);
-  }
-
   @media (max-width: 768px) {
+    .hdr--overlay {
+      color: var(--header-overlay-color-mobile, var(--header-overlay-color, #fff));
+    }
+
     /* przezroczysty checkbox leży dokładnie na ikonie i przejmuje kliknięcia */
     .hdr__toggle {
       position: absolute;

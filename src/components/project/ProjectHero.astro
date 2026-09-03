@@ -1,0 +1,98 @@
+---
+import type {Project} from '../../data/portfolio';
+import {getImageEdgeColors} from '../../lib/imagePalette';
+import ProjectImage from '../ProjectImage.astro';
+
+interface Props {
+  project: Project;
+}
+
+const {project} = Astro.props;
+const heroColors = await getImageEdgeColors(project.img);
+const heroStyle = [
+  `--hero-top-desktop: ${heroColors.top}`,
+  `--hero-bottom-desktop: ${heroColors.bottom}`,
+  `--hero-title-desktop: ${heroColors.titleText}`,
+  `--hero-top-mobile: ${heroColors.mobileTop}`,
+  `--hero-bottom-mobile: ${heroColors.mobileBottom}`,
+  `--hero-title-mobile: ${heroColors.mobileTitleText}`,
+].join('; ');
+---
+
+<header class="project-hero" style={heroStyle}>
+  <ProjectImage
+    image={project.img}
+    alt={project.alt}
+    widths={[768, 1280, 1920, 2400]}
+    sizes="100vw"
+    format="avif"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="section project-hero__title">
+    <p class="tagline">{project.category}</p>
+    <h1 class="type-h1">{project.title}</h1>
+  </div>
+</header>
+
+<style>
+  .project-hero {
+    --hero-top-color: var(--hero-top-desktop, #171816);
+    --hero-bottom-color: var(--hero-bottom-desktop, #171816);
+    --hero-title-color: var(--hero-title-desktop, #fff);
+    position: relative;
+    isolation: isolate;
+    height: 66svh;
+    max-height: 66svh;
+    overflow: hidden;
+    background: #171816;
+    color: var(--hero-title-color, #fff);
+  }
+
+  .project-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      var(--hero-top-color) 0%,
+      transparent 25%,
+      transparent 50%,
+      var(--hero-bottom-color) 100%
+    );
+    -webkit-backdrop-filter: blur(1.5rem);
+    backdrop-filter: blur(1.5rem);
+    -webkit-mask-image: linear-gradient(#000, transparent 25%, transparent 50%, #000 100%);
+    mask-image: linear-gradient(#000, transparent 25%, transparent 50%, #000 100%);
+    pointer-events: none;
+  }
+
+  .project-hero > :global(img) {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .project-hero__title {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 2;
+    padding-bottom: var(--space-16);
+  }
+
+  .project-hero__title .tagline { color: color-mix(in srgb, currentColor 70%, transparent); }
+  .project-hero__title h1 { max-width: 16ch; }
+
+  @media (max-width: 768px) {
+    .project-hero {
+      --hero-top-color: var(--hero-top-mobile, var(--hero-top-desktop, #171816));
+      --hero-bottom-color: var(--hero-bottom-mobile, var(--hero-bottom-desktop, #171816));
+      --hero-title-color: var(--hero-title-mobile, var(--hero-title-desktop, #fff));
+    }
+
+    .project-hero__title { padding-bottom: var(--space-8); }
+  }
+</style>

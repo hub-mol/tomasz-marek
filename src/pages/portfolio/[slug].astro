@@ -7,6 +7,7 @@ import ProjectEditorial from '../../components/project/ProjectEditorial.astro';
 import ProjectImmersive from '../../components/project/ProjectImmersive.astro';
 import ProjectMosaic from '../../components/project/ProjectMosaic.astro';
 import { getProjects } from '../../data/projects';
+import {getImageEdgeColors} from '../../lib/imagePalette';
 
 export async function getStaticPaths() {
   const projects = await getProjects();
@@ -21,13 +22,18 @@ export async function getStaticPaths() {
 }
 
 const { project, prev, next } = Astro.props;
+const heroColors = await getImageEdgeColors(project.img);
 ---
 
 <Base
   title={`${project.title} — Tomasz Marek Architekt`}
   description={`${project.category}. ${project.location}${project.surface ? `, ${project.surface}` : ''}.`}
 >
-  <Header variant={project.layout === 'immersive' ? 'overlay' : 'solid'} />
+  <Header
+    variant="overlay"
+    overlayColor={heroColors.navText}
+    overlayColorMobile={heroColors.mobileNavText}
+  />
 
   <main>
     {project.layout === 'editorial' && <ProjectEditorial project={project} />}

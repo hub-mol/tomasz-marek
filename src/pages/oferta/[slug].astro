@@ -3,7 +3,7 @@ import ArticlePage from '../../components/article/ArticlePage.astro';
 import {getBlogPosts} from '../../data/blogPosts';
 
 export async function getStaticPaths() {
-  const posts = await getBlogPosts();
+  const posts = await getBlogPosts('offer');
   return posts.map((post, index) => ({
     params: {slug: post.slug},
     props: {
