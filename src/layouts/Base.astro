@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
 import '@fontsource-variable/work-sans/wght.css';
-import spaceGroteskUrl from '../assets/fonts/space-grotesk-latin.woff2?url';
+import '@fontsource-variable/dm-sans/wght.css';
+import dmSansUrl from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url';
 import workSansUrl from '@fontsource-variable/work-sans/files/work-sans-latin-wght-normal.woff2?url';
 import {getSiteSettings} from '../data/site';
 
@@ -111,7 +112,7 @@ const professionalServiceJsonLd = JSON.stringify(professionalService).replace(/<
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link
       rel="preload"
-      href={spaceGroteskUrl}
+      href={dmSansUrl}
       as="font"
       type="font/woff2"
       crossorigin

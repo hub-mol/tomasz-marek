@@ -8,6 +8,7 @@ interface Props {
   id?: string;
   eyebrow?: string;
   title?: string;
+  titleClass?: 'type-h2' | 'type-h3';
   text?: string;
   paragraphs?: string[];
   leadFirst?: boolean;
@@ -19,6 +20,7 @@ const {
   id,
   eyebrow = 'O mnie',
   title = 'ArhiconStudio',
+  titleClass = 'type-h2',
   text = 'We reach beyond established trends and apply new creative solutions. Right place for achieving top results.',
   paragraphs,
   leadFirst = true,
@@ -34,7 +36,7 @@ const copy = paragraphs ?? [text];
     <div class="about-hero__col about-hero__col--text">
       <div>
         {eyebrow && <p class="tagline">{eyebrow}</p>}
-        <h2 class="about-hero__title type-h2">{plNoBreak(title)}</h2>
+        <h2 class:list={['about-hero__title', titleClass]}>{plNoBreak(title)}</h2>
       </div>
 
       <div class="about-hero__intro">

@@ -23,7 +23,12 @@ const home = await getHomePage();
   <Header variant="overlay" />
 
   <main>
-    <Hero title={home.heroTitle} text={home.heroLead} img={home.heroImage} alt={home.heroImage?.alt} />
+    <Hero
+      title={home.heroTitle}
+      showTitle={home.showHeroTitle}
+      text={home.heroLead}
+      images={home.heroImages}
+    />
 
     <Approach title={home.approachTitle} body={home.approachBody} callout={home.approachCallout} pillars={home.approachPillars} />
 
@@ -39,7 +44,9 @@ const home = await getHomePage();
 
     <AboutHero
       id="o-mnie"
+      eyebrow=""
       title={home.aboutTitle}
+      titleClass="type-h3"
       leadFirst={false}
       paragraphs={home.aboutParagraphs}
       img={home.aboutImage ?? '/img/tm-7.jpg'}

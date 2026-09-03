@@ -42,8 +42,29 @@ export const homePage = defineType({
   ],
   fields: [
     defineField({name: 'heroTitle', title: 'Nagłówek główny', type: 'text', rows: 3, group: 'hero', validation: (rule) => rule.required()}),
+    defineField({
+      name: 'showHeroTitle',
+      title: 'Pokaż nagłówek na zdjęciu',
+      description: 'Po wyłączeniu tekst wprowadzający i przycisk pozostają w tym samym miejscu.',
+      type: 'boolean',
+      group: 'hero',
+      initialValue: false,
+    }),
     defineField({name: 'heroLead', title: 'Wprowadzenie', type: 'text', rows: 4, group: 'hero', validation: (rule) => rule.required()}),
-    imageWithAlt('heroImage', 'Zdjęcie główne', 'hero'),
+    defineField({
+      name: 'heroImages',
+      title: 'Slideshow hero',
+      description: 'Dodaj maksymalnie 3 zdjęcia. Kolejność można zmieniać przez przeciąganie.',
+      type: 'array',
+      group: 'hero',
+      validation: (rule) => rule.max(3),
+      of: [defineArrayMember({
+        type: 'image',
+        options: {hotspot: true},
+        fields: [defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string', validation: (rule) => rule.required()})],
+      })],
+    }),
+    defineField({name: 'heroImage', title: 'Poprzednie zdjęcie główne', type: 'image', group: 'hero', hidden: true}),
 
     defineField({name: 'approachTitle', title: 'Nagłówek', type: 'string', group: 'approach'}),
     defineField({name: 'approachBody', title: 'Akapity', type: 'array', of: [defineArrayMember({type: 'text', rows: 4})], group: 'approach'}),

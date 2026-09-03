@@ -71,7 +71,7 @@ export const siteSettings = defineType({
     defineField({name: 'footerTitle', title: 'Nagłówek stopki', type: 'string', group: 'footer'}),
     defineField({name: 'footerText', title: 'Tekst stopki', type: 'text', rows: 4, group: 'footer'}),
     defineField({name: 'studioAddress', title: 'Adres pracowni', type: 'array', of: [defineArrayMember({type: 'string'})], group: 'footer'}),
-    defineField({name: 'businessAddress', title: 'Adres działalności', type: 'array', of: [defineArrayMember({type: 'string'})], group: 'footer'}),
+    defineField({name: 'businessAddress', title: 'Adres siedziby', type: 'array', of: [defineArrayMember({type: 'string'})], group: 'footer'}),
     defineField({name: 'nip', title: 'NIP', type: 'string', group: 'footer'}),
     defineField({name: 'regon', title: 'REGON', type: 'string', group: 'footer'}),
 

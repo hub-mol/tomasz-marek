@@ -9,92 +9,157 @@ interface Props {
 }
 
 const {title = 'Wybrane realizacje', linkLabel = 'Zobacz wszystkie projekty'} = Astro.props;
-
 const projects = await getProjects();
-const featuredProjects = projects.filter((project) => project.featured !== false).slice(0, 8);
-const projectGroups = [
-  featuredProjects.slice(0, 3),
-  featuredProjects.slice(3, 5),
-  featuredProjects.slice(5, 8),
-].filter((group) => group.length > 0);
+const featuredProjects = projects.filter((project) => project.featured !== false).slice(0, 4);
 ---
 
-<section class="section section-spaced projects" id="projekty">
-  <header class="projects__head section-head-inline">
-    <h2 class="type-h1">{title}</h2>
-    <ArrowLink href="/portfolio/standard-list" typeClass="type-h3">{linkLabel}</ArrowLink>
-  </header>
+<section class="projects" id="projekty" data-horizontal-projects>
+  <div class="projects__sticky">
+    <header class="projects__head section-head-inline">
+      <h2 class="type-h1">{title}</h2>
+      <ArrowLink href="/portfolio" typeClass="type-h3">{linkLabel}</ArrowLink>
+    </header>
 
-  {projectGroups.map((group, groupIndex) => (
-    <ul class:list={['projects__grid', { 'projects__grid--reverse': groupIndex === 2, 'projects__grid--partial': group.length < 3 }]}>
-    {
-      group.map((item, index) => (
-        <li>
-          <ProjectCard project={item} prominent={group.length === 3 && index === 0} />
-        </li>
-      ))
-    }
-    </ul>
-  ))}
+    <div class="projects__viewport" data-projects-viewport>
+      <ul class="projects__track" data-projects-track>
+        {featuredProjects.map((item) => (
+          <li class="projects__item">
+            <ProjectCard project={item} prominent />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
 </section>
 
+<script>
+  const setupHorizontalProjects = (section: HTMLElement) => {
+    const viewport = section.querySelector<HTMLElement>('[data-projects-viewport]');
+    const track = section.querySelector<HTMLElement>('[data-projects-track]');
+    if (!viewport || !track) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const desktop = window.matchMedia('(min-width: 769px)');
+    let distance = 0;
+    let frame = 0;
+
+    const render = () => {
+      frame = 0;
+      if (!desktop.matches || reducedMotion.matches || distance <= 0) {
+        track.style.transform = '';
+        return;
+      }
+      const progress = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / distance));
+      track.style.transform = `translate3d(${-progress * distance}px, 0, 0)`;
+    };
+
+    const requestRender = () => {
+      if (!frame) frame = requestAnimationFrame(render);
+    };
+
+    const measure = () => {
+      distance = Math.max(0, track.scrollWidth - viewport.clientWidth);
+      section.style.setProperty('--scroll-distance', `${distance}px`);
+      section.toggleAttribute('data-scroll-ready', desktop.matches && !reducedMotion.matches && distance > 0);
+      requestRender();
+    };
+
+    window.addEventListener('scroll', requestRender, {passive: true});
+    window.addEventListener('resize', measure, {passive: true});
+    desktop.addEventListener('change', measure);
+    reducedMotion.addEventListener('change', measure);
+    new ResizeObserver(measure).observe(track);
+    measure();
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-horizontal-projects]').forEach(setupHorizontalProjects);
+</script>
+
 <style>
-  .projects__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.6fr) minmax(17.5rem, 1fr);
+  .projects {
+    --scroll-distance: 0px;
+    background: var(--c-bg);
+  }
+
+  .projects[data-scroll-ready] {
+    height: calc(100svh + var(--scroll-distance));
+  }
+
+  .projects__sticky {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100svh;
+    padding-block: clamp(var(--space-12), 7vh, var(--space-24));
+    overflow: hidden;
+  }
+
+  .projects[data-scroll-ready] .projects__sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+  }
+
+  .projects__head {
+    padding-inline: var(--gutter);
+    margin-bottom: clamp(var(--space-8), 5vh, var(--space-16));
+  }
+
+  .projects__viewport {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .projects__viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .projects[data-scroll-ready] .projects__viewport {
+    overflow: hidden;
+  }
+
+  .projects__track {
+    display: flex;
+    align-items: flex-start;
     gap: var(--space-8);
-    align-items: start;
+    width: max-content;
+    padding-inline: var(--gutter);
+    will-change: transform;
   }
 
-  .projects__grid + .projects__grid {
-    margin-top: var(--space-8);
-  }
-
-  .projects__grid--reverse {
-    grid-template-columns: minmax(17.5rem, 1fr) minmax(0, 1.6fr);
-  }
-
-  .projects__grid--reverse > li:first-child {
-    grid-column: 2;
-  }
-
-  .projects__grid--reverse > li:not(:first-child) {
-    grid-column: 1;
-  }
-
-  .projects__grid--partial {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .projects__grid > li:first-child {
-    grid-row: span 2;
-  }
-
-  .projects__grid--partial > li:first-child {
-    grid-row: auto;
+  .projects__item {
+    width: clamp(42rem, 62vw, 68rem);
+    flex: 0 0 auto;
   }
 
   @media (max-width: 1024px) {
-    .projects__grid {
-      grid-template-columns: 1fr;
-    }
-
-    .projects__grid > li,
-    .projects__grid--reverse > li:first-child,
-    .projects__grid--reverse > li:not(:first-child) {
-      grid-column: auto;
-      grid-row: auto;
+    .projects__item {
+      width: 75vw;
     }
   }
 
   @media (max-width: 768px) {
+    .projects,
+    .projects[data-scroll-ready] {
+      height: auto;
+    }
+
+    .projects__sticky,
+    .projects[data-scroll-ready] .projects__sticky {
+      position: static;
+      min-height: 0;
+      height: auto;
+      padding-block: var(--sec-y);
+    }
+
     .projects__head {
+      align-items: flex-start;
       margin-bottom: var(--space-8);
     }
 
-    .projects__grid > li:first-child {
-      grid-row: auto;
+    .projects__item {
+      width: 84vw;
     }
-
   }
 </style>

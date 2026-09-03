@@ -20,8 +20,10 @@ export interface OfferGroup {
 
 export interface HomePageData {
   heroTitle: string
+  showHeroTitle: boolean
   heroLead: string
   heroImage?: SanityProjectImage
+  heroImages: SanityProjectImage[]
   approachTitle: string
   approachBody: string[]
   approachCallout: string
@@ -81,7 +83,9 @@ export interface NavigationLink {
 
 export const defaultHomePage: HomePageData = {
   heroTitle: 'Architektura zainspirowana miejscem i ludźmi.',
+  showHeroTitle: false,
   heroLead: 'Od idei po realizację poprowadzimy Cię przez cały proces projektowy i wykonawczy.',
+  heroImages: [],
   approachTitle: 'Nie zaczynamy od gotowej odpowiedzi.',
   approachBody: [
     'Każdy projekt poprzedzamy analizą miejsca, potrzeb użytkowników, możliwości działki i charakteru inwestycji.',
@@ -132,7 +136,7 @@ export const defaultSiteSettings: SiteSettingsData = {
   logo: 'TMA',
   logoSuffix: 'Tomasz Marek Architekt',
   navigationLinks: [
-    {label: 'Portfolio', href: '/#projekty'},
+    {label: 'Portfolio', href: '/portfolio'},
     {label: 'Oferta', href: '/#oferta'},
     {label: 'Proces', href: '/#proces'},
     {label: 'Blog', href: '/blog'},
@@ -171,6 +175,7 @@ const imageProjection = `{
 const homePageQuery = `*[_id == "homePage"][0] {
   ...,
   "heroImage": heroImage ${imageProjection},
+  "heroImages": heroImages[] ${imageProjection},
   "aboutImage": aboutImage ${imageProjection}
 }`
 
@@ -184,7 +189,16 @@ let settingsCache: Promise<SiteSettingsData> | undefined
 
 export function getHomePage(): Promise<HomePageData> {
   homePageCache ??= sanityClient.fetch<Partial<HomePageData> | null>(homePageQuery)
-    .then((data) => ({...defaultHomePage, ...(data ?? {})}))
+    .then((data) => {
+      const merged = {...defaultHomePage, ...(data ?? {})}
+      return {
+        ...merged,
+        showHeroTitle: data?.showHeroTitle ?? false,
+        heroImages: data?.heroImages?.length
+          ? data.heroImages.slice(0, 3)
+          : merged.heroImage ? [merged.heroImage] : [],
+      }
+    })
   return homePageCache
 }
 

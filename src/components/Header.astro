@@ -45,7 +45,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     Checkbox jest przezroczysty, ale zostaje w drzewie fokusu. */}
 <input class="hdr__toggle" type="checkbox" id="nav-open" aria-label="Menu" />
 
-{/* Cały pasek to jeden <nav>: logo, kreska i pozycje menu. Dzięki temu
+{/* Cały pasek to jeden <nav>: logo i pozycje menu. Dzięki temu
     przy otwartym menu nie łapie przygaszenia nakładanego na resztę strony. */}
 <nav class:list={['hdr', `hdr--${variant}`]} style={headerStyle} aria-label="Główna">
   <div class="hdr__inner">
@@ -117,16 +117,6 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     gap: var(--space-16);
     min-height: var(--hdr-h);
     padding-inline: var(--gutter);
-    /* cienka linia zamykająca pasek */
-    border-bottom: 1px solid currentColor;
-  }
-
-  .hdr--overlay .hdr__inner {
-    border-bottom-color: color-mix(in srgb, currentColor 35%, transparent);
-  }
-
-  .hdr--solid .hdr__inner {
-    border-bottom-color: var(--c-line);
   }
 
   .hdr__logo {
@@ -273,19 +263,6 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     .hdr__toggle:checked ~ .hdr .hdr__burger {
       color: var(--c-fg);
       z-index: 102;
-    }
-
-    /* Kreska nagłówka leży pod panelem, więc przy otwartym menu rysujemy ją
-       jeszcze raz jako warstwę nad nim — w kolorze czytelnym na jasnym tle. */
-    .hdr__toggle:checked ~ .hdr .hdr__inner::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 100%;
-      z-index: 102;
-      height: 1px;
-      background: var(--c-line);
     }
 
     /* z-index niżej niż pasek (100), więc panel i ikona zostają klikalne,

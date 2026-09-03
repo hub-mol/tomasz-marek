@@ -32,6 +32,10 @@ W Sanity otwórz **Ustawienia strony → Logo i nawigacja**. Można tam:
 
 Logo z pliku automatycznie przyjmuje kolor tekstu nagłówka, dzięki czemu pozostaje czytelne na jasnych i ciemnych zdjęciach.
 
+## Hero strony głównej
+
+W Sanity otwórz **Strona główna → Otwarcie**. Pole **Pokaż nagłówek na zdjęciu** steruje widocznością hasła w hero i jest domyślnie wyłączone. W polu **Slideshow hero** można dodać oraz przeciągać maksymalnie trzy zdjęcia. Jedno zdjęcie pozostaje statyczne, a dwa lub trzy automatycznie przechodzą między sobą.
+
 ## Publikacje: blog i oferta
 
 W Sanity wybierz **Blog i oferta**, utwórz publikację i ustaw pole **Rodzaj strony**:

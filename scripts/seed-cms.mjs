@@ -59,8 +59,10 @@ await client.createOrReplace({
   _id: 'homePage',
   _type: 'homePage',
   heroTitle: 'Architektura zainspirowana miejscem i ludźmi.',
+  showHeroTitle: false,
   heroLead: 'Od idei po realizację poprowadzimy Cię przez cały proces projektowy i wykonawczy.',
   heroImage: homeHero,
+  heroImages: [{...homeHero, _key: 'hero-1'}],
   approachTitle: 'Nie zaczynamy od gotowej odpowiedzi.',
   approachBody: [
     'Każdy projekt poprzedzamy analizą miejsca, potrzeb użytkowników, możliwości działki i charakteru inwestycji.',
@@ -114,7 +116,7 @@ await client.createOrReplace({
   logo: 'TMA',
   logoSuffix: 'Tomasz Marek Architekt',
   navigationLinks: [
-    {_key: 'portfolio', _type: 'navigationLink', label: 'Portfolio', href: '/#projekty', openInNewTab: false},
+    {_key: 'portfolio', _type: 'navigationLink', label: 'Portfolio', href: '/portfolio', openInNewTab: false},
     {_key: 'offer', _type: 'navigationLink', label: 'Oferta', href: '/#oferta', openInNewTab: false},
     {_key: 'process', _type: 'navigationLink', label: 'Proces', href: '/#proces', openInNewTab: false},
     {_key: 'blog', _type: 'navigationLink', label: 'Blog', href: '/blog', openInNewTab: false},

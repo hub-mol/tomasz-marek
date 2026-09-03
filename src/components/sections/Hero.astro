@@ -7,42 +7,54 @@ import type {ProjectImage as ProjectImageType} from '../../data/portfolio';
 
 interface Props {
   title?: string;
+  showTitle?: boolean;
   titleStart?: string;
   titleEnd?: string;
   text?: string;
   img?: ProjectImageType;
+  images?: ProjectImageType[];
   alt?: string;
 }
 
 const {
   title = 'Architektura zainspirowana miejscem i ludźmi.',
+  showTitle = false,
   titleStart,
   titleEnd,
   text = 'Od idei po realizację poprowadzimy Cię przez cały proces projektowy i wykonawczy.',
   img = heroImage,
+  images,
   alt = 'Wizualizacja projektu architektonicznego autorstwa Tomasza Marka',
 } = Astro.props;
+
+const slides = images?.length ? images.slice(0, 3) : [img];
 ---
 
 <section class="hero">
-  <div class="hero__media" aria-hidden="true">
-    <ProjectImage
-      image={img}
-      alt={alt}
-      widths={[768, 1280, 1920, 2400]}
-      sizes="100vw"
-      format="avif"
-      loading="eager"
-      fetchpriority="high"
-    />
+  <div class:list={['hero__media', {'hero__media--slideshow': slides.length > 1}]} aria-hidden="true">
+    {slides.map((slide, index) => (
+      <div class="hero__slide" style={`--slide-index: ${index}; --slide-count: ${slides.length};`}>
+        <ProjectImage
+          image={slide}
+          alt={slide && 'alt' in slide ? slide.alt ?? alt : alt}
+          widths={[768, 1280, 1920, 2400]}
+          sizes="100vw"
+          format="avif"
+          loading={index === 0 ? 'eager' : 'lazy'}
+          fetchpriority={index === 0 ? 'high' : 'auto'}
+        />
+      </div>
+    ))}
   </div>
 
   <div class="hero__content">
-    <h1 class="hero__title type-h1">
-      {titleStart && titleEnd ? (
-        <>{plNoBreak(titleStart)}<span class="hero__star">*</span>{plNoBreak(titleEnd)}</>
-      ) : plNoBreak(title)}
-    </h1>
+    {showTitle && (
+      <h1 class="hero__title type-h1">
+        {titleStart && titleEnd ? (
+          <>{plNoBreak(titleStart)}<span class="hero__star">*</span>{plNoBreak(titleEnd)}</>
+        ) : plNoBreak(title)}
+      </h1>
+    )}
     <div class="hero__aside">
       <p class="hero__note type-heading-lg">{plNoBreak(text)}</p>
       <ArrowLink href="/#kontakt">Umów konsultację z&nbsp;architektem</ArrowLink>
@@ -65,6 +77,17 @@ const {
     inset: 0;
   }
 
+  .hero__slide {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero__media--slideshow .hero__slide {
+    opacity: 0;
+    animation: hero-crossfade calc(var(--slide-count) * 6s) infinite;
+    animation-delay: calc(var(--slide-index) * 6s);
+  }
+
   .hero__media::after {
     content: '';
     position: absolute;
@@ -72,7 +95,7 @@ const {
     background: rgba(0, 0, 0, 0.1);
   }
 
-  .hero__media :global(img) {
+  .hero__slide :global(img) {
     width: 100%;
     height: 100%;
     max-height: 100%;
@@ -100,6 +123,10 @@ const {
     white-space: pre-line;
   }
 
+  .hero__aside {
+    grid-column: 2;
+  }
+
   .hero__star {
     color: var(--c-accent);
   }
@@ -108,10 +135,30 @@ const {
     margin-top: var(--space-6);
   }
 
+  @keyframes hero-crossfade {
+    0%, 28% { opacity: 1; }
+    34%, 94% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__media--slideshow .hero__slide {
+      animation: none;
+    }
+
+    .hero__media--slideshow .hero__slide:first-child {
+      opacity: 1;
+    }
+  }
+
   @media (max-width: 768px) {
     .hero__content {
       grid-template-columns: 1fr;
       padding-bottom: var(--space-8);
+    }
+
+    .hero__aside {
+      grid-column: 1;
     }
   }
 </style>

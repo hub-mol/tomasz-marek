@@ -6,7 +6,7 @@ const settings = await client.fetch(`*[_id == "siteSettings"][0]{_id, navigation
 if (settings?._id && !settings.navigationLinks?.length) {
   await client.patch(settings._id).set({
     navigationLinks: [
-      {_key: 'portfolio', _type: 'navigationLink', label: 'Portfolio', href: '/#projekty', openInNewTab: false},
+      {_key: 'portfolio', _type: 'navigationLink', label: 'Portfolio', href: '/portfolio', openInNewTab: false},
       {_key: 'offer', _type: 'navigationLink', label: 'Oferta', href: '/#oferta', openInNewTab: false},
       {_key: 'process', _type: 'navigationLink', label: 'Proces', href: '/#proces', openInNewTab: false},
       {_key: 'blog', _type: 'navigationLink', label: 'Blog', href: '/blog', openInNewTab: false},
@@ -15,6 +15,31 @@ if (settings?._id && !settings.navigationLinks?.length) {
     ],
   }).commit()
   console.log('✓ Ustawienia: linki nawigacji')
+}
+
+if (settings?._id && settings.navigationLinks?.length) {
+  const navigationLinks = settings.navigationLinks.map((item) =>
+    item._key === 'portfolio' && item.href === '/#projekty'
+      ? {...item, href: '/portfolio'}
+      : item
+  )
+  if (navigationLinks.some((item, index) => item.href !== settings.navigationLinks[index]?.href)) {
+    await client.patch(settings._id).set({navigationLinks}).commit()
+    console.log('✓ Ustawienia: link Portfolio prowadzi do /portfolio')
+  }
+}
+
+const homePage = await client.fetch(`*[_id == "homePage"][0]{_id, showHeroTitle, heroImage, heroImages}`)
+if (homePage?._id) {
+  const fields = {}
+  if (homePage.showHeroTitle === undefined) fields.showHeroTitle = false
+  if (!homePage.heroImages?.length && homePage.heroImage) {
+    fields.heroImages = [{...homePage.heroImage, _key: 'hero-1'}]
+  }
+  if (Object.keys(fields).length > 0) {
+    await client.patch(homePage._id).set(fields).commit()
+    console.log('✓ Strona główna: switch nagłówka i slideshow hero')
+  }
 }
 
 const publications = await client.fetch(`*[_type == "blogPost"]{
