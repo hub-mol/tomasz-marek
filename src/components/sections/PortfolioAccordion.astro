@@ -98,34 +98,34 @@ const projects = await getProjects();
     transition: color 0.3s ease;
   }
 
-  .pfa__link {
+  :global(.pfa__link) {
     justify-self: end;
     white-space: nowrap;
     pointer-events: none;
   }
 
-  .pfa__link :global(.arrow-link__label) {
+  :global(.pfa__link .arrow-link__label) {
     opacity: 0;
     transition: opacity 0.25s ease;
   }
 
-  .pfa__link :global(.arrow-link__arrow) {
+  :global(.pfa__link .arrow-link__arrow) {
     transform: rotate(-45deg);
   }
 
-  .pfa__item[open] .pfa__link {
+  .pfa__item[open] :global(.pfa__link) {
     pointer-events: auto;
   }
 
-  .pfa__item[open] .pfa__link :global(.arrow-link__label) {
+  .pfa__item[open] :global(.pfa__link .arrow-link__label) {
     opacity: 1;
   }
 
-  .pfa__item[open] .pfa__link :global(.arrow-link__arrow) {
+  .pfa__item[open] :global(.pfa__link .arrow-link__arrow) {
     transform: rotate(0);
   }
 
-  .pfa__item[open] .pfa__link:hover :global(.arrow-link__arrow) {
+  .pfa__item[open] :global(.pfa__link:hover .arrow-link__arrow) {
     transform: translate(2px, -2px);
   }
 
