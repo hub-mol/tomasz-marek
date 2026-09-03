@@ -2,6 +2,21 @@ import {getCliClient} from 'sanity/cli'
 
 const client = getCliClient({apiVersion: '2026-08-25'})
 
+const settings = await client.fetch(`*[_id == "siteSettings"][0]{_id, navigationLinks}`)
+if (settings?._id && !settings.navigationLinks?.length) {
+  await client.patch(settings._id).set({
+    navigationLinks: [
+      {_key: 'portfolio', _type: 'navigationLink', label: 'Portfolio', href: '/#projekty', openInNewTab: false},
+      {_key: 'offer', _type: 'navigationLink', label: 'Oferta', href: '/#oferta', openInNewTab: false},
+      {_key: 'process', _type: 'navigationLink', label: 'Proces', href: '/#proces', openInNewTab: false},
+      {_key: 'blog', _type: 'navigationLink', label: 'Blog', href: '/blog', openInNewTab: false},
+      {_key: 'contact', _type: 'navigationLink', label: 'Kontakt', href: '/#kontakt', openInNewTab: false},
+      {_key: 'booking', _type: 'navigationLink', label: 'Umów spotkanie', href: 'mailto:biuro@tomaszmarek.com?subject=Spotkanie z architektem', openInNewTab: false},
+    ],
+  }).commit()
+  console.log('✓ Ustawienia: linki nawigacji')
+}
+
 const publications = await client.fetch(`*[_type == "blogPost"]{
   _id,
   slug,

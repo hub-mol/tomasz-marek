@@ -21,6 +21,17 @@ npm run astro -- dev stop
 
 Panel Sanity jest dostępny lokalnie oraz po wdrożeniu pod `/admin`.
 
+## Logo i nawigacja
+
+W Sanity otwórz **Ustawienia strony → Logo i nawigacja**. Można tam:
+
+- wgrać jednokolorowe logo PNG, WebP lub SVG z przezroczystym tłem,
+- ustawić tekstowe logo używane jako fallback,
+- dodawać, usuwać i przeciągać linki menu,
+- edytować etykietę i adres każdego linku oraz otwieranie w nowej karcie.
+
+Logo z pliku automatycznie przyjmuje kolor tekstu nagłówka, dzięki czemu pozostaje czytelne na jasnych i ciemnych zdjęciach.
+
 ## Publikacje: blog i oferta
 
 W Sanity wybierz **Blog i oferta**, utwórz publikację i ustaw pole **Rodzaj strony**:

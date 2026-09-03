@@ -6,6 +6,7 @@ export const siteSettings = defineType({
   type: 'document',
   groups: [
     {name: 'general', title: 'Ogólne', default: true},
+    {name: 'navigation', title: 'Logo i nawigacja'},
     {name: 'contact', title: 'Kontakt'},
     {name: 'footer', title: 'Stopka'},
     {name: 'structuredData', title: 'Dane strukturalne'},
@@ -14,8 +15,51 @@ export const siteSettings = defineType({
     defineField({name: 'siteTitle', title: 'Nazwa strony', type: 'string', group: 'general', validation: (rule) => rule.required()}),
     defineField({name: 'defaultSeoTitle', title: 'Domyślny tytuł SEO', type: 'string', group: 'general', validation: (rule) => rule.required()}),
     defineField({name: 'defaultSeoDescription', title: 'Domyślny opis SEO', type: 'text', rows: 3, group: 'general', validation: (rule) => rule.required().max(180)}),
-    defineField({name: 'logo', title: 'Skrót logo', type: 'string', group: 'general', validation: (rule) => rule.required().max(12)}),
-    defineField({name: 'logoSuffix', title: 'Nazwa przy logo', type: 'string', group: 'general'}),
+    defineField({name: 'logo', title: 'Skrót logo', description: 'Tekst wyświetlany, gdy nie dodano pliku logo.', type: 'string', group: 'navigation', validation: (rule) => rule.required().max(12)}),
+    defineField({name: 'logoSuffix', title: 'Nazwa przy logo', description: 'Dopisek wyświetlany obok tekstowego skrótu logo.', type: 'string', group: 'navigation'}),
+    defineField({
+      name: 'logoImage',
+      title: 'Plik logo w nagłówku',
+      description: 'Opcjonalne logo jednokolorowe z przezroczystym tłem. Zastępuje tekstowe logo i automatycznie dopasowuje kolor do nagłówka.',
+      type: 'image',
+      group: 'navigation',
+      options: {accept: 'image/svg+xml,image/png,image/webp'},
+      fields: [
+        defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string', validation: (rule) => rule.required()}),
+      ],
+    }),
+    defineField({
+      name: 'navigationLinks',
+      title: 'Linki nawigacji',
+      description: 'Kolejność elementów można zmieniać przez przeciąganie. Adres może być ścieżką, kotwicą, adresem e-mail lub pełnym URL.',
+      type: 'array',
+      group: 'navigation',
+      validation: (rule) => rule.max(8),
+      of: [
+        defineArrayMember({
+          name: 'navigationLink',
+          title: 'Link',
+          type: 'object',
+          fields: [
+            defineField({name: 'label', title: 'Etykieta', type: 'string', validation: (rule) => rule.required()}),
+            defineField({
+              name: 'href',
+              title: 'Adres',
+              description: 'Np. /blog, /#projekty, mailto:biuro@tomaszmarek.com lub https://…',
+              type: 'string',
+              validation: (rule) => rule.required().custom((value) => {
+                if (!value || /^(\/|#|mailto:|tel:|https?:\/\/)/.test(value)) return true
+                return 'Adres musi zaczynać się od /, #, mailto:, tel:, http:// lub https://'
+              }),
+            }),
+            defineField({name: 'openInNewTab', title: 'Otwórz w nowej karcie', type: 'boolean', initialValue: false}),
+          ],
+          preview: {
+            select: {title: 'label', subtitle: 'href'},
+          },
+        }),
+      ],
+    }),
 
     defineField({name: 'email', title: 'E-mail', type: 'string', group: 'contact', validation: (rule) => rule.required().email()}),
     defineField({name: 'phoneLabel', title: 'Telefon — zapis widoczny', type: 'string', group: 'contact'}),

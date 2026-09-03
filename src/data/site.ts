@@ -48,6 +48,8 @@ export interface SiteSettingsData {
   defaultSeoDescription: string
   logo: string
   logoSuffix: string
+  logoImage?: SanityProjectImage
+  navigationLinks: NavigationLink[]
   email: string
   phoneLabel: string
   phoneHref: string
@@ -69,6 +71,12 @@ export interface SiteSettingsData {
   areaServed?: string[]
   iarpNumber?: string
   iarpUrl?: string
+}
+
+export interface NavigationLink {
+  label: string
+  href: string
+  openInNewTab?: boolean
 }
 
 export const defaultHomePage: HomePageData = {
@@ -123,6 +131,14 @@ export const defaultSiteSettings: SiteSettingsData = {
   defaultSeoDescription: 'Kompleksowa obsługa inwestycji — od analizy działki, przez projekt i formalności, po wnętrza i nadzór autorski.',
   logo: 'TMA',
   logoSuffix: 'Tomasz Marek Architekt',
+  navigationLinks: [
+    {label: 'Portfolio', href: '/#projekty'},
+    {label: 'Oferta', href: '/#oferta'},
+    {label: 'Proces', href: '/#proces'},
+    {label: 'Blog', href: '/blog'},
+    {label: 'Kontakt', href: '/#kontakt'},
+    {label: 'Umów spotkanie', href: 'mailto:biuro@tomaszmarek.com?subject=Spotkanie z architektem'},
+  ],
   email: 'biuro@tomaszmarek.com',
   phoneLabel: '+48 696 995 899',
   phoneHref: '+48696995899',
@@ -158,6 +174,11 @@ const homePageQuery = `*[_id == "homePage"][0] {
   "aboutImage": aboutImage ${imageProjection}
 }`
 
+const siteSettingsQuery = `*[_id == "siteSettings"][0] {
+  ...,
+  "logoImage": logoImage ${imageProjection}
+}`
+
 let homePageCache: Promise<HomePageData> | undefined
 let settingsCache: Promise<SiteSettingsData> | undefined
 
@@ -168,10 +189,11 @@ export function getHomePage(): Promise<HomePageData> {
 }
 
 export function getSiteSettings(): Promise<SiteSettingsData> {
-  settingsCache ??= sanityClient.fetch<Partial<SiteSettingsData> | null>('*[_id == "siteSettings"][0]')
+  settingsCache ??= sanityClient.fetch<Partial<SiteSettingsData> | null>(siteSettingsQuery)
     .then((data) => ({
       ...defaultSiteSettings,
       ...(data ?? {}),
+      navigationLinks: data?.navigationLinks?.length ? data.navigationLinks : defaultSiteSettings.navigationLinks,
       areaServed: data?.areaServed?.length ? data.areaServed : defaultSiteSettings.areaServed,
     }))
   return settingsCache

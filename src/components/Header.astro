@@ -15,6 +15,7 @@ interface Props {
 }
 
 const settings = await getSiteSettings();
+const hasLogoOverride = Astro.props.logo !== undefined || Astro.props.logoStart !== undefined || Astro.props.logoEnd !== undefined;
 
 const {
   variant = 'solid',
@@ -30,14 +31,11 @@ const headerStyle = variant === 'overlay'
   ? `--header-overlay-color: ${overlayColor}; --header-overlay-color-mobile: ${overlayColorMobile};`
   : undefined;
 
-const menu = [
-  { label: 'Portfolio', href: '/#projekty' },
-  { label: 'Oferta', href: '/#oferta' },
-  { label: 'Proces', href: '/#proces' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Kontakt', href: '/#kontakt' },
-  { label: settings.bookingLabel, href: `mailto:${settings.email}?subject=Spotkanie z architektem` },
-];
+const menu = settings.navigationLinks;
+const cmsLogo = !hasLogoOverride ? settings.logoImage : undefined;
+const logoImageStyle = cmsLogo
+  ? `--logo-image: url("${cmsLogo.url}"); --logo-ratio: ${cmsLogo.width && cmsLogo.height ? cmsLogo.width / cmsLogo.height : 4};`
+  : undefined;
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => !href.includes('#') && href === path;
@@ -52,10 +50,18 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
 <nav class:list={['hdr', `hdr--${variant}`]} style={headerStyle} aria-label="Główna">
   <div class="hdr__inner">
     <a class="hdr__logo" href="/">
-      {logoStart && logoEnd ? (
+      {cmsLogo ? (
+        <span
+          class="hdr__logo-image"
+          style={logoImageStyle}
+          role="img"
+          aria-label={cmsLogo.alt ?? settings.siteTitle}
+        ></span>
+      ) : logoStart && logoEnd ? (
         <>{logoStart}<span class="hdr__star">*</span>{logoEnd}</>
-      ) : logo}
-      {logoSuffix && <span class="hdr__logo-suffix"> {logoSuffix}</span>}
+      ) : (
+        <>{logo}{logoSuffix && <span class="hdr__logo-suffix"> {logoSuffix}</span>}</>
+      )}
     </a>
 
     <ul class="hdr__menu">
@@ -65,6 +71,8 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
             <a
               class:list={['hdr__link', 'type-nav', { 'is-current': isCurrent(item.href) }]}
               href={item.href}
+              target={item.openInNewTab ? '_blank' : undefined}
+              rel={item.openInNewTab ? 'noreferrer' : undefined}
             >
               {item.label}
             </a>
@@ -122,11 +130,23 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
   }
 
   .hdr__logo {
+    display: inline-flex;
+    align-items: center;
     flex-shrink: 0;
     font-family: var(--ff-heading);
     font-size: 1rem;
     font-weight: 700;
     letter-spacing: 0.02em;
+  }
+
+  .hdr__logo-image {
+    display: block;
+    width: calc(1.5rem * var(--logo-ratio, 4));
+    max-width: 14rem;
+    height: 1.5rem;
+    background: currentColor;
+    -webkit-mask: var(--logo-image) center / contain no-repeat;
+    mask: var(--logo-image) center / contain no-repeat;
   }
 
   .hdr__star {
