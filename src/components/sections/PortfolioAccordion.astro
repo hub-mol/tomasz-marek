@@ -72,6 +72,10 @@ const projects = await getProjects();
     list-style: none;
   }
 
+  .pfa__item:not([open]) > summary {
+    cursor: pointer;
+  }
+
   .pfa__item > summary::-webkit-details-marker {
     display: none;
   }
