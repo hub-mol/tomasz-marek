@@ -41,6 +41,7 @@ const featuredProjects = projects.filter((project) => project.featured !== false
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const desktop = window.matchMedia('(min-width: 769px)');
     let distance = 0;
+    let leadIn = 0;
     let frame = 0;
 
     const render = () => {
@@ -49,7 +50,7 @@ const featuredProjects = projects.filter((project) => project.featured !== false
         track.style.transform = '';
         return;
       }
-      const progress = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / distance));
+      const progress = Math.min(1, Math.max(0, (-section.getBoundingClientRect().top - leadIn) / distance));
       track.style.transform = `translate3d(${-progress * distance}px, 0, 0)`;
     };
 
@@ -58,8 +59,11 @@ const featuredProjects = projects.filter((project) => project.featured !== false
     };
 
     const measure = () => {
-      distance = Math.max(0, track.scrollWidth - viewport.clientWidth);
-      section.style.setProperty('--scroll-distance', `${distance}px`);
+      const lastItem = track.lastElementChild as HTMLElement | null;
+      const gutter = Number.parseFloat(getComputedStyle(track).paddingLeft) || 0;
+      distance = Math.max(0, (lastItem?.offsetLeft ?? 0) - gutter);
+      leadIn = window.innerHeight * 0.18;
+      section.style.setProperty('--scroll-distance', `${distance + leadIn}px`);
       section.toggleAttribute('data-scroll-ready', desktop.matches && !reducedMotion.matches && distance > 0);
       requestRender();
     };
