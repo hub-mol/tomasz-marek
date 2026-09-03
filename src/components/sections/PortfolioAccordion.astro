@@ -1,14 +1,17 @@
 ---
 import ProjectImage from '../ProjectImage.astro';
 import ArrowLink from '../ArrowLink.astro';
+import DisclosureIcon from '../DisclosureIcon.astro';
 import { getProjects } from '../../data/projects';
 
 const projects = await getProjects();
+const singleImageProjectSlugs = new Set(['dom-poznan', 'osrodek-radacz', 'zwyciestwa-gliwice']);
 ---
 
 {
   projects.map((project, index) => {
-    const previewImages = [project.img, ...project.gallery].slice(0, 2);
+    const previewImageCount = singleImageProjectSlugs.has(project.slug) ? 1 : 2;
+    const previewImages = [project.img, ...project.gallery].slice(0, previewImageCount);
 
     return <details class="pfa__item" name="projekty" open={index === 0} data-portfolio-preview>
       <summary>
@@ -19,11 +22,8 @@ const projects = await getProjects();
               <span class="pfa__area type-body-md">{project.category}{project.location ? ` · ${project.location}` : ''}</span>
               <span class="pfa__surface type-body-md">{project.surface ?? ''}</span>
             </span>
-            <span class="pfa__indicator" aria-hidden="true">
-              <svg viewBox="0 0 16 16">
-                <path d="M1.25 14.75 14.75 1.25" />
-                <path d="M4.125 1.25H14.75v10.625" />
-              </svg>
+            <span class="pfa__indicator">
+              <DisclosureIcon />
             </span>
           </span>
         </span>
@@ -108,20 +108,8 @@ const projects = await getProjects();
     justify-self: end;
   }
 
-  .pfa__indicator svg {
-    display: block;
-    width: 1rem;
-    height: 1rem;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.5px;
-    stroke-linejoin: round;
-    transform: rotate(135deg);
-    transition: transform 0.3s cubic-bezier(0.16, 0.48, 0.36, 1);
-  }
-
-  .pfa__item[open] .pfa__indicator svg {
-    transform: rotate(-45deg);
+  .pfa__item[open] .pfa__indicator {
+    visibility: hidden;
   }
 
   :global(.pfa__link) {
