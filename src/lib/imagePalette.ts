@@ -19,12 +19,12 @@ export interface ImageEdgeColors {
 type ReadableText = '#2b2a26' | '#fff';
 
 const FALLBACK_COLORS: ImageEdgeColors = {
-  top: 'rgb(43 42 38)',
-  bottom: 'rgb(43 42 38)',
+  top: 'rgb(43 42 38 / 50%)',
+  bottom: 'rgb(43 42 38 / 50%)',
   navText: '#fff',
   titleText: '#fff',
-  mobileTop: 'rgb(43 42 38)',
-  mobileBottom: 'rgb(43 42 38)',
+  mobileTop: 'rgb(43 42 38 / 50%)',
+  mobileBottom: 'rgb(43 42 38 / 50%)',
   mobileNavText: '#fff',
   mobileTitleText: '#fff',
 };
@@ -57,7 +57,7 @@ const readImage = async (image: ProjectImage) => {
 };
 
 const toCssColor = ({r, g, b}: Rgb) =>
-  `rgb(${r} ${g} ${b})`;
+  `rgb(${r} ${g} ${b} / 50%)`;
 
 const desaturate = ({r, g, b}: Rgb, amount: number): Rgb => {
   const gray = Math.round(r * 0.2126 + g * 0.7152 + b * 0.0722);
