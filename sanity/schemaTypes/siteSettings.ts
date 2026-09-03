@@ -70,7 +70,7 @@ export const siteSettings = defineType({
     defineField({name: 'studioRegion', title: 'Województwo', type: 'string', group: 'structuredData'}),
     defineField({name: 'studioCountry', title: 'Kod kraju', description: 'Dwuliterowy kod, np. PL.', type: 'string', group: 'structuredData', validation: (rule) => rule.max(2)}),
     defineField({name: 'areaServed', title: 'Obszar działania', description: 'Obszary obsługiwane lokalnie i zdalnie, np. Gdańsk, województwo pomorskie, Polska.', type: 'array', of: [defineArrayMember({type: 'string'})], group: 'structuredData'}),
-    defineField({name: 'iarpNumber', title: 'Numer wpisu IARP', description: 'Np. PO-1963.', type: 'string', group: 'structuredData'}),
+    defineField({name: 'iarpNumber', title: 'Numer wpisu IARP', description: 'Np. PO-1111.', type: 'string', group: 'structuredData'}),
     defineField({name: 'iarpUrl', title: 'Link do wpisu IARP', type: 'url', group: 'structuredData'}),
   ],
   preview: {prepare: () => ({title: 'Ustawienia strony'})},

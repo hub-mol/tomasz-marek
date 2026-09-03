@@ -9,7 +9,15 @@ export const blogPost = defineType({
   ],
   fields: [
     defineField({name: 'title', title: 'Tytuł', type: 'string', group: 'content', validation: (rule) => rule.required()}),
-    defineField({name: 'slug', title: 'Adres', description: 'Sam fragment adresu, bez /blog/ lub /oferta/.', type: 'slug', group: 'publishing', options: {source: 'title'}, validation: (rule) => rule.required()}),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      description: 'Końcówka adresu, bez /blog/ lub /oferta/. Przykład: „pierwsza-rozmowa” utworzy tomaszmarek.com/blog/pierwsza-rozmowa albo tomaszmarek.com/oferta/pierwsza-rozmowa.',
+      type: 'slug',
+      group: 'publishing',
+      options: {source: 'title'},
+      validation: (rule) => rule.required(),
+    }),
     defineField({
       name: 'routeType',
       title: 'Rodzaj strony',

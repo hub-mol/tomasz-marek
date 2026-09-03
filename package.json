@@ -13,7 +13,8 @@
     "cms:validate": "sanity schema validate",
     "cms:import": "sanity exec scripts/import-projects.mjs --with-user-token",
     "cms:seed": "sanity exec scripts/seed-cms.mjs --with-user-token",
-    "cms:migrate": "sanity exec scripts/migrate-cms-fields.mjs --with-user-token"
+    "cms:migrate": "sanity exec scripts/migrate-cms-fields.mjs --with-user-token",
+    "cms:restructure-projects": "sanity exec scripts/restructure-project-content.mjs --with-user-token"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.4",
