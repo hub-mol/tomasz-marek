@@ -16,17 +16,17 @@ export interface ImageEdgeColors {
   mobileTitleText: ReadableText;
 }
 
-type ReadableText = '#2b2a26' | '#f4f0e7';
+type ReadableText = '#2b2a26' | '#fff';
 
 const FALLBACK_COLORS: ImageEdgeColors = {
   top: 'rgb(43 42 38)',
   bottom: 'rgb(43 42 38)',
-  navText: '#f4f0e7',
-  titleText: '#f4f0e7',
+  navText: '#fff',
+  titleText: '#fff',
   mobileTop: 'rgb(43 42 38)',
   mobileBottom: 'rgb(43 42 38)',
-  mobileNavText: '#f4f0e7',
-  mobileTitleText: '#f4f0e7',
+  mobileNavText: '#fff',
+  mobileTitleText: '#fff',
 };
 
 interface Rgb {
@@ -75,7 +75,7 @@ const readableText = ({r, g, b}: Rgb): ReadableText => {
   };
   const luminance = 0.2126 * linear(r) + 0.7152 * linear(g) + 0.0722 * linear(b);
   // Punkt, w którym czerń daje wyższy kontrast WCAG niż biel.
-  return luminance > 0.179 ? '#2b2a26' : '#f4f0e7';
+  return luminance > 0.179 ? '#2b2a26' : '#fff';
 };
 
 const strengthenContrast = ({r, g, b}: Rgb, text: ReadableText): Rgb => {
