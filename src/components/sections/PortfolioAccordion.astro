@@ -11,8 +11,8 @@ const projects = await getProjects();
       <details class="pfa__item" open={i === 0} name="projekty">
         <summary class="pfa__row">
           <span class="pfa__title type-heading-lg">{project.shortTitle}</span>
-          <span class="pfa__area type-body-md">{project.category} · {project.location}</span>
-          {project.surface && <span class="pfa__surface type-body-md">{project.surface}</span>}
+          <span class="pfa__area type-body-md">{project.category}{project.location ? ` · ${project.location}` : ''}</span>
+          <span class="pfa__surface type-body-md">{project.surface ?? ''}</span>
           <span class="pfa__mark" aria-hidden="true">
             <svg width="11" height="14" viewBox="0 0 10.94 13.423">
               <path d="M5.516 0v12.51" />
@@ -48,7 +48,8 @@ const projects = await getProjects();
   }
 
   .pfa__row {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 4rem 1rem;
     align-items: center;
     gap: var(--space-8);
     padding: var(--space-4) var(--space-8);
@@ -61,17 +62,11 @@ const projects = await getProjects();
   }
 
   .pfa__title {
-    flex: 1 1 45%;
     transition: color 0.3s ease;
   }
 
-  .pfa__area {
-    flex: 1 1 45%;
-  }
-
-  .pfa__surface {
-    flex: 0 0 auto;
-    min-width: 3.75rem;
+  .pfa__mark {
+    justify-self: end;
   }
 
   .pfa__mark svg {
@@ -101,17 +96,8 @@ const projects = await getProjects();
 
   @media (max-width: 1024px) {
     .pfa__row {
-      flex-wrap: wrap;
       gap: var(--space-1) var(--space-4);
       padding-inline: 0;
-    }
-
-    .pfa__title {
-      flex-basis: 100%;
-    }
-
-    .pfa__area {
-      flex: 1 1 auto;
     }
 
     .pfa__body {
