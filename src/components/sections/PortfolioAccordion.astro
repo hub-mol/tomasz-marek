@@ -7,8 +7,10 @@ const projects = await getProjects();
 ---
 
 {
-  projects.map((project, index) => (
-    <details class="pfa__item" name="projekty" open={index === 0} data-portfolio-preview>
+  projects.map((project, index) => {
+    const previewImages = [project.img, ...project.gallery].slice(0, 2);
+
+    return <details class="pfa__item" name="projekty" open={index === 0} data-portfolio-preview>
       <summary>
         <span class="section pfa__section">
           <span class="pfa__row">
@@ -17,7 +19,12 @@ const projects = await getProjects();
               <span class="pfa__area type-body-md">{project.category}{project.location ? ` · ${project.location}` : ''}</span>
               <span class="pfa__surface type-body-md">{project.surface ?? ''}</span>
             </span>
-            <ArrowLink href={`/portfolio/${project.slug}`} class="pfa__link">Zobacz projekt</ArrowLink>
+            <span class="pfa__indicator" aria-hidden="true">
+              <svg viewBox="0 0 16 16">
+                <path d="M1.25 14.75 14.75 1.25" />
+                <path d="M4.125 1.25H14.75v10.625" />
+              </svg>
+            </span>
           </span>
         </span>
       </summary>
@@ -25,42 +32,34 @@ const projects = await getProjects();
       <div>
         <div class="section">
           <div class="pfa__body" aria-label={`Galeria projektu ${project.title}`}>
-            {[project.img, ...project.gallery].slice(0, 3).map((image, imageIndex) => (
-              <ProjectImage
-                image={image}
-                alt={`${project.alt} — widok ${imageIndex + 1}`}
-                widths={[480, 768, 1100]}
-                sizes="(max-width: 768px) 100vw, 33vw"
-                format="avif"
-                loading="lazy"
-              />
+            {previewImages.map((image, imageIndex) => (
+              <div class:list={['pfa__image', {'pfa__image--secondary': imageIndex === 1}]}>
+                <ProjectImage
+                  image={image}
+                  alt={`${project.alt} — widok ${imageIndex + 1}`}
+                  widths={[480, 768, 1100]}
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  format="avif"
+                  loading="lazy"
+                />
+              </div>
             ))}
+            {previewImages.length < 2 && <div class="pfa__image-placeholder" aria-hidden="true" />}
+            <ArrowLink href={`/portfolio/${project.slug}`} class="pfa__link">Zobacz projekt</ArrowLink>
           </div>
         </div>
       </div>
-    </details>
-  ))
+    </details>;
+  })
 }
 
 <script>
   document.querySelectorAll<HTMLDetailsElement>('[data-portfolio-preview]').forEach((item) => {
-    const projectLink = item.querySelector<HTMLAnchorElement>('.pfa__link');
-    const syncProjectLink = () => {
-      if (projectLink) projectLink.tabIndex = item.open ? 0 : -1;
-    };
-
     item.querySelector('summary')?.addEventListener('click', (event) => {
-      if (item.open && !(event.target as HTMLElement).closest('a')) {
+      if (item.open) {
         event.preventDefault();
       }
     });
-
-    projectLink?.addEventListener('click', (event) => {
-      event.stopPropagation();
-    });
-
-    item.addEventListener('toggle', syncProjectLink);
-    syncProjectLink();
   });
 </script>
 
@@ -105,35 +104,30 @@ const projects = await getProjects();
     transition: color 0.3s ease;
   }
 
-  :global(.pfa__link) {
+  .pfa__indicator {
     justify-self: end;
-    white-space: nowrap;
-    pointer-events: none;
   }
 
-  :global(.pfa__link .arrow-link__label) {
-    opacity: 0;
-    transition: opacity 0.25s ease;
+  .pfa__indicator svg {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5px;
+    stroke-linejoin: round;
+    transform: rotate(135deg);
+    transition: transform 0.3s cubic-bezier(0.16, 0.48, 0.36, 1);
   }
 
-  :global(.pfa__link .arrow-link__arrow) {
+  .pfa__item[open] .pfa__indicator svg {
     transform: rotate(-45deg);
   }
 
-  .pfa__item[open] :global(.pfa__link) {
-    pointer-events: auto;
-  }
-
-  .pfa__item[open] :global(.pfa__link .arrow-link__label) {
-    opacity: 1;
-  }
-
-  .pfa__item[open] :global(.pfa__link .arrow-link__arrow) {
-    transform: rotate(0);
-  }
-
-  .pfa__item[open] :global(.pfa__link:hover .arrow-link__arrow) {
-    transform: translate(2px, -2px);
+  :global(.pfa__link) {
+    align-self: end;
+    justify-self: end;
+    white-space: nowrap;
   }
 
   .pfa__body {
@@ -168,6 +162,15 @@ const projects = await getProjects();
     .pfa__body {
       grid-template-columns: 1fr;
       gap: var(--space-4);
+    }
+
+    .pfa__image--secondary,
+    .pfa__image-placeholder {
+      display: none;
+    }
+
+    :global(.pfa__link) {
+      align-self: auto;
     }
   }
 </style>
