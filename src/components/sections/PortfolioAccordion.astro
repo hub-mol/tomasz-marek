@@ -41,17 +41,11 @@ const projects = await getProjects();
 }
 
 <script>
-  const supportsHover = window.matchMedia('(min-width: 1025px) and (hover: hover) and (pointer: fine)');
-
   document.querySelectorAll<HTMLDetailsElement>('[data-portfolio-preview]').forEach((item) => {
     const projectLink = item.querySelector<HTMLAnchorElement>('.pfa__link');
     const syncProjectLink = () => {
       if (projectLink) projectLink.tabIndex = item.open ? 0 : -1;
     };
-
-    item.addEventListener('mouseenter', () => {
-      if (supportsHover.matches) item.open = true;
-    });
 
     item.querySelector('summary')?.addEventListener('click', (event) => {
       if (item.open && !(event.target as HTMLElement).closest('a')) {
