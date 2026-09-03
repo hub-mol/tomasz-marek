@@ -4,8 +4,7 @@ import ProjectCard from '../ProjectCard.astro';
 
 const projects = await getProjects();
 
-// Układ z portfolio/standard-list: siatka 3 kolumn, kwadratowe zdjęcia,
-// pod spodem kategoria, tytuł i rok.
+// Pionowa lista projektów — każdy kafelek zajmuje osobny wiersz.
 ---
 
 <div class="section">
@@ -23,19 +22,7 @@ const projects = await getProjects();
 <style>
   .pf {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: var(--space-8);
-  }
-
-  @media (max-width: 1024px) {
-    .pf {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .pf {
-      grid-template-columns: 1fr;
-    }
   }
 </style>
