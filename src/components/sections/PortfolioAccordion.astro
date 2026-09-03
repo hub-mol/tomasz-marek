@@ -1,90 +1,105 @@
 ---
 import ProjectImage from '../ProjectImage.astro';
+import ArrowLink from '../ArrowLink.astro';
 import { getProjects } from '../../data/projects';
 
 const projects = await getProjects();
 ---
 
-<div class="pfa">
-  {
-    projects.map((project, i) => (
-      <details class="pfa__item" open={i === 0} name="projekty">
-        <summary class="pfa__row">
-          <span class="pfa__title type-heading-lg">{project.shortTitle}</span>
-          <span class="pfa__area type-body-md">{project.category}{project.location ? ` · ${project.location}` : ''}</span>
-          <span class="pfa__surface type-body-md">{project.surface ?? ''}</span>
-          <span class="pfa__mark" aria-hidden="true">
-            <svg width="11" height="14" viewBox="0 0 10.94 13.423">
-              <path d="M5.516 0v12.51" />
-              <path d="M10.586 7.6 5.47 12.716.354 7.6" />
-            </svg>
+{
+  projects.map((project, index) => (
+    <details class="pfa__item" name="projekty" open={index === 0} data-portfolio-preview>
+      <summary>
+        <span class="section pfa__section">
+          <span class="pfa__row">
+            <span class="pfa__title type-heading-lg">{project.shortTitle}</span>
+            <span class="pfa__area type-body-md">{project.category}{project.location ? ` · ${project.location}` : ''}</span>
+            <span class="pfa__surface type-body-md">{project.surface ?? ''}</span>
+            <ArrowLink href={`/portfolio/${project.slug}`} class="pfa__link">Zobacz projekt</ArrowLink>
           </span>
-        </summary>
+        </span>
+      </summary>
 
-        <div class="pfa__body" aria-label={`Galeria projektu ${project.title}`}>
-          {[project.img, ...project.gallery].slice(0, 3).map((image, imageIndex) => (
-            <ProjectImage
-              image={image}
-              alt={`${project.alt} — widok ${imageIndex + 1}`}
-              widths={[480, 768, 1100]}
-              sizes="(max-width: 768px) 100vw, 33vw"
-              format="avif"
-              loading="lazy"
-            />
-          ))}
+      <div>
+        <div class="section">
+          <div class="pfa__body" aria-label={`Galeria projektu ${project.title}`}>
+            {[project.img, ...project.gallery].slice(0, 3).map((image, imageIndex) => (
+              <ProjectImage
+                image={image}
+                alt={`${project.alt} — widok ${imageIndex + 1}`}
+                widths={[480, 768, 1100]}
+                sizes="(max-width: 768px) 100vw, 33vw"
+                format="avif"
+                loading="lazy"
+              />
+            ))}
+          </div>
         </div>
-      </details>
-    ))
-  }
-</div>
+      </div>
+    </details>
+  ))
+}
+
+<script>
+  const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  document.querySelectorAll<HTMLDetailsElement>('[data-portfolio-preview]').forEach((item) => {
+    item.addEventListener('mouseenter', () => {
+      if (supportsHover.matches) item.open = true;
+    });
+
+    item.querySelector('summary')?.addEventListener('click', (event) => {
+      if (item.open && !(event.target as HTMLElement).closest('a')) {
+        event.preventDefault();
+      }
+    });
+
+    item.querySelector('.pfa__link')?.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
+  });
+</script>
 
 <style>
-  .pfa {
-    padding-inline: var(--gutter);
-  }
-
   .pfa__item {
     border-bottom: 1px solid var(--c-line);
   }
 
-  .pfa__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 4rem 1rem;
-    align-items: center;
-    gap: var(--space-8);
-    padding: var(--space-4) var(--space-8);
+  .pfa__item > summary {
     cursor: pointer;
     list-style: none;
   }
 
-  .pfa__row::-webkit-details-marker {
+  .pfa__item > summary::-webkit-details-marker {
     display: none;
+  }
+
+  .pfa__section {
+    display: block;
+  }
+
+  .pfa__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 4rem auto;
+    align-items: center;
+    gap: var(--space-8);
+    padding-block: var(--space-4);
   }
 
   .pfa__title {
     transition: color 0.3s ease;
   }
 
-  .pfa__mark {
+  .pfa__link {
     justify-self: end;
-  }
-
-  .pfa__mark svg {
-    display: block;
-    fill: none;
-    stroke: currentColor;
-    transition: transform 0.35s ease;
-  }
-
-  .pfa__item[open] .pfa__mark svg {
-    transform: rotate(180deg);
+    white-space: nowrap;
   }
 
   .pfa__body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-8);
-    padding: var(--space-2) var(--space-8) var(--space-8);
+    padding-block: var(--space-2) var(--space-8);
   }
 
   .pfa__body :global(img) {
@@ -97,11 +112,6 @@ const projects = await getProjects();
   @media (max-width: 1024px) {
     .pfa__row {
       gap: var(--space-1) var(--space-4);
-      padding-inline: 0;
-    }
-
-    .pfa__body {
-      padding-inline: 0;
     }
   }
 
