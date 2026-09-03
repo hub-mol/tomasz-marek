@@ -32,11 +32,7 @@ const heroStyle = [
   />
   <div class="section project-hero__title">
     <p class="tagline">{project.category}</p>
-    {hasLongTitle ? (
-      <h3 class="type-h3">{project.title}</h3>
-    ) : (
-      <h1 class="type-h1">{project.title}</h1>
-    )}
+    <h1 class={hasLongTitle ? 'type-h2' : 'type-h1'}>{project.title}</h1>
   </div>
 </header>
 
