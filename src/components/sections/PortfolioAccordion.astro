@@ -22,9 +22,7 @@ const singleImageProjectSlugs = new Set(['dom-poznan', 'osrodek-radacz', 'zwycie
               <span class="pfa__area type-body-md">{project.category}{project.location ? ` · ${project.location}` : ''}</span>
               <span class="pfa__surface type-body-md">{project.surface ?? ''}</span>
             </span>
-            <span class="pfa__indicator">
-              <DisclosureIcon />
-            </span>
+            <DisclosureIcon class="pfa__indicator" />
           </span>
         </span>
       </summary>
@@ -104,11 +102,11 @@ const singleImageProjectSlugs = new Set(['dom-poznan', 'osrodek-radacz', 'zwycie
     transition: color 0.3s ease;
   }
 
-  .pfa__indicator {
+  :global(.pfa__indicator) {
     justify-self: end;
   }
 
-  .pfa__item[open] .pfa__indicator {
+  .pfa__item[open] :global(.pfa__indicator) {
     visibility: hidden;
   }
 
