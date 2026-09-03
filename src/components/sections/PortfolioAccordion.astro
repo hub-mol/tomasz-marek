@@ -13,8 +13,10 @@ const projects = await getProjects();
         <span class="section pfa__section">
           <span class="pfa__row">
             <span class="pfa__title type-heading-lg">{project.shortTitle}</span>
-            <span class="pfa__area type-body-md">{project.category}{project.location ? ` · ${project.location}` : ''}</span>
-            <span class="pfa__surface type-body-md">{project.surface ?? ''}</span>
+            <span class="pfa__meta">
+              <span class="pfa__area type-body-md">{project.category}{project.location ? ` · ${project.location}` : ''}</span>
+              <span class="pfa__surface type-body-md">{project.surface ?? ''}</span>
+            </span>
             <ArrowLink href={`/portfolio/${project.slug}`} class="pfa__link">Zobacz projekt</ArrowLink>
           </span>
         </span>
@@ -86,10 +88,17 @@ const projects = await getProjects();
 
   .pfa__row {
     display: grid;
-    grid-template-columns: 1fr 1fr 4rem auto;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     gap: var(--space-8);
     padding-block: var(--space-4);
+  }
+
+  .pfa__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
   }
 
   .pfa__title {
@@ -152,8 +161,7 @@ const projects = await getProjects();
       grid-template-columns: 1fr auto;
     }
 
-    .pfa__area,
-    .pfa__surface {
+    .pfa__meta {
       display: none;
     }
 
