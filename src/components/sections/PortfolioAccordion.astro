@@ -41,7 +41,7 @@ const projects = await getProjects();
 }
 
 <script>
-  const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const supportsHover = window.matchMedia('(min-width: 1025px) and (hover: hover) and (pointer: fine)');
 
   document.querySelectorAll<HTMLDetailsElement>('[data-portfolio-preview]').forEach((item) => {
     item.addEventListener('mouseenter', () => {
@@ -116,6 +116,15 @@ const projects = await getProjects();
   }
 
   @media (max-width: 768px) {
+    .pfa__row {
+      grid-template-columns: 1fr auto;
+    }
+
+    .pfa__area,
+    .pfa__surface {
+      display: none;
+    }
+
     .pfa__body {
       grid-template-columns: 1fr;
       gap: var(--space-4);
