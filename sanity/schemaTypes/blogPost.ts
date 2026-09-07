@@ -34,11 +34,11 @@ export const blogPost = defineType({
     defineField({name: 'publishedAt', title: 'Data publikacji', description: 'Strony z datą w przyszłości nie są jeszcze publikowane.', type: 'datetime', group: 'publishing', validation: (rule) => rule.required()}),
     defineField({name: 'author', title: 'Autor', type: 'string', group: 'publishing', initialValue: 'Tomasz Marek', validation: (rule) => rule.required()}),
     defineField({name: 'readingTime', title: 'Czas czytania (min)', type: 'number', group: 'publishing', initialValue: 5, validation: (rule) => rule.required().integer().min(1)}),
-    defineField({name: 'cover', title: 'Okładka', type: 'image', group: 'content', options: {hotspot: true}, validation: (rule) => rule.custom(imageAssetOrEmpty), fields: [defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string', validation: (rule) => rule.required()})]}),
+    defineField({name: 'cover', title: 'Okładka', type: 'image', group: 'content', options: {hotspot: true}, validation: (rule) => rule.required().assetRequired(), fields: [defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string', validation: (rule) => rule.required()})]}),
     defineField({name: 'body', title: 'Treść', type: 'array', group: 'content', of: [
       defineArrayMember({type: 'block'}),
       defineArrayMember({type: 'image', options: {hotspot: true}, validation: (rule) => rule.custom(imageAssetOrEmpty), fields: [defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string', validation: (rule) => rule.required()})]}),
-    ]}),
+    ], validation: (rule) => rule.required().min(1)}),
     defineField({name: 'seoTitle', title: 'Tytuł SEO', description: 'Jeśli puste, użyty zostanie tytuł publikacji.', type: 'string', group: 'seo', validation: (rule) => rule.max(70)}),
     defineField({name: 'seoDescription', title: 'Opis SEO', description: 'Jeśli puste, użyta zostanie zajawka.', type: 'text', rows: 3, group: 'seo', validation: (rule) => rule.max(180)}),
     defineField({

@@ -20,21 +20,21 @@ const home = await getHomePage();
   title={home.seoTitle}
   description={home.seoDescription}
 >
-  <Header variant="overlay" hideLogo />
+  <Header variant={home.showHero ? 'overlay' : 'solid'} hideLogo={home.showHero} />
 
   <main>
-    <Hero
+    {home.showHero && <Hero
       text={home.heroLead}
       images={home.heroImages}
-    />
+    />}
 
-    <Approach title={home.approachTitle} body={home.approachBody} callout={home.approachCallout} pillars={home.approachPillars} />
+    {home.showApproach && <Approach title={home.approachTitle} body={home.approachBody} callout={home.approachCallout} pillars={home.approachPillars} />}
 
-    <ProjectsGrid title={home.projectsTitle} linkLabel={home.projectsLinkLabel} />
+    {home.showProjects && <ProjectsGrid title={home.projectsTitle} linkLabel={home.projectsLinkLabel} />}
 
-    <OfferList title={home.offerTitle} offers={home.offers} />
+    {home.showOffer && <OfferList title={home.offerTitle} offers={home.offers} />}
 
-    {(home.showArchitectureProcess || home.showInteriorsProcess) && (
+    {home.showProcess && (home.showArchitectureProcess || home.showInteriorsProcess) && (
       <ProcessOverview
         title={home.processTitle}
         architecture={home.showArchitectureProcess ? home.architectureProcess : []}
@@ -42,7 +42,7 @@ const home = await getHomePage();
       />
     )}
 
-    <AboutHero
+    {home.showAbout && <AboutHero
       id="o-mnie"
       eyebrow=""
       title={home.aboutTitle}
@@ -51,16 +51,16 @@ const home = await getHomePage();
       body={home.aboutParagraphs}
       img={home.aboutImage}
       alt={home.aboutImage?.alt ?? 'Projekt domu autorstwa Tomasza Marka'}
-    />
+    />}
 
-    <Accordion
+    {home.showFaq && <Accordion
       id="faq"
       eyebrow="FAQ"
       title={home.faqTitle}
       items={home.faq}
       numbered
       alt
-    />
+    />}
   </main>
 
   <Footer id="kontakt" />

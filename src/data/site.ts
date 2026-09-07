@@ -22,26 +22,33 @@ export interface OfferGroup {
 }
 
 export interface HomePageData {
+  showHero: boolean
   heroLead: string
   heroImage?: SanityProjectImage
   heroImages: SanityProjectImage[]
+  showApproach: boolean
   approachTitle: string
   approachBody: PortableTextBlock[]
   approachCallout: string
   approachPillars: ApproachPillar[]
   projectsTitle: string
   projectsLinkLabel: string
+  showProjects: boolean
   offerTitle: string
   offers: OfferGroup[]
+  showOffer: boolean
   processTitle: string
+  showProcess: boolean
   showArchitectureProcess: boolean
   architectureProcess: SimpleItem[]
   showInteriorsProcess: boolean
   interiorsProcess: SimpleItem[]
   aboutTitle: string
+  showAbout: boolean
   aboutParagraphs: PortableTextBlock[]
   aboutImage?: SanityProjectImage
   faqTitle: string
+  showFaq: boolean
   faq: SimpleItem[]
   seoTitle?: string
   seoDescription?: string
@@ -85,8 +92,10 @@ export interface NavigationLink {
 }
 
 export const defaultHomePage: HomePageData = {
+  showHero: true,
   heroLead: 'Od idei po realizację poprowadzimy Cię przez cały proces projektowy i wykonawczy.',
   heroImages: [],
+  showApproach: true,
   approachTitle: 'Nie zaczynamy od gotowej odpowiedzi.',
   approachBody: paragraphsToPortableText([
     'Każdy projekt poprzedzamy analizą miejsca, potrzeb użytkowników, możliwości działki i charakteru inwestycji.',
@@ -100,6 +109,7 @@ export const defaultHomePage: HomePageData = {
   ],
   projectsTitle: 'Wybrane realizacje',
   projectsLinkLabel: 'Zobacz wszystkie projekty',
+  showProjects: true,
   offerTitle: 'Zakres współpracy',
   offers: [
     {title: 'Klienci indywidualni', lead: 'Planujesz budowę domu, przebudowę lub remont?', sections: [
@@ -115,18 +125,22 @@ export const defaultHomePage: HomePageData = {
       {title: 'Konsultacje', text: 'Doradzamy przed zakupem działki lub nieruchomości, pomagamy ocenić planowane zamierzenie i wspieramy proces uzyskania warunków zabudowy.'},
     ]},
   ],
+  showOffer: true,
   processTitle: 'Rozmowa / Realizacja',
+  showProcess: true,
   showArchitectureProcess: true,
   architectureProcess: procesArchitektura,
   showInteriorsProcess: true,
   interiorsProcess: procesWnetrza,
   aboutTitle: 'Cześć! Tu Tomek.\nTworzę indywidualne projekty architektury i wnętrz.',
+  showAbout: true,
   aboutParagraphs: paragraphsToPortableText([
     'Posiadam uprawnienia budowlane do projektowania bez ograniczeń w specjalności architektonicznej i jestem członkiem Pomorskiej Izby Architektów RP.',
     'Studiowałem na Wydziale Architektury i Urbanistyki Politechniki Gdańskiej oraz na Faculty of Architecture and Urban Design Politecnico di Milano.',
     'Doświadczenie zdobywałem w pracowniach architektonicznych i wnętrzarskich w Tallinie, Paryżu i Trójmieście.',
   ], 'about'),
   faqTitle: 'Pytania przed rozpoczęciem współpracy',
+  showFaq: true,
   faq,
   seoTitle: 'Tomasz Marek — architektura i wnętrza',
   seoDescription: 'Kompleksowa obsługa inwestycji — od analizy działki, przez projekt i formalności, po wnętrza i nadzór autorski.',
@@ -196,6 +210,13 @@ export function getHomePage(): Promise<HomePageData> {
       const aboutImage = isValidSanityImage(data?.aboutImage) ? data.aboutImage : undefined
       return {
         ...merged,
+        showHero: data?.showHero ?? true,
+        showApproach: data?.showApproach ?? true,
+        showProjects: data?.showProjects ?? true,
+        showOffer: data?.showOffer ?? true,
+        showProcess: data?.showProcess ?? true,
+        showAbout: data?.showAbout ?? true,
+        showFaq: data?.showFaq ?? true,
         heroImage,
         aboutImage,
         showArchitectureProcess: data?.showArchitectureProcess ?? true,
