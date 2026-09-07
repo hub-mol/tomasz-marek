@@ -1,10 +1,10 @@
 ---
 import ArrowLink from '../ArrowLink.astro';
 import { plNoBreak } from '../../utils/typography';
+import {getSiteSettings} from '../../data/site';
 
-const email = 'biuro@tomaszmarek.com';
-const phoneLabel = '+48 696 995 899';
-const phoneHref = '+48696995899';
+const settings = await getSiteSettings();
+const {email, phoneLabel, phoneHref, bookingHref, bookingLabel} = settings;
 ---
 
 <section class="section section-spaced contact" id="kontakt">
@@ -18,8 +18,8 @@ const phoneHref = '+48696995899';
       <a class="link-btn" href={`tel:${phoneHref}`}>{phoneLabel}</a>
     </div>
 
-    <ArrowLink href={`mailto:${email}?subject=Konsultacja architektoniczna`} typeClass="type-h3">
-      Umów konsultację
+    <ArrowLink href={bookingHref} typeClass="type-h3">
+      {bookingLabel}
     </ArrowLink>
   </div>
 </section>

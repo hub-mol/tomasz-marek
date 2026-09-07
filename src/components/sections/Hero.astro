@@ -5,6 +5,7 @@ import { plNoBreak } from '../../utils/typography';
 import heroImage from '../../assets/images/hero-0.jpg';
 import ProjectImage from '../ProjectImage.astro';
 import type {ProjectImage as ProjectImageType} from '../../data/portfolio';
+import {getSiteSettings} from '../../data/site';
 
 interface Props {
   text?: string;
@@ -22,6 +23,7 @@ const {
 
 const slides = images?.length ? images.slice(0, 3) : [img];
 const hasSlideshow = slides.length > 1;
+const settings = await getSiteSettings();
 ---
 
 <section class="hero">
@@ -50,7 +52,7 @@ const hasSlideshow = slides.length > 1;
     <BrandLogo class="hero__brand" />
     <div class="hero__aside">
       <p class="hero__note type-heading-lg">{plNoBreak(text)}</p>
-      <ArrowLink href="/#kontakt">Umów konsultację z&nbsp;architektem</ArrowLink>
+      <ArrowLink href={settings.bookingHref}>{settings.bookingLabel}</ArrowLink>
     </div>
   </div>
 </section>

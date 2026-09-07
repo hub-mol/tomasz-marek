@@ -3,6 +3,7 @@ import type {PortableTextBlock} from '@portabletext/types'
 import type {SanityProjectImage} from './portfolio'
 import {faq, procesArchitektura, procesWnetrza} from './home'
 import {normalizePortableText, paragraphsToPortableText} from '../utils/portableText'
+import {isValidSanityImage} from '../lib/sanityImage'
 
 export interface SimpleItem {
   title: string
@@ -58,6 +59,7 @@ export interface SiteSettingsData {
   instagram?: string
   facebook?: string
   bookingLabel: string
+  bookingHref: string
   footerTitle: string
   footerText: string
   studioAddress: string[]
@@ -76,6 +78,7 @@ export interface SiteSettingsData {
 }
 
 export interface NavigationLink {
+  _key?: string
   label: string
   href: string
   openInNewTab?: boolean
@@ -140,7 +143,7 @@ export const defaultSiteSettings: SiteSettingsData = {
     {label: 'Proces', href: '/#proces'},
     {label: 'Blog', href: '/blog'},
     {label: 'Kontakt', href: '/#kontakt'},
-    {label: 'Umów spotkanie', href: 'mailto:biuro@tomaszmarek.com?subject=Spotkanie z architektem'},
+    {_key: 'booking', label: 'Umów spotkanie', href: 'mailto:biuro@tomaszmarek.com?subject=Spotkanie z architektem'},
   ],
   email: 'biuro@tomaszmarek.com',
   phoneLabel: '+48 696 995 899',
@@ -148,6 +151,7 @@ export const defaultSiteSettings: SiteSettingsData = {
   instagram: 'https://www.instagram.com/studjo.biuro/',
   facebook: 'https://www.facebook.com/people/studjobiuro/100078056002732/',
   bookingLabel: 'Umów spotkanie z architektem',
+  bookingHref: 'mailto:biuro@tomaszmarek.com?subject=Spotkanie z architektem',
   footerTitle: 'Porozmawiajmy o Twoim projekcie',
   footerText: 'Planujesz budowę, przebudowę albo nowe wnętrze? Opowiedz nam o swojej inwestycji. Podczas pierwszej rozmowy sprawdzimy, w jakim zakresie możemy Ci pomóc.',
   studioAddress: ['TMA', 'Tomasz Marek Architekt', 'ul. Magellana 2/29', '80-288 Gdańsk'],
@@ -187,15 +191,20 @@ export function getHomePage(): Promise<HomePageData> {
   homePageCache ??= sanityClient.fetch<Partial<HomePageData> | null>(homePageQuery)
     .then((data) => {
       const merged = {...defaultHomePage, ...(data ?? {})}
+      const heroImage = isValidSanityImage(data?.heroImage) ? data.heroImage : undefined
+      const heroImages = (data?.heroImages ?? []).filter(isValidSanityImage)
+      const aboutImage = isValidSanityImage(data?.aboutImage) ? data.aboutImage : undefined
       return {
         ...merged,
+        heroImage,
+        aboutImage,
         showArchitectureProcess: data?.showArchitectureProcess ?? true,
         showInteriorsProcess: data?.showInteriorsProcess ?? true,
         approachBody: normalizePortableText(data?.approachBody, defaultHomePage.approachBody, 'approach'),
         aboutParagraphs: normalizePortableText(data?.aboutParagraphs, defaultHomePage.aboutParagraphs, 'about'),
-        heroImages: data?.heroImages?.length
-          ? data.heroImages.slice(0, 3)
-          : merged.heroImage ? [merged.heroImage] : [],
+        heroImages: heroImages.length
+          ? heroImages.slice(0, 3)
+          : heroImage ? [heroImage] : [],
       }
     })
   return homePageCache
@@ -209,6 +218,7 @@ export function getSiteSettings(): Promise<SiteSettingsData> {
       navigationLinks: (data?.navigationLinks?.length ? data.navigationLinks : defaultSiteSettings.navigationLinks)
         .map((item) => ({...item, href: item.href.replace(/^\/portfolio(?=\/|$)/, '/projekty')})),
       areaServed: data?.areaServed?.length ? data.areaServed : defaultSiteSettings.areaServed,
+      bookingHref: data?.bookingHref || defaultSiteSettings.bookingHref,
     }))
   return settingsCache
 }

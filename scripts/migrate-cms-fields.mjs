@@ -19,7 +19,7 @@ const textArrayToPortableText = (value, keyPrefix) => {
   })
 }
 
-const settings = await client.fetch(`*[_id == "siteSettings"][0]{_id, navigationLinks, logo, logoImage}`)
+const settings = await client.fetch(`*[_id == "siteSettings"][0]{_id, navigationLinks, bookingHref, logo, logoImage}`)
 if (settings?._id && !settings.navigationLinks?.length) {
   await client.patch(settings._id).set({
     navigationLinks: [
@@ -44,6 +44,11 @@ if (settings?._id && settings.navigationLinks?.length) {
     await client.patch(settings._id).set({navigationLinks}).commit()
     console.log('✓ Ustawienia: link Portfolio prowadzi do /projekty')
   }
+}
+
+if (settings?._id && !settings.bookingHref) {
+  await client.patch(settings._id).set({bookingHref: 'mailto:biuro@tomaszmarek.com?subject=Spotkanie z architektem'}).commit()
+  console.log('✓ Ustawienia: link „Umów spotkanie”')
 }
 
 if (settings?._id && (settings.logo !== undefined || settings.logoImage !== undefined)) {

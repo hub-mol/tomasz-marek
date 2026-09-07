@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {imageAssetOrEmpty} from './imageValidation'
 
 const imageWithAlt = (name: string, title: string, group: string) => defineField({
   name,
@@ -6,6 +7,7 @@ const imageWithAlt = (name: string, title: string, group: string) => defineField
   type: 'image',
   group,
   options: {hotspot: true},
+  validation: (rule) => rule.custom(imageAssetOrEmpty),
   fields: [defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string', validation: (rule) => rule.required()})],
 })
 
@@ -49,7 +51,7 @@ export const homePage = defineType({
   title: 'Strona główna',
   type: 'document',
   groups: [
-    {name: 'hero', title: 'Otwarcie', default: true},
+    {name: 'hero', title: 'Hero', default: true},
     {name: 'approach', title: 'Podejście'},
     {name: 'projects', title: 'Projekty'},
     {name: 'offer', title: 'Oferta'},
@@ -62,7 +64,7 @@ export const homePage = defineType({
     defineField({name: 'heroLead', title: 'Wprowadzenie', type: 'text', rows: 4, group: 'hero', validation: (rule) => rule.required()}),
     defineField({
       name: 'heroImages',
-      title: 'Slideshow hero',
+      title: 'Slideshow',
       description: 'Dodaj maksymalnie 3 zdjęcia. Kolejność można zmieniać przez przeciąganie.',
       type: 'array',
       group: 'hero',
@@ -70,10 +72,19 @@ export const homePage = defineType({
       of: [defineArrayMember({
         type: 'image',
         options: {hotspot: true},
+        validation: (rule) => rule.custom(imageAssetOrEmpty),
         fields: [defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string', validation: (rule) => rule.required()})],
       })],
     }),
-    defineField({name: 'heroImage', title: 'Poprzednie zdjęcie główne', type: 'image', group: 'hero', hidden: true}),
+    defineField({
+      name: 'heroImage',
+      title: 'Poprzednie zdjęcie główne',
+      type: 'image',
+      group: 'hero',
+      hidden: true,
+      validation: (rule) => rule.custom(imageAssetOrEmpty),
+      fields: [defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string'})],
+    }),
 
     defineField({name: 'approachTitle', title: 'Nagłówek', type: 'string', group: 'approach'}),
     richText('approachBody', 'Treść', 'approach'),

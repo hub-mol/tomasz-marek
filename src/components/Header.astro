@@ -29,7 +29,9 @@ const headerStyle = variant === 'overlay'
   ? `--header-overlay-color: ${overlayColor}; --header-overlay-color-mobile: ${overlayColorMobile};`
   : undefined;
 
-const menu = settings.navigationLinks;
+const menu = settings.navigationLinks.map((item) => item._key === 'booking'
+  ? {...item, label: settings.bookingLabel, href: settings.bookingHref}
+  : item);
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => !href.includes('#') && href === path;

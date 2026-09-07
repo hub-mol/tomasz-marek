@@ -50,11 +50,22 @@ export const siteSettings = defineType({
     }),
 
     defineField({name: 'email', title: 'E-mail', type: 'string', group: 'contact', validation: (rule) => rule.required().email()}),
-    defineField({name: 'phoneLabel', title: 'Telefon — zapis widoczny', type: 'string', group: 'contact'}),
-    defineField({name: 'phoneHref', title: 'Telefon — numer do linku', description: 'Bez spacji, np. +48696995899', type: 'string', group: 'contact'}),
+    defineField({name: 'phoneLabel', title: 'Telefon zapis widoczny', type: 'string', group: 'contact'}),
+    defineField({name: 'phoneHref', title: 'Telefon numer do linku', description: 'Bez spacji, np. +48696995899', type: 'string', group: 'contact'}),
     defineField({name: 'instagram', title: 'Instagram', type: 'url', group: 'contact'}),
     defineField({name: 'facebook', title: 'Facebook', type: 'url', group: 'contact'}),
-    defineField({name: 'bookingLabel', title: 'Tekst przycisku kontaktowego', type: 'string', group: 'contact'}),
+    defineField({name: 'bookingLabel', title: 'Umów spotkanie zapis widoczny', type: 'string', group: 'contact'}),
+    defineField({
+      name: 'bookingHref',
+      title: 'Umów spotkanie link',
+      description: 'Adres strony do umawiania spotkań albo mailto:. Jeśli pole jest puste, użyty zostanie e-mail kontaktowy.',
+      type: 'string',
+      group: 'contact',
+      validation: (rule) => rule.custom((value) => {
+        if (!value || /^(\/|#|mailto:|tel:|https?:\/\/)/.test(value)) return true
+        return 'Adres musi zaczynać się od /, #, mailto:, tel:, http:// lub https://'
+      }),
+    }),
 
     defineField({name: 'footerTitle', title: 'Nagłówek stopki', type: 'string', group: 'footer'}),
     defineField({name: 'footerText', title: 'Tekst stopki', type: 'text', rows: 4, group: 'footer'}),

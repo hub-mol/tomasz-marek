@@ -1,10 +1,12 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {imageAssetOrEmpty} from './imageValidation'
 
 const imageField = defineField({
   name: 'image',
   title: 'Zdjęcie',
   type: 'image',
   options: {hotspot: true},
+  validation: (rule) => rule.custom(imageAssetOrEmpty),
   fields: [
     defineField({
       name: 'alt',
@@ -35,7 +37,7 @@ export const project = defineType({
   fields: [
     defineField({name: 'title', title: 'Pełna nazwa', type: 'string', group: 'content', validation: (rule) => rule.required()}),
     defineField({name: 'shortTitle', title: 'Krótka nazwa', type: 'string', group: 'content', validation: (rule) => rule.required().max(40)}),
-    defineField({...imageField, name: 'cover', title: 'Okładka', group: 'content', validation: (rule) => rule.required()}),
+    defineField({...imageField, name: 'cover', title: 'Okładka', group: 'content', validation: (rule) => rule.required().assetRequired()}),
     defineField({
       name: 'slug',
       title: 'Slug',
@@ -67,7 +69,7 @@ export const project = defineType({
     defineField({name: 'featured', title: 'Pokaż na stronie głównej', type: 'boolean', group: 'publishing', initialValue: true}),
     defineField({name: 'seoTitle', title: 'Tytuł SEO', description: 'Jeśli puste, użyta zostanie pełna nazwa projektu.', type: 'string', group: 'seo', validation: (rule) => rule.max(70)}),
     defineField({name: 'seoDescription', title: 'Opis SEO', description: 'Jeśli puste, opis zostanie zbudowany z typu, lokalizacji i powierzchni.', type: 'text', rows: 3, group: 'seo', validation: (rule) => rule.max(180)}),
-    defineField({name: 'socialImage', title: 'Obraz dla social media', description: 'Grafika udostępniania (najlepiej 1200 × 630 px). Jeśli pusta, użyta zostanie okładka.', type: 'image', group: 'seo', options: {hotspot: true}}),
+    defineField({name: 'socialImage', title: 'Obraz dla social media', description: 'Grafika udostępniania (najlepiej 1200 × 630 px). Jeśli pusta, użyta zostanie okładka.', type: 'image', group: 'seo', options: {hotspot: true}, validation: (rule) => rule.custom(imageAssetOrEmpty)}),
   ],
   orderings: [{title: 'Kolejność na stronie', name: 'orderAsc', by: [{field: 'order', direction: 'asc'}]}],
   preview: {select: {title: 'shortTitle', subtitle: 'location', media: 'cover'}},

@@ -1,5 +1,22 @@
 const DEFAULT_WIDTHS = [480, 768, 1120, 1600];
 
+export const isValidSanityImage = (image: unknown): image is {
+  url: string
+  width: number
+  height: number
+  alt?: string
+} => {
+  if (!image || typeof image !== 'object') return false
+
+  const {url, width, height} = image as Record<string, unknown>
+  return typeof url === 'string'
+    && URL.canParse(url)
+    && typeof width === 'number'
+    && width > 0
+    && typeof height === 'number'
+    && height > 0
+}
+
 export const getSanityImageUrl = (source: string, width: number, quality = 82) => {
   const url = new URL(source);
   url.searchParams.set('w', String(width));

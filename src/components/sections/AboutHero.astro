@@ -7,6 +7,7 @@ import ProjectImage from '../ProjectImage.astro';
 import type {ProjectImage as ProjectImageType} from '../../data/portfolio';
 import {paragraphsToPortableText} from '../../utils/portableText';
 import aboutFallback from '../../assets/images/hero-2.png';
+import {getSiteSettings} from '../../data/site';
 
 // Edytorialny blok o pracowni: tekstowa kolumna i dominujące zdjęcie.
 interface Props {
@@ -34,6 +35,7 @@ const {
 } = Astro.props;
 
 const copy = body ?? paragraphsToPortableText([text], 'about');
+const settings = await getSiteSettings();
 ---
 
 <section class="about-hero" id={id}>
@@ -46,7 +48,7 @@ const copy = body ?? paragraphsToPortableText([text], 'about');
 
       <div class:list={['about-hero__intro', {'about-hero__intro--lead-first': leadFirst}]}>
         <PortableText value={copy} />
-        <ArrowLink href="/#kontakt">Umów konsultację ze&nbsp;mną</ArrowLink>
+        <ArrowLink href={settings.bookingHref}>{settings.bookingLabel}</ArrowLink>
       </div>
     </div>
 

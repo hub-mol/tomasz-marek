@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {imageAssetOrEmpty} from './imageValidation'
 
 const richText = defineField({
   name: 'body',
@@ -71,6 +72,7 @@ export const projectImageBlock = defineType({
         defineArrayMember({
           type: 'image',
           options: {hotspot: true},
+          validation: (rule) => rule.custom(imageAssetOrEmpty),
           fields: [
             defineField({
               name: 'alt',

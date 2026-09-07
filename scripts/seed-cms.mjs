@@ -128,6 +128,7 @@ await client.createOrReplace({
   instagram: 'https://www.instagram.com/studjo.biuro/',
   facebook: 'https://www.facebook.com/people/studjobiuro/100078056002732/',
   bookingLabel: 'Umów spotkanie',
+  bookingHref: 'mailto:biuro@tomaszmarek.com?subject=Spotkanie z architektem',
   footerTitle: 'Porozmawiajmy o Twoim projekcie',
   footerText: 'Planujesz budowę, przebudowę albo nowe wnętrze? Opowiedz nam o swojej inwestycji. Podczas pierwszej rozmowy sprawdzimy, w jakim zakresie możemy Ci pomóc.',
   studioAddress: ['TMA', 'Tomasz Marek Architekt', 'ul. Magellana 2/29', '80-288 Gdańsk'],

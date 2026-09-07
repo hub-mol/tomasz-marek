@@ -15,14 +15,15 @@ const groups = [
   { title: 'Proces architektura', items: architecture },
   { title: 'Proces wnętrza', items: interiors },
 ].filter((group) => group.items.length > 0);
+const hasSingleGroup = groups.length === 1;
 ---
 
-<section class="section section-spaced process" id="proces">
-  <header class="process__head section-head split-golden">
+<section class:list={['section', 'section-spaced', 'process', {'process--single': hasSingleGroup, 'split-golden': hasSingleGroup}]} id="proces">
+  <header class:list={['process__head', {'section-head split-golden': !hasSingleGroup}]}>
     <h2>{title}</h2>
   </header>
 
-  <div class:list={['process__groups', {'process__groups--single': groups.length === 1}]}>
+  <div class:list={['process__groups', {'process__groups--single': hasSingleGroup}]}>
     {
       groups.map((group) => (
         <article class="process__group">
@@ -61,6 +62,23 @@ const groups = [
   .process__head h2 {
     grid-column: 2;
     justify-self: end;
+  }
+
+  /* Przy jednej aktywnej ścieżce układ odpowiada FAQ: tytuł po lewej,
+     a lista po prawej. Dwie ścieżki zachowują dotychczasowy układ. */
+  .process--single .process__head {
+    grid-column: 1;
+    margin: 0;
+  }
+
+  .process--single .process__head h2 {
+    grid-column: auto;
+    justify-self: start;
+    text-align: left;
+  }
+
+  .process--single .process__groups {
+    grid-column: 2;
   }
 
   .process__groups {
@@ -114,6 +132,15 @@ const groups = [
   }
 
   @media (max-width: 1024px) {
+    .process--single {
+      --split-gap-tablet: var(--space-8);
+    }
+
+    .process--single .process__head,
+    .process--single .process__groups {
+      grid-column: auto;
+    }
+
     .process__head h2 {
       grid-column: auto;
     }

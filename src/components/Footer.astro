@@ -21,7 +21,7 @@ const {email, phoneLabel, phoneHref} = settings;
     <div class="ftr__intro">
       <h2 class="type-h2">{settings.footerTitle}</h2>
       <p class="text-pretty">{plNoBreak(settings.footerText)}</p>
-      <ArrowLink href={`mailto:${email}?subject=Spotkanie z architektem`} typeClass="type-h3">
+      <ArrowLink href={settings.bookingHref} typeClass="type-h3">
         {settings.bookingLabel}
       </ArrowLink>
     </div>
