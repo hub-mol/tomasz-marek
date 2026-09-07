@@ -112,7 +112,7 @@ export const homePage = defineType({
       ], preview: {select: {title: 'title', subtitle: 'text'}}})]})
     ], preview: {select: {title: 'title'}}})]}),
 
-    defineField({name: 'showProcess', title: 'Pokaż sekcję „Rozmowa / Realizacja”', type: 'boolean', group: 'process', initialValue: true}),
+    defineField({name: 'showProcess', title: 'Pokaż sekcję „Proces”', type: 'boolean', group: 'process', initialValue: true}),
     defineField({name: 'processTitle', title: 'Nagłówek sekcji', type: 'string', group: 'process', validation: (rule) => rule.required()}),
     defineField({name: 'showArchitectureProcess', title: 'Pokaż „Proces architektura”', type: 'boolean', group: 'process', initialValue: true}),
     accordionItems('architectureProcess', 'Proces architektura', 'process'),
