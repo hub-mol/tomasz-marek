@@ -5,13 +5,32 @@ import '../styles/global.css';
 import {Image} from 'astro:assets';
 import heroImage from '../assets/images/hero-0.jpg';
 import aboutImage from '../assets/images/hero-2.png';
-import {projects} from '../data/portfolio';
+import domDrz from '../assets/images/projects/dom-drz-1.png';
+import domKw from '../assets/images/projects/dom-kw-1.png';
+import domPoznan from '../assets/images/projects/dom-poznan-1.png';
+import estetica from '../assets/images/projects/estetica-1.png';
+import type {Project} from '../data/portfolio';
 import {faq, procesArchitektura, procesWnetrza} from '../data/home';
 import Approach from '../components/sections/Approach.astro';
 import OfferList from '../components/sections/OfferList.astro';
 import ProcessOverview from '../components/sections/ProcessOverview.astro';
 import Accordion from '../components/sections/Accordion.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+
+const projects: Project[] = [
+  {
+    slug: 'dom-drz', title: 'Dom DRZ', shortTitle: 'Dom DRZ', category: 'Dom prywatny', location: 'Pomorskie', status: 'Koncepcja', img: domDrz, gallery: [], alt: 'Projekt architektoniczny Dom DRZ', cardTone: 'dark',
+  },
+  {
+    slug: 'dom-kw', title: 'Dom KR', shortTitle: 'Dom KR', category: 'Dom prywatny', location: 'Pomorskie', status: 'Koncepcja', img: domKw, gallery: [], alt: 'Koncepcja domu prywatnego Dom KR na Pomorzu', cardTone: 'dark',
+  },
+  {
+    slug: 'dom-poznan', title: 'Dom POZ', shortTitle: 'Dom POZ', category: 'Dom prywatny', location: 'Wielkopolskie', status: 'W trakcie realizacji', img: domPoznan, gallery: [], alt: 'Projekt domu prywatnego Dom POZ w Wielkopolsce', cardTone: 'light',
+  },
+  {
+    slug: 'estetica', title: 'Estetica', shortTitle: 'Estetica', category: 'Wnętrza komercyjne', location: 'Zachodniopomorskie', status: 'Zrealizowane', img: estetica, gallery: [], alt: 'Projekt wnętrza Estetica', cardTone: 'light',
+  },
+];
 ---
 
 <!doctype html>
