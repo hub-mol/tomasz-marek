@@ -26,6 +26,7 @@ const home = await getHomePage();
     {home.showHero && <Hero
       text={home.heroLead}
       images={home.heroImages}
+      videoUrl={home.heroType === 'video' ? home.heroVideoUrl : undefined}
     />}
 
     {home.showApproach && <Approach title={home.approachTitle} body={home.approachBody} callout={home.approachCallout} pillars={home.approachPillars} />}
@@ -55,7 +56,6 @@ const home = await getHomePage();
 
     {home.showFaq && <Accordion
       id="faq"
-      eyebrow="FAQ"
       title={home.faqTitle}
       items={home.faq}
       numbered

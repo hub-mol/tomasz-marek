@@ -9,7 +9,10 @@ const projects = await getProjects();
 
 {
   projects.map((project, index) => {
-    const previewImages = [project.img, ...project.gallery].slice(0, 2);
+    // Każdy rozwinięty projekt zajmuje pełny pierwszy wiersz siatki.
+    // Jeśli w CMS brakuje kadru, powtarzamy okładkę zamiast zostawiać pustą kolumnę.
+    const sourceImages = [project.img, ...project.gallery];
+    const previewImages = Array.from({length: 3}, (_, imageIndex) => sourceImages[imageIndex] ?? project.img);
 
     return <details class="pfa__item" name="projekty" open={index === 0} data-portfolio-preview>
       <summary>
@@ -29,7 +32,7 @@ const projects = await getProjects();
         <div class="section">
           <div class="pfa__body" aria-label={`Galeria projektu ${project.title}`}>
             {previewImages.map((image, imageIndex) => (
-              <div class:list={['pfa__image', {'pfa__image--secondary': imageIndex === 1}]}>
+              <div class="pfa__image">
                 <ProjectImage
                   image={image}
                   alt={`${project.alt} — widok ${imageIndex + 1}`}
@@ -41,7 +44,6 @@ const projects = await getProjects();
                 />
               </div>
             ))}
-            {previewImages.length < 2 && <div class="pfa__image-placeholder" aria-hidden="true" />}
             <ArrowLink href={`/projekty/${project.slug}`} class="pfa__link" typeClass="type-h3">Zobacz projekt</ArrowLink>
           </div>
         </div>
@@ -123,6 +125,7 @@ const projects = await getProjects();
   }
 
   :global(.pfa__link) {
+    grid-column: 3;
     align-self: end;
     justify-self: end;
     white-space: nowrap;
@@ -162,12 +165,12 @@ const projects = await getProjects();
       gap: var(--space-4);
     }
 
-    .pfa__image--secondary,
-    .pfa__image-placeholder {
+    .pfa__image:nth-child(n + 2) {
       display: none;
     }
 
     :global(.pfa__link) {
+      grid-column: auto;
       align-self: auto;
     }
   }

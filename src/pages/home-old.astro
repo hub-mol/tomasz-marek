@@ -1,0 +1,268 @@
+---
+// Statyczny podgląd strony głównej sprzed wdrożenia CMS (najbliższy zapis: 14.08.2026).
+// Celowo korzysta wyłącznie z lokalnych danych i zasobów, aby nie zmieniał się po edycji CMS.
+import '../styles/global.css';
+import {Image} from 'astro:assets';
+import heroImage from '../assets/images/hero-0.jpg';
+import aboutImage from '../assets/images/hero-2.png';
+import {projects} from '../data/portfolio';
+import {faq, procesArchitektura, procesWnetrza} from '../data/home';
+import Approach from '../components/sections/Approach.astro';
+import OfferList from '../components/sections/OfferList.astro';
+import ProcessOverview from '../components/sections/ProcessOverview.astro';
+import Accordion from '../components/sections/Accordion.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Archiwum strony głównej — Tomasz Marek</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+  </head>
+  <body>
+    <header class="old-header">
+      <a class="old-header__logo" href="/home-old">TMA <span>— Tomasz Marek Architekt</span></a>
+      <nav aria-label="Główna nawigacja archiwalna">
+        <a href="#projekty">Portfolio</a>
+        <a href="#oferta">Oferta</a>
+        <a href="#proces">Proces</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="old-hero">
+        <Image src={heroImage} alt="Wizualizacja projektu architektonicznego autorstwa Tomasza Marka" widths={[768, 1280, 1920, 2400]} sizes="100vw" format="avif" loading="eager" fetchpriority="high" />
+        <div class="old-hero__content">
+          <h1 class="type-h1">Architektura zainspirowana miejscem i ludźmi.</h1>
+          <div class="old-hero__aside">
+            <p class="type-heading-lg">Od idei po realizację poprowadzimy Cię przez cały proces projektowy i wykonawczy.</p>
+            <a class="old-link" href="#kontakt">Umów konsultację z architektem</a>
+          </div>
+        </div>
+      </section>
+
+      <Approach />
+
+      <section class="section section-spaced old-projects" id="projekty">
+        <div class="section-head-inline">
+          <h2 class="type-h1">Wybrane realizacje</h2>
+          <a class="old-link" href="/portfolio-grid">Zobacz wszystkie projekty</a>
+        </div>
+        <div class="old-projects__grid">
+          {projects.slice(0, 4).map((project) => <ProjectCard project={project} prominent />)}
+        </div>
+      </section>
+
+      <OfferList />
+      <ProcessOverview architecture={procesArchitektura} interiors={procesWnetrza} />
+
+      <section class="old-about" id="o-mnie">
+        <div class="section old-about__inner">
+          <div class="old-about__copy">
+            <h2 class="type-h3">Cześć! Tu Tomek.\nSpecjalizuję się w tworzeniu indywidualnych projektów architektury i wnętrz.</h2>
+            <div>
+              <p>Posiadam uprawnienia budowlane do projektowania bez ograniczeń w specjalności architektonicznej i jestem członkiem Pomorskiej Izby Architektów RP.</p>
+              <p>Studiowałem na Wydziale Architektury i Urbanistyki Politechniki Gdańskiej oraz na Faculty of Architecture and Urban Design Politecnico di Milano.</p>
+              <p>Doświadczenie zdobywałem w pracowniach architektonicznych i wnętrzarskich w Tallinie, Paryżu i Trójmieście.</p>
+            </div>
+            <a class="old-link" href="#kontakt">Umów konsultację z architektem</a>
+          </div>
+          <Image src={aboutImage} alt="Portret Tomasza Marka" widths={[640, 960, 1440]} sizes="(max-width: 1024px) 100vw, 40vw" format="avif" loading="lazy" />
+        </div>
+      </section>
+
+      <Accordion id="faq" eyebrow="FAQ" title="Pytania przed rozpoczęciem współpracy" items={faq} numbered alt />
+    </main>
+
+    <footer class="old-footer" id="kontakt">
+      <div class="section">
+        <p class="tagline">Kontakt</p>
+        <h2 class="type-h2">Porozmawiajmy o Twoim projekcie</h2>
+        <p>Planujesz budowę, przebudowę albo nowe wnętrze? Opowiedz nam o swojej inwestycji.</p>
+        <a class="old-link" href="mailto:biuro@tomaszmarek.com">biuro@tomaszmarek.com</a>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .old-header {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--hdr-h);
+    padding-inline: var(--gutter);
+    color: var(--c-on-dark);
+  }
+
+  .old-header__logo {
+    font-weight: 700;
+  }
+
+  .old-header__logo span {
+    font-weight: 400;
+  }
+
+  .old-header nav {
+    display: flex;
+    gap: var(--space-8);
+  }
+
+  .old-hero {
+    position: relative;
+    min-height: max(38.75rem, 100svh);
+    overflow: hidden;
+    background: var(--c-bg-dark);
+    color: var(--c-on-dark);
+  }
+
+  .old-hero > :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: bottom;
+  }
+
+  .old-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 10%);
+  }
+
+  .old-hero__content {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(17.5rem, 1fr);
+    gap: var(--space-16) clamp(var(--space-8), 5vw, var(--space-16));
+    align-items: end;
+    padding: 0 var(--gutter) clamp(var(--space-12), 8vh, var(--space-24));
+  }
+
+  .old-hero h1 {
+    max-width: 18ch;
+  }
+
+  .old-hero__aside {
+    max-width: 30ch;
+  }
+
+  .old-link {
+    display: inline-block;
+    margin-top: var(--space-6);
+    border-bottom: 1px solid currentColor;
+  }
+
+  .section-head-inline {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-8);
+    margin-bottom: var(--space-12);
+  }
+
+  .old-projects__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-8);
+  }
+
+  .old-about {
+    background: var(--c-bg-dark-soft);
+    color: var(--c-on-dark);
+  }
+
+  .old-about__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(17.5rem, 1fr);
+    min-height: 45rem;
+  }
+
+  .old-about__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--sec-y) var(--space-16) var(--sec-y) 0;
+  }
+
+  .old-about__copy h2 {
+    white-space: pre-line;
+  }
+
+  .old-about__copy p {
+    max-width: 60ch;
+    color: var(--c-on-dark-muted);
+  }
+
+  .old-about__copy p + p {
+    margin-top: var(--space-4);
+  }
+
+  .old-about :global(img) {
+    width: calc(100% + var(--gutter));
+    height: 100%;
+    max-width: none;
+    margin-right: calc(-1 * var(--gutter));
+    object-fit: cover;
+  }
+
+  .old-footer {
+    padding-block: var(--sec-y);
+    background: var(--c-bg-dark);
+    color: var(--c-on-dark);
+  }
+
+  .old-footer h2,
+  .old-footer > div > p:not(.tagline) {
+    max-width: 55rem;
+    margin-top: var(--space-8);
+  }
+
+  @media (max-width: 768px) {
+    .old-header nav {
+      display: none;
+    }
+
+    .old-hero__content,
+    .old-about__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .old-hero__aside {
+      margin-top: var(--space-12);
+    }
+
+    .old-projects__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .old-about__inner {
+      min-height: 0;
+    }
+
+    .old-about__copy {
+      gap: var(--space-16);
+      padding-right: 0;
+    }
+
+    .old-about :global(img) {
+      width: calc(100% + 2 * var(--gutter));
+      height: auto;
+      margin-inline: calc(-1 * var(--gutter));
+      aspect-ratio: 1;
+    }
+  }
+</style>

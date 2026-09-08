@@ -23,9 +23,11 @@ export interface OfferGroup {
 
 export interface HomePageData {
   showHero: boolean
+  heroType: 'images' | 'video'
   heroLead: string
   heroImage?: SanityProjectImage
   heroImages: SanityProjectImage[]
+  heroVideoUrl?: string
   showApproach: boolean
   approachTitle: string
   approachBody: PortableTextBlock[]
@@ -93,6 +95,7 @@ export interface NavigationLink {
 
 export const defaultHomePage: HomePageData = {
   showHero: true,
+  heroType: 'images',
   heroLead: 'Od idei po realizację poprowadzimy Cię przez cały proces projektowy i wykonawczy.',
   heroImages: [],
   showApproach: true,
@@ -193,6 +196,7 @@ const homePageQuery = `*[_id == "homePage"][0] {
   ...,
   "heroImage": heroImage ${imageProjection},
   "heroImages": heroImages[] ${imageProjection},
+  "heroVideoUrl": heroVideo.asset->url,
   "aboutImage": aboutImage ${imageProjection}
 }`
 
@@ -211,6 +215,7 @@ export function getHomePage(): Promise<HomePageData> {
       return {
         ...merged,
         showHero: data?.showHero ?? true,
+        heroType: data?.heroType === 'video' && data.heroVideoUrl ? 'video' : 'images',
         showApproach: data?.showApproach ?? true,
         showProjects: data?.showProjects ?? true,
         showOffer: data?.showOffer ?? true,

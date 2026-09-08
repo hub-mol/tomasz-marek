@@ -63,20 +63,54 @@ export const homePage = defineType({
   ],
   fields: [
     defineField({name: 'showHero', title: 'Pokaż sekcję „Hero”', type: 'boolean', group: 'hero', initialValue: true}),
+    defineField({
+      name: 'heroType',
+      title: 'Hero Typ',
+      type: 'string',
+      group: 'hero',
+      initialValue: 'images',
+      options: {
+        list: [
+          {title: 'Zdjęcia', value: 'images'},
+          {title: 'Wideo', value: 'video'},
+        ],
+        layout: 'radio',
+      },
+      validation: (rule) => rule.required(),
+    }),
     defineField({name: 'heroLead', title: 'Wprowadzenie', type: 'text', rows: 4, group: 'hero', validation: (rule) => rule.required()}),
     defineField({
       name: 'heroImages',
-      title: 'Slideshow',
+      title: 'Hero Slideshow',
       description: 'Dodaj maksymalnie 3 zdjęcia. Kolejność można zmieniać przez przeciąganie.',
       type: 'array',
       group: 'hero',
-      validation: (rule) => rule.required().min(1).max(3),
+      hidden: ({parent}) => parent?.heroType === 'video',
+      validation: (rule) => rule.custom((value, context) => {
+        if (context.parent?.heroType === 'video') return true
+        if (!Array.isArray(value) || value.length === 0) return 'Dodaj co najmniej jedno zdjęcie.'
+        if (value.length > 3) return 'Możesz dodać maksymalnie 3 zdjęcia.'
+        return true
+      }),
       of: [defineArrayMember({
         type: 'image',
         options: {hotspot: true},
         validation: (rule) => rule.custom(imageAssetOrEmpty),
         fields: [defineField({name: 'alt', title: 'Tekst alternatywny', type: 'string', validation: (rule) => rule.required()})],
       })],
+    }),
+    defineField({
+      name: 'heroVideo',
+      title: 'Hero Wideo',
+      description: 'Wideo zastępuje slideshow. Odtwarza się automatycznie, bez dźwięku i w pętli.',
+      type: 'file',
+      group: 'hero',
+      options: {accept: 'video/*'},
+      hidden: ({parent}) => parent?.heroType !== 'video',
+      validation: (rule) => rule.custom((value, context) => {
+        if (context.parent?.heroType !== 'video') return true
+        return value?.asset ? true : 'Dodaj plik wideo.'
+      }),
     }),
     defineField({
       name: 'heroImage',

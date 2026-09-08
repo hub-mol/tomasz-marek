@@ -11,6 +11,7 @@ interface Props {
   text?: string;
   img?: ProjectImageType;
   images?: ProjectImageType[];
+  videoUrl?: string;
   alt?: string;
 }
 
@@ -18,11 +19,13 @@ const {
   text = 'Od idei po realizację poprowadzimy Cię przez cały proces projektowy i wykonawczy.',
   img = heroImage,
   images,
+  videoUrl,
   alt = 'Wizualizacja projektu architektonicznego autorstwa Tomasza Marka',
 } = Astro.props;
 
 const slides = images?.length ? images.slice(0, 3) : [img];
-const hasSlideshow = slides.length > 1;
+const hasVideo = Boolean(videoUrl);
+const hasSlideshow = !hasVideo && slides.length > 1;
 const settings = await getSiteSettings();
 ---
 
@@ -32,20 +35,24 @@ const settings = await getSiteSettings();
     data-hero-slideshow={hasSlideshow ? '' : undefined}
     aria-hidden="true"
   >
-    {slides.map((slide, index) => (
-      <div class="hero__slide" style={`--slide-index: ${index}; --slide-count: ${slides.length};`}>
-        <ProjectImage
-          image={slide}
-          alt={slide && 'alt' in slide ? slide.alt ?? alt : alt}
-          widths={[480, 768, 1280, 1920, 2400]}
-          sizes="100vw"
-          format="avif"
-          loading="eager"
-          fetchpriority={index === 0 ? 'high' : 'low'}
-          decoding={index === 0 ? 'sync' : 'async'}
-        />
-      </div>
-    ))}
+    {hasVideo ? (
+      <video class="hero__video" src={videoUrl} autoplay muted loop playsinline preload="metadata"></video>
+    ) : (
+      slides.map((slide, index) => (
+        <div class="hero__slide" style={`--slide-index: ${index}; --slide-count: ${slides.length};`}>
+          <ProjectImage
+            image={slide}
+            alt={slide && 'alt' in slide ? slide.alt ?? alt : alt}
+            widths={[480, 768, 1280, 1920, 2400]}
+            sizes="100vw"
+            format="avif"
+            loading="eager"
+            fetchpriority={index === 0 ? 'high' : 'low'}
+            decoding={index === 0 ? 'sync' : 'async'}
+          />
+        </div>
+      ))
+    )}
   </div>
 
   <div class="hero__content">
@@ -175,6 +182,13 @@ const settings = await getSiteSettings();
     user-select: none;
   }
 
+  .hero__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+  }
+
   .hero__content {
     position: absolute;
     inset: auto 0 0;
@@ -193,8 +207,11 @@ const settings = await getSiteSettings();
 
   :global(.hero__brand) {
     display: block;
-    width: clamp(50%, 50vw, 30rem);
-    height: auto;
+    height: min(var(--space-32), 25vw);
+  }
+
+  .hero__note {
+    max-width: 30ch;
   }
 
   .hero__aside :global(.arrow-link) {
@@ -213,7 +230,7 @@ const settings = await getSiteSettings();
 
   @media (width >= 769px) {
     :global(.hero__brand) {
-      padding-left: var(--space-8);
+      padding: 0 0 var(--space-4) var(--space-8);
     }
   }
 
