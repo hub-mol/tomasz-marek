@@ -28,7 +28,7 @@ const isGrid = variant === 'grid';
 
   <div class="project-card__content">
     {isGrid ? (
-      <span class="project-card__category tagline">{project.category}</span>
+      <span class="project-card__detail tagline">{project.location}{project.surface && ` · ${project.surface}`}</span>
     ) : (
       <span class="project-card__meta tagline">
         <span>{project.category}</span>
@@ -45,7 +45,6 @@ const isGrid = variant === 'grid';
       </svg>
     </span>
 
-    {isGrid && <span class="project-card__detail type-body-md">{project.location}{project.surface && ` · ${project.surface}`}</span>}
   </div>
 </a>
 
@@ -163,6 +162,7 @@ const isGrid = variant === 'grid';
 
   .project-card__detail {
     margin-top: var(--space-1);
+    margin-left: .2em;
   }
 
 </style>
