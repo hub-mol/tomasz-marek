@@ -4,12 +4,15 @@ import {getCliClient} from 'sanity/cli'
  * Zamienia zwykły tekst na Portable Text w polach, które dostały formatowanie:
  * odpowiedzi FAQ, opisy kroków procesu i opisy pozycji oferty.
  *
- * Domyślnie tylko pokazuje, co zmieni. Zapis dopiero z flagą --apply:
- *   npm run cms:migrate-portable-text -- --apply
+ * Domyślnie tylko pokazuje, co zmieni. Zapis dopiero osobną komendą:
+ *   npm run cms:migrate-portable-text:apply
+ *
+ * `sanity exec` nie przepuszcza własnych flag do skryptu, więc sygnał idzie
+ * przez zmienną środowiskową APPLY.
  */
 
 const client = getCliClient({apiVersion: '2026-08-25'})
-const apply = process.argv.includes('--apply')
+const apply = process.env.APPLY === '1'
 
 const toBlocks = (text, keyPrefix) => text
   .split(/\n{2,}/)
@@ -78,7 +81,8 @@ console.log('Do zamiany na Portable Text:')
 for (const line of opis) console.log(`  - ${line}`)
 
 if (!apply) {
-  console.log('\nTo był podgląd. Aby zapisać, uruchom ponownie z flagą --apply.')
+  console.log('\nTo był podgląd — nic nie zapisano.')
+  console.log('Aby zapisać: npm run cms:migrate-portable-text:apply')
   process.exit(0)
 }
 
