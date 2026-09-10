@@ -1,0 +1,113 @@
+---
+export interface Step {
+  number: number;
+  title: string;
+  text: string;
+}
+
+interface Props {
+  steps?: Step[];
+}
+
+const defaultSteps = [
+  {
+    number: 1,
+    title: 'Prześlij podstawowe informacje',
+    text: 'Działka, lokalizacja, powierzchnia, potrzeby i budżet. To pozwala mi zrozumieć skalę projektu.',
+  },
+  {
+    number: 2,
+    title: 'Spotkanie',
+    text: 'Omówienie inwestycji i ocena zakresu prac. Rozmawiamy o wizji, ograniczeniach i możliwościach.',
+  },
+  {
+    number: 3,
+    title: 'Indywidualna wycena',
+    text: 'Jedna czytelna strona z opisem zakresu i wynagrodzeniem. Wiedz dokładnie co otrzymujesz.',
+  },
+  {
+    number: 4,
+    title: 'Umowa i start projektu',
+    text: 'Podpisujemy umowę i rozpoczynamy pracę nad Twoim projektem.',
+  },
+];
+
+const { steps = defaultSteps } = Astro.props;
+---
+
+<div class="next-steps">
+  <ul class="next-steps__list">
+    {steps.map((step) => (
+      <li class="next-steps__step">
+        <span class="next-steps__num">{String(step.number).padStart(2, '0')}</span>
+        <h3 class="type-h3">{step.title}</h3>
+        <p>{step.text}</p>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .next-steps {
+    width: 100%;
+    padding: var(--space-24) 0;
+  }
+
+  .next-steps__list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-12);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .next-steps__step {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .next-steps__num {
+    font-size: var(--fs-body-sm);
+    color: color-mix(in srgb, var(--c-on-dark) 55%, transparent);
+    margin-bottom: var(--space-4);
+  }
+
+  .next-steps__step h3 {
+    margin: 0 0 var(--space-4) 0;
+    font-size: var(--fs-h4);
+  }
+
+  .next-steps__step p {
+    margin: 0;
+    font-size: var(--fs-body-sm);
+    color: color-mix(in srgb, var(--c-on-dark) 67%, transparent);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1024px) {
+    .next-steps__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .next-steps {
+      padding: var(--space-16) 0;
+    }
+
+    .next-steps__list {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    .next-steps__step {
+      padding-bottom: var(--space-8);
+      border-bottom: 1px solid color-mix(in srgb, var(--c-on-dark) 25%, transparent);
+    }
+
+    .next-steps__step:last-child {
+      border-bottom: 0;
+    }
+  }
+</style>

@@ -3,6 +3,7 @@ import ArrowLink from './ArrowLink.astro';
 import BrandLogo from './BrandLogo.astro';
 import { plNoBreak } from '../utils/typography';
 import {getSiteSettings} from '../data/site';
+import NextSteps from './sections/NextSteps.astro';
 
 interface Props {
   id?: string;
@@ -26,6 +27,10 @@ const {email, phoneLabel, phoneHref} = settings;
       </ArrowLink>
     </div>
   </section>
+
+  <div class="section">
+    <NextSteps />
+  </div>
 
   <div class="section ftr__details">
     <div class="ftr__brand">
