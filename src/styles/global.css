@@ -11,6 +11,8 @@
   --c-muted: #706c67;
   --c-gray: #8a8680;
   --c-line: #d8d2c8;
+  /* linia rozdzielająca na ciemnym tle (sekcja procesu, stopka) */
+  --c-line-dark: color-mix(in srgb, #fff 25%, transparent);
 
   /* typografia */
   --ff-body: 'DM Sans Variable', 'DM Sans', sans-serif;
@@ -30,6 +32,7 @@
   --h1: 4.5rem;
   --h2: 3rem;
   --h3: 2.125rem;
+  --h4: 1.5rem;
 
   /* spacing: rdzeń oparty o potęgi 2; półkroki tylko dla rytmu 24/48/96 */
   --space-1: 0.25rem;
@@ -73,6 +76,7 @@
     --h1: 3rem;
     --h2: 2.25rem;
     --h3: 1.75rem;
+    --h4: 1.3125rem;
     --sec-y: calc(var(--space-16) + var(--space-4));
   }
 }
@@ -120,7 +124,7 @@ blockquote {
   margin: 0;
 }
 
-:where(h1, h2, h3, .type-display, .type-h1, .type-h2, .type-h3) {
+:where(h1, h2, h3, h4, .type-display, .type-h1, .type-h2, .type-h3, .type-h4) {
   font-family: var(--ff-heading);
   font-weight: 400;
   text-wrap: balance;
@@ -148,6 +152,12 @@ blockquote {
   font-size: var(--h3);
   line-height: 1.08;
   letter-spacing: var(--tracking-heading);
+}
+
+:where(h4, .type-h4) {
+  font-size: var(--h4);
+  line-height: 1.16;
+  letter-spacing: var(--tracking-tight);
 }
 
 .type-body-sm {

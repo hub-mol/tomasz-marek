@@ -200,6 +200,40 @@ export const homePage = defineType({
 
     defineField({name: 'showProcess', title: 'Pokaż sekcję „Proces”', type: 'boolean', group: 'process', initialValue: true}),
     defineField({name: 'processTitle', title: 'Nagłówek sekcji', type: 'string', group: 'process', validation: (rule) => rule.required()}),
+    defineField({
+      name: 'processLayout',
+      title: 'Układ sekcji',
+      description: '„Diagram” pokazuje kroki współpracy i oś procesu. „Rozwijana lista” pokazuje akordeon z pozycjami poniżej.',
+      type: 'string',
+      group: 'process',
+      initialValue: 'diagram',
+      options: {
+        list: [
+          {title: 'Diagram', value: 'diagram'},
+          {title: 'Rozwijana lista', value: 'accordion'},
+        ],
+        layout: 'radio',
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'nextSteps',
+      title: 'Kroki współpracy',
+      description: 'Widoczne w układzie „Diagram”, nad osią procesu.',
+      group: 'process',
+      type: 'array',
+      validation: (rule) => rule.required().min(1),
+      of: [defineArrayMember({
+        type: 'object',
+        name: 'nextStepsItem',
+        title: 'Krok',
+        fields: [
+          defineField({name: 'title', title: 'Nazwa', type: 'string', validation: (rule) => rule.required()}),
+          defineField({name: 'text', title: 'Opis', type: 'text', rows: 3, validation: (rule) => rule.required()}),
+        ],
+        preview: {select: {title: 'title', subtitle: 'text'}},
+      })],
+    }),
     defineField({name: 'showArchitectureProcess', title: 'Pokaż „Proces architektura”', type: 'boolean', group: 'process', initialValue: true}),
     accordionItems('architectureProcess', 'Proces architektura', 'process'),
     defineField({name: 'showInteriorsProcess', title: 'Pokaż „Proces wnętrza”', type: 'boolean', group: 'process', initialValue: true}),

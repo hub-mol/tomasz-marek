@@ -1,7 +1,7 @@
 import type {PortableTextBlock} from '@portabletext/types'
 import {bezZnacznikow, cachedUnlessPreview, loadQuery, type LoadOptions} from '../lib/sanityLoad'
 import type {SanityProjectImage} from './portfolio'
-import {faq, procesArchitektura, procesWnetrza} from './home'
+import {faq, nextSteps, procesArchitektura, procesWnetrza} from './home'
 import {normalizePortableText, paragraphsToPortableText, toPortableText} from '../utils/portableText'
 import {isValidSanityImage} from '../lib/sanityImage'
 
@@ -19,6 +19,11 @@ export interface OfferGroup {
   title: string
   lead?: string
   sections: Array<{title: string; text: PortableTextBlock[]}>
+}
+
+export interface NextStep {
+  title: string
+  text: string
 }
 
 export interface HomePageData {
@@ -41,6 +46,8 @@ export interface HomePageData {
   showOffer: boolean
   processTitle: string
   showProcess: boolean
+  processLayout: 'diagram' | 'accordion'
+  nextSteps: NextStep[]
   showArchitectureProcess: boolean
   architectureProcess: SimpleItem[]
   showInteriorsProcess: boolean
@@ -145,6 +152,8 @@ export const defaultHomePage: HomePageData = {
   showOffer: true,
   processTitle: 'Rozmowa / Realizacja',
   showProcess: true,
+  processLayout: 'diagram',
+  nextSteps,
   showArchitectureProcess: true,
   architectureProcess: itemsToPortableText(procesArchitektura, 'proces-architektura'),
   showInteriorsProcess: true,
@@ -228,6 +237,15 @@ const normalizeItems = (value: unknown, fallback: SimpleItem[], keyPrefix: strin
   })
 }
 
+const normalizeNextSteps = (value: unknown, fallback: NextStep[]): NextStep[] => {
+  if (!Array.isArray(value) || value.length === 0) return fallback
+
+  return value.map((item) => {
+    const entry = item as {title?: string; text?: string}
+    return {title: entry?.title ?? '', text: entry?.text ?? ''}
+  })
+}
+
 const normalizeOffers = (value: unknown, fallback: OfferGroup[]): OfferGroup[] => {
   if (!Array.isArray(value) || value.length === 0) return fallback
 
@@ -270,6 +288,7 @@ export function getHomePage(options: LoadOptions = {}): Promise<HomePageData> {
         showProjects: data?.showProjects ?? true,
         showOffer: data?.showOffer ?? true,
         showProcess: data?.showProcess ?? true,
+        processLayout: data?.processLayout === 'accordion' ? 'accordion' : 'diagram',
         showAbout: data?.showAbout ?? true,
         showFaq: data?.showFaq ?? true,
         heroImage,
@@ -281,6 +300,7 @@ export function getHomePage(options: LoadOptions = {}): Promise<HomePageData> {
         // Pola poniżej były wcześniej zwykłym tekstem. `toPortableText` przyjmuje obie
         // postacie, więc strona działa niezależnie od tego, czy migracja już przeszła.
         faq: normalizeItems(data?.faq, defaultHomePage.faq, 'faq'),
+        nextSteps: normalizeNextSteps(data?.nextSteps, defaultHomePage.nextSteps),
         architectureProcess: normalizeItems(data?.architectureProcess, defaultHomePage.architectureProcess, 'proces-architektura'),
         interiorsProcess: normalizeItems(data?.interiorsProcess, defaultHomePage.interiorsProcess, 'proces-wnetrza'),
         offers: normalizeOffers(data?.offers, defaultHomePage.offers),

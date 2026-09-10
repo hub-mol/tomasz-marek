@@ -3,6 +3,30 @@ export interface AccordionItem {
   body: string;
 }
 
+export interface NextStepItem {
+  title: string;
+  text: string;
+}
+
+export const nextSteps: NextStepItem[] = [
+  {
+    title: 'Prześlij podstawowe informacje',
+    text: 'Działka, lokalizacja, powierzchnia, potrzeby i budżet. To pozwala mi zrozumieć skalę projektu.',
+  },
+  {
+    title: 'Spotkanie',
+    text: 'Omówienie inwestycji i ocena zakresu prac. Rozmawiamy o wizji, ograniczeniach i możliwościach.',
+  },
+  {
+    title: 'Indywidualna wycena',
+    text: 'Jedna czytelna strona z opisem zakresu i wynagrodzeniem. Wiedz dokładnie co otrzymujesz.',
+  },
+  {
+    title: 'Umowa i start projektu',
+    text: 'Podpisujemy umowę i rozpoczynamy pracę nad Twoim projektem.',
+  },
+];
+
 export const procesArchitektura: AccordionItem[] = [
   {
     title: 'Spotkanie zapoznawcze',

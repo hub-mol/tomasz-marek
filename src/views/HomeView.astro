@@ -8,6 +8,7 @@ import Approach from '../components/sections/Approach.astro';
 import ProjectsGrid from '../components/sections/ProjectsGrid.astro';
 import OfferList from '../components/sections/OfferList.astro';
 import Accordion from '../components/sections/Accordion.astro';
+import ProcessSteps from '../components/sections/ProcessSteps.astro';
 import ProcessOverview from '../components/sections/ProcessOverview.astro';
 import AboutHero from '../components/sections/AboutHero.astro';
 
@@ -35,7 +36,11 @@ const home = await getHomePage({preview: Astro.locals.preview ?? false});
 
     {home.showOffer && <OfferList title={home.offerTitle} offers={home.offers} />}
 
-    {home.showProcess && (home.showArchitectureProcess || home.showInteriorsProcess) && (
+    {home.showProcess && home.processLayout === 'diagram' && (
+      <ProcessSteps heading={home.processTitle} steps={home.nextSteps} />
+    )}
+
+    {home.showProcess && home.processLayout === 'accordion' && (home.showArchitectureProcess || home.showInteriorsProcess) && (
       <ProcessOverview
         title={home.processTitle}
         architecture={home.showArchitectureProcess ? home.architectureProcess : []}

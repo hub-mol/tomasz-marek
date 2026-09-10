@@ -1,0 +1,273 @@
+---
+// Pozioma oś procesu rysowana jako SVG. Kamienie milowe siedzą na osi, między
+// nimi biegną łuki z czasem trwania. Podpisy łączy z osią prosta, ciągła linia
+// bez zakończeń, a tekst jest zawsze wyśrodkowany względem swojego punktu.
+
+export interface Kamien {
+  /** Podpis. Dzieli się na wiersze automatycznie; „\n” wymusza własny podział. */
+  label: string;
+  /** Po której stronie osi stoi podpis. */
+  side?: 'up' | 'down';
+  /** Długość odnośnika. Trzy poziomy pozwalają rozsunąć ciasnych sąsiadów. */
+  offset?: 'near' | 'mid' | 'far';
+}
+
+export interface Odcinek {
+  /** Opis nad albo pod łukiem, np. „1-3 mies.”. */
+  duration?: string;
+  /** Łuk w kolorze akcentu — etapy projektowe. */
+  accent?: boolean;
+}
+
+/** Łuki układają się na przemian: pierwszy pod osią, kolejny nad i tak dalej. */
+const stronaLuku = (i: number): 'up' | 'down' => (i % 2 === 0 ? 'down' : 'up');
+
+interface Props {
+  kamienie?: Kamien[];
+  odcinki?: Odcinek[];
+  /** Wersja na ciemnym tle. */
+  dark?: boolean;
+}
+
+const domyslneKamienie: Kamien[] = [
+  {label: 'Rozmowa', side: 'up', offset: 'mid'},
+  {label: 'Oferta', side: 'down', offset: 'mid'},
+  {label: 'Umowa', side: 'up', offset: 'near'},
+  {label: 'Analiza', side: 'down', offset: 'mid'},
+  {label: 'Koncepcja architektoniczna', side: 'up', offset: 'mid'},
+  {label: 'Projekt budowlany', side: 'down', offset: 'mid'},
+  {label: 'Pozwolenie na budowę', side: 'up', offset: 'near'},
+  {label: 'Projekt techniczny\nProjekt wnętrz', side: 'down', offset: 'near'},
+  {label: 'Realizacja + nadzór', side: 'up', offset: 'mid'},
+  {label: 'Koniec budowy', side: 'down', offset: 'mid'},
+];
+
+const domyslneOdcinki: Odcinek[] = [
+  {},
+  {},
+  {},
+  {duration: '1-3 mies.', accent: true},
+  {duration: '1-2 mies.', accent: true},
+  {duration: '2 mies.', accent: true},
+  {duration: '1-4 mies.', accent: true},
+  {},
+  {},
+];
+
+const {
+  kamienie = domyslneKamienie,
+  odcinki = domyslneOdcinki,
+  dark = false,
+} = Astro.props;
+
+// --- geometria ---------------------------------------------------------------
+// Kadr jest przycięty dokładnie do rysunku: oś zaczyna się na x=0 i kończy
+// na x=W, a najwyższy/najniższy podpis dotyka odpowiednio y=0 i y=H —
+// bez marginesu.
+const rnd = (n: number) => Math.round(n);
+
+const ZWIS_L = 60;    // o tyle oś wystaje w lewo przed pierwszy punkt
+const ZWIS_P = 60;    // i w prawo za ostatni punkt
+// Odległości między kolejnymi kropkami.
+const ODLEGLOSCI = [60, 60, 60, 160, 100, 120, 200, 80, 120];
+const MARGINES = ZWIS_L;
+const W = MARGINES + ODLEGLOSCI.reduce((a, b) => a + b, 0) + ZWIS_P;
+
+const PODNIES = 60;   // cały rysunek podniesiony o tyle względem kadru
+const GORA_ZWIS = 250;  // miejsce nad osią na najdłuższy podpis
+const OS_Y = GORA_ZWIS - PODNIES;
+const H = 380;
+
+const R_KROPKI = 7;          // wszystkie kropki tej samej wielkości
+const ODNOSNIK = {near: 80, mid: 120, far: 214} as const;
+const WIERSZ = 34;
+
+let biegnaca = MARGINES;
+const punkty = kamienie.map((_, i) => {
+  if (i === 0) return MARGINES;
+  biegnaca += ODLEGLOSCI[i - 1];
+  return biegnaca;
+});
+
+/** Zawija podpis na wiersze; „\n” ma pierwszeństwo. */
+const naWiersze = (label: string, maxZnakow = 26) => label.split('\n').flatMap((akapit) => {
+  const slowa = akapit.split(' ');
+  const wiersze: string[] = [];
+  let biezacy = '';
+  for (const slowo of slowa) {
+    const kandydat = biezacy ? `${biezacy} ${slowo}` : slowo;
+    if (kandydat.length > maxZnakow && biezacy) {
+      wiersze.push(biezacy);
+      biezacy = slowo;
+    } else {
+      biezacy = kandydat;
+    }
+  }
+  if (biezacy) wiersze.push(biezacy);
+  return wiersze;
+});
+
+/** Półokrąg oparty na odcinku osi — promień równy połowie jego długości. */
+const luk = (x1: number, x2: number, strona: 'up' | 'down') => {
+  const promien = rnd((x2 - x1) / 2);
+  const sweep = strona === 'up' ? 1 : 0;
+  return `M ${x1} ${OS_Y} A ${promien} ${promien} 0 0 ${sweep} ${x2} ${OS_Y}`;
+};
+
+const opisy = kamienie.map((kamien, i) => {
+  const gora = (kamien.side ?? (i % 2 === 0 ? 'up' : 'down')) === 'up';
+  const dlugosc = ODNOSNIK[kamien.offset ?? 'mid'];
+  const koniec = gora ? OS_Y - dlugosc : OS_Y + dlugosc;
+  const wiersze = naWiersze(kamien.label);
+  // Tekst startuje tuż za końcem linii, w stronę od osi. Dolne podpisy
+  // dodatkowo podniesione o 10px.
+  const pierwszyWiersz = rnd(gora
+    ? koniec - 16 - (wiersze.length - 1) * WIERSZ
+    : koniec + 16 + WIERSZ * 0.75 - 10);
+  return {x: punkty[i], gora, koniec, wiersze, pierwszyWiersz};
+});
+---
+
+<div class:list={['proces-os__scroll', {'proces-os__scroll--dark': dark}]}>
+  <svg
+    class="proces-os__svg"
+    viewBox={`0 0 ${W} ${H}`}
+    role="img"
+    aria-label={`Oś procesu: ${kamienie.map((k) => k.label.replace(/\n/g, ' ')).join(', ')}`}
+  >
+    {/* odnośniki pod spodem — rysowane jako pierwsze, więc leżą pod osią i łukami */}
+    {opisy.map(({x, koniec}) => (
+      <line class="proces-os__odnosnik" x1={x} y1={OS_Y} x2={x} y2={koniec} />
+    ))}
+
+    {/* łuki między kamieniami */}
+    {kamienie.slice(0, -1).map((_, i) => {
+        const odcinek = odcinki[i] ?? {};
+        const strona = stronaLuku(i);
+        const srodek = rnd((punkty[i] + punkty[i + 1]) / 2);
+        const promien = (punkty[i + 1] - punkty[i]) / 2;
+        // Opis w środku czaszy, na wysokości proporcjonalnej do promienia.
+        const yOpisu = rnd(strona === 'up'
+          ? OS_Y - promien * 0.42
+          : OS_Y + promien * 0.5);
+        const wiersze = odcinek.duration ? naWiersze(odcinek.duration, 22) : [];
+        return (
+          <>
+            <path
+              class:list={['proces-os__luk', {'proces-os__luk--akcent': odcinek.accent}]}
+              d={luk(punkty[i], punkty[i + 1], strona)}
+            />
+            {wiersze.map((wiersz, j) => (
+              <text
+                class="proces-os__czas"
+                x={srodek}
+                y={yOpisu + (j - (wiersze.length - 1) / 2) * 30}
+                text-anchor="middle"
+              >{wiersz}</text>
+            ))}
+          </>
+        );
+      })}
+
+      {/* oś */}
+      <line
+        class="proces-os__os"
+        x1={0}
+        y1={OS_Y}
+        x2={W}
+        y2={OS_Y}
+      />
+
+      {/* podpisy wyśrodkowane nad odnośnikami */}
+      {opisy.map(({x, wiersze, pierwszyWiersz}) => (
+        <>
+          {wiersze.map((wiersz, j) => (
+            <text
+              class="proces-os__podpis"
+              x={x}
+              y={pierwszyWiersz + j * WIERSZ}
+              text-anchor="middle"
+            >{wiersz}</text>
+          ))}
+        </>
+      ))}
+
+      {/* kropki na wierzchu, wszystkie równe */}
+      {punkty.map((x) => <circle class="proces-os__kropka" cx={x} cy={OS_Y} r={R_KROPKI} />)}
+  </svg>
+</div>
+
+<style>
+  .proces-os__scroll {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .proces-os__scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .proces-os__scroll--dark {
+    --c-fg: var(--c-on-dark);
+    --c-muted: var(--c-on-dark-muted);
+    background: var(--c-bg-dark);
+    padding-inline: var(--pad-x);
+  }
+
+  .proces-os__svg {
+    display: block;
+    width: 100%;
+    min-width: 60rem;
+    height: auto;
+    color: var(--c-fg);
+  }
+
+  .proces-os__os {
+    stroke: var(--c-fg);
+    stroke-width: 1;
+  }
+
+  .proces-os__luk {
+    fill: none;
+    stroke: var(--c-fg);
+    stroke-width: 2;
+  }
+
+  .proces-os__luk--akcent {
+    stroke: var(--c-accent);
+  }
+
+  .proces-os__kropka {
+    fill: var(--c-fg);
+  }
+
+  /* Prosta, ciągła linia — bez kropek i bez poprzeczki na końcu. */
+  .proces-os__odnosnik {
+    stroke: var(--c-fg);
+    stroke-width: 1;
+    opacity: 0.5;
+  }
+
+  .proces-os__podpis {
+    fill: var(--c-fg);
+  }
+
+  .proces-os__czas {
+    fill: var(--c-muted);
+  }
+
+  @media (min-width: 1025px) {
+    .proces-os__svg {
+      font-size: var(--text-sm);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .proces-os__scroll {
+      margin-inline: calc(var(--pad-x) * -1);
+      padding-inline: var(--pad-x);
+    }
+  }
+</style>
