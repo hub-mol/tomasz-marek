@@ -15,6 +15,7 @@ import KontaktView from '../../views/KontaktView.astro';
 import PolitykaView from '../../views/PolitykaView.astro';
 import ArticlePage from '../../components/article/ArticlePage.astro';
 
+import {getReadTokenOrNull} from '../../lib/sanityLoad';
 import {getProjects} from '../../data/projects';
 import {getBlogPosts} from '../../data/blogPosts';
 import type {Project} from '../../data/portfolio';
@@ -24,11 +25,11 @@ const preview = true;
 
 // Sprawdzamy token zanim zaczniemy renderować. Bez tego błąd wypada w środku
 // strumienia HTML i przeglądarka dostaje puste 200 zamiast czytelnego komunikatu.
-if (!import.meta.env.SANITY_API_READ_TOKEN) {
+if (!(await getReadTokenOrNull())) {
   return new Response(
-    'Podgląd wersji roboczych wymaga zmiennej SANITY_API_READ_TOKEN.\n\n'
-    + 'Utwórz token o uprawnieniach Viewer w sanity.io/manage (API -> Tokens),\n'
-    + 'dodaj go do .env lokalnie i jako sekret Workera na wdrożeniu.',
+    'Podgląd wersji roboczych wymaga tokenu SANITY_API_READ_TOKEN.\n\n'
+    + 'Na wdrożeniu: npx wrangler secret put SANITY_API_READ_TOKEN\n'
+    + 'Lokalnie: wpisz go do pliku .env',
     {status: 500, headers: {'content-type': 'text/plain; charset=utf-8'}},
   );
 }

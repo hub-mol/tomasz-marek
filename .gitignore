@@ -14,3 +14,4 @@ _original/
 _ref/
 .wrangler/
 
+.dev.vars

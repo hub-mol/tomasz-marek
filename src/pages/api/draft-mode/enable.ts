@@ -2,6 +2,7 @@ import type {APIRoute} from 'astro'
 import {sanityClient} from 'sanity:client'
 import {validatePreviewUrl} from '@sanity/preview-url-secret'
 import {perspectiveCookieName} from '@sanity/preview-url-secret/constants'
+import {getReadTokenOrNull} from '../../../lib/sanityLoad'
 
 export const prerender = false
 
@@ -16,12 +17,13 @@ export const prerender = false
  * SameSite=None; Secure; Partitioned.
  */
 export const GET: APIRoute = async ({request, cookies, redirect}) => {
-  const token = import.meta.env.SANITY_API_READ_TOKEN
+  const token = await getReadTokenOrNull()
 
   if (!token) {
     return new Response(
-      'Brak zmiennej SANITY_API_READ_TOKEN. Utwórz token o uprawnieniach Viewer i dodaj go do zmiennych środowiskowych.',
-      {status: 500},
+      'Brak tokenu SANITY_API_READ_TOKEN w środowisku Workera.\n'
+      + 'Ustaw go przez: npx wrangler secret put SANITY_API_READ_TOKEN',
+      {status: 500, headers: {'content-type': 'text/plain; charset=utf-8'}},
     )
   }
 

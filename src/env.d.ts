@@ -17,3 +17,9 @@ declare namespace App {
     preview?: boolean
   }
 }
+
+// Moduł istnieje tylko w środowisku Workera. Deklaracja pozwala czytać sekrety
+// wdrożenia bez wciągania pełnych typów Cloudflare.
+declare module 'cloudflare:workers' {
+  export const env: Record<string, unknown>
+}

@@ -5,7 +5,49 @@ export interface LoadOptions {
   preview?: boolean
 }
 
-const readToken = import.meta.env.SANITY_API_READ_TOKEN
+/**
+ * Token do wersji roboczych bywa w dwóch zupełnie różnych miejscach:
+ *
+ * - lokalnie w `.env`, skąd Vite wkleja go do `import.meta.env` podczas builda,
+ * - na wdrożeniu jako sekret Workera, który istnieje dopiero w czasie działania
+ *   i jest widoczny wyłącznie przez moduł `cloudflare:workers`.
+ *
+ * Sprawdzamy oba. Import jest dynamiczny i w try/catch, bo `cloudflare:workers`
+ * nie istnieje podczas prerenderowania stron w Node.
+ */
+let zapamietanyToken: string | undefined
+let sprawdzonoRuntime = false
+
+async function getReadToken(): Promise<string | undefined> {
+  if (zapamietanyToken) return zapamietanyToken
+
+  const zBuilda = import.meta.env.SANITY_API_READ_TOKEN
+  if (zBuilda) {
+    zapamietanyToken = zBuilda
+    return zapamietanyToken
+  }
+
+  if (sprawdzonoRuntime) return undefined
+  sprawdzonoRuntime = true
+
+  try {
+    const {env} = await import('cloudflare:workers')
+    const zRuntime = (env as Record<string, unknown>)?.SANITY_API_READ_TOKEN
+    if (typeof zRuntime === 'string' && zRuntime) {
+      zapamietanyToken = zRuntime
+      return zapamietanyToken
+    }
+  } catch {
+    // Poza Workerem tego modułu nie ma — to normalne podczas builda.
+  }
+
+  return undefined
+}
+
+/** Token albo null. Trasy używają go do wczesnej, czytelnej kontroli. */
+export async function getReadTokenOrNull(): Promise<string | null> {
+  return (await getReadToken()) ?? null
+}
 
 /**
  * Jedno wejście do Sanity dla całej strony.
@@ -15,10 +57,9 @@ const readToken = import.meta.env.SANITY_API_READ_TOKEN
  *
  * Z `preview` dokłada token, przełącza perspektywę na wersje robocze i włącza
  * stega — niewidzialne znaczniki, dzięki którym Presentation wie, z którego pola
- * pochodzi dany fragment tekstu. Ta ścieżka działa wyłącznie na trasach
- * renderowanych na żądanie, czyli pod /preview.
+ * pochodzi dany fragment tekstu.
  */
-export function loadQuery<T>(
+export async function loadQuery<T>(
   query: string,
   params: Record<string, unknown> = {},
   {preview = false}: LoadOptions = {},
@@ -27,7 +68,9 @@ export function loadQuery<T>(
     return sanityClient.fetch<T>(query, params)
   }
 
-  if (!readToken) {
+  const token = await getReadToken()
+
+  if (!token) {
     throw new Error(
       'Podgląd wersji roboczych wymaga zmiennej SANITY_API_READ_TOKEN (token o uprawnieniach Viewer).',
     )
@@ -35,7 +78,7 @@ export function loadQuery<T>(
 
   return sanityClient
     .withConfig({
-      token: readToken,
+      token,
       useCdn: false,
       perspective: 'drafts',
       stega: {enabled: true, studioUrl: '/admin'},
