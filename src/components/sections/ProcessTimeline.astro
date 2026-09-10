@@ -137,7 +137,7 @@ const opisy = kamienie.map((kamien, i) => {
   >
     {/* odnośniki pod spodem — rysowane jako pierwsze, więc leżą pod osią i łukami */}
     {opisy.map(({x, koniec}) => (
-      <line class="proces-os__odnosnik" x1={x} y1={OS_Y} x2={x} y2={koniec} />
+      <line class="proces-os__odnosnik" x1={x} y1={OS_Y} x2={x} y2={koniec} vector-effect="non-scaling-stroke" />
     ))}
 
     {/* łuki między kamieniami */}
@@ -156,6 +156,7 @@ const opisy = kamienie.map((kamien, i) => {
             <path
               class:list={['proces-os__luk', {'proces-os__luk--akcent': odcinek.accent}]}
               d={luk(punkty[i], punkty[i + 1], strona)}
+              vector-effect="non-scaling-stroke"
             />
             {wiersze.map((wiersz, j) => (
               <text
@@ -176,6 +177,7 @@ const opisy = kamienie.map((kamien, i) => {
         y1={OS_Y}
         x2={W}
         y2={OS_Y}
+        vector-effect="non-scaling-stroke"
       />
 
       {/* podpisy wyśrodkowane nad odnośnikami */}
@@ -245,9 +247,8 @@ const opisy = kamienie.map((kamien, i) => {
 
   /* Prosta, ciągła linia — bez kropek i bez poprzeczki na końcu. */
   .proces-os__odnosnik {
-    stroke: var(--c-fg);
+    stroke: var(--c-line-dark);
     stroke-width: 1;
-    opacity: 0.5;
   }
 
   .proces-os__podpis {
