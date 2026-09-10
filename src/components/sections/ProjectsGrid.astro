@@ -9,7 +9,7 @@ interface Props {
 }
 
 const {title = 'Wybrane realizacje', linkLabel = 'Zobacz wszystkie projekty'} = Astro.props;
-const projects = await getProjects();
+const projects = await getProjects({preview: Astro.locals.preview ?? false});
 const featuredProjects = projects.filter((project) => project.featured !== false).slice(0, 4);
 ---
 

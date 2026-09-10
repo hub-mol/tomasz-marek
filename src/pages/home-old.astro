@@ -11,6 +11,11 @@ import domPoznan from '../assets/images/projects/dom-poznan-1.png';
 import estetica from '../assets/images/projects/estetica-1.png';
 import type {Project} from '../data/portfolio';
 import {faq, procesArchitektura, procesWnetrza} from '../data/home';
+import {toPortableText} from '../utils/portableText';
+
+// Archiwum trzyma treść jako zwykły tekst, a sekcje oczekują już Portable Text.
+const naBloki = (items: Array<{title: string; body: string}>, prefix: string) =>
+  items.map((item, index) => ({title: item.title, body: toPortableText(item.body, [], `${prefix}-${index}`)}));
 import Approach from '../components/sections/Approach.astro';
 import OfferList from '../components/sections/OfferList.astro';
 import ProcessOverview from '../components/sections/ProcessOverview.astro';
@@ -78,7 +83,7 @@ const projects: Project[] = [
       </section>
 
       <OfferList />
-      <ProcessOverview architecture={procesArchitektura} interiors={procesWnetrza} />
+      <ProcessOverview architecture={naBloki(procesArchitektura, 'procesArchitektura')} interiors={naBloki(procesWnetrza, 'procesWnetrza')} />
 
       <section class="old-about" id="o-mnie">
         <div class="section old-about__inner">
@@ -95,7 +100,7 @@ const projects: Project[] = [
         </div>
       </section>
 
-      <Accordion id="faq" eyebrow="FAQ" title="Pytania przed rozpoczęciem współpracy" items={faq} numbered alt />
+      <Accordion id="faq" eyebrow="FAQ" title="Pytania przed rozpoczęciem współpracy" items={naBloki(faq, 'faq')} numbered alt />
     </main>
 
     <footer class="old-footer" id="kontakt">

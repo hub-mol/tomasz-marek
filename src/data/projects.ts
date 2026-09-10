@@ -1,5 +1,5 @@
-import {sanityClient} from 'sanity:client'
 import type {PortableTextBlock} from '@portabletext/types'
+import {cachedUnlessPreview, loadQuery, type LoadOptions} from '../lib/sanityLoad'
 import type {Project, ProjectContentBlock, SanityProjectImage} from './portfolio'
 import {getImageEdgeColors} from '../lib/imagePalette'
 
@@ -62,11 +62,10 @@ const projectsQuery = `*[
   }
 }`
 
-let cache: Promise<Project[]> | undefined
+const cache: {value?: Promise<Project[]>} = {}
 
-export function getProjects(): Promise<Project[]> {
-  cache ??= sanityClient
-    .fetch<SanityProject[]>(projectsQuery)
+export function getProjects(options: LoadOptions = {}): Promise<Project[]> {
+  return cachedUnlessPreview(cache, options, () => loadQuery<SanityProject[]>(projectsQuery, {}, options)
     .then((items) => {
       if (items.length === 0) {
         throw new Error('Brak opublikowanych projektów w Sanity.')
@@ -77,7 +76,7 @@ export function getProjects(): Promise<Project[]> {
           ? {...block, images: block.images ?? []}
           : block) as ProjectContentBlock[] | undefined
 
-        const palette = await getImageEdgeColors(item.img)
+        const palette = await getImageEdgeColors(item.img, {preview: options.preview ?? false})
         return {
           ...item,
           content,
@@ -86,7 +85,5 @@ export function getProjects(): Promise<Project[]> {
           cardTone: palette.titleText === '#fff' ? 'dark' : 'light',
         }
       }))
-    })
-
-  return cache
+    }))
 }

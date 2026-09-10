@@ -9,12 +9,13 @@ interface Props {
   description?: string;
   // wide — nagłówek na pełnej szerokości (dla treści spoza kontenera 1100px)
   wide?: boolean;
+  noindex?: boolean;
 }
 
-const { title, heading, description, wide = false } = Astro.props;
+const { title, heading, description, wide = false, noindex = false } = Astro.props;
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} noindex={noindex}>
   <Header />
 
   <main class="page section-spaced">

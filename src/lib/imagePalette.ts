@@ -1,7 +1,6 @@
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
-import sharp from 'sharp';
 
 import type {ProjectImage} from '../data/portfolio';
 
@@ -108,6 +107,9 @@ const ensureDistinctBottom = (top: Rgb, bottom: Rgb, text: ReadableText): Rgb =>
 };
 
 const calculateEdgeColors = async (image: ProjectImage): Promise<ImageEdgeColors> => {
+  // sharp jest natywny i dostępny tylko podczas builda w Node. Ładujemy go
+  // dopiero tutaj, żeby nie wciągnąć go do Workera obsługującego podgląd.
+  const {default: sharp} = await import('sharp');
   const input = await readImage(image);
   const metadata = await sharp(input).metadata();
   if (!metadata.width || !metadata.height) return FALLBACK_COLORS;
@@ -171,7 +173,11 @@ const calculateEdgeColors = async (image: ProjectImage): Promise<ImageEdgeColors
   };
 };
 
-export const getImageEdgeColors = (image: ProjectImage) => {
+export const getImageEdgeColors = (image: ProjectImage, {preview = false} = {}) => {
+  // W podglądzie renderowanym na żądanie nie ma jak policzyć palety — sharp nie
+  // działa w Workerze. Kolory bezpieczne wystarczą, bo to warstwa czysto wizualna.
+  if (preview) return Promise.resolve(FALLBACK_COLORS);
+
   const source = 'url' in image ? image.url : image.src;
   const cached = paletteCache.get(source);
   if (cached) return cached;

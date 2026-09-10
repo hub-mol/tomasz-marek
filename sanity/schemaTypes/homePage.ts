@@ -1,6 +1,41 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {imageAssetOrEmpty} from './imageValidation'
 
+type HeroParent = {heroType?: 'images' | 'video'}
+
+/** Krótki tekst z formatowaniem — akapity, listy, pogrubienia i linki. */
+const formattedText = (name: string, title: string) => defineField({
+  name,
+  title,
+  type: 'array',
+  of: [defineArrayMember({
+    type: 'block',
+    styles: [{title: 'Akapit', value: 'normal'}],
+    lists: [
+      {title: 'Lista punktowana', value: 'bullet'},
+      {title: 'Lista numerowana', value: 'number'},
+    ],
+    marks: {
+      decorators: [
+        {title: 'Pogrubienie', value: 'strong'},
+        {title: 'Kursywa', value: 'em'},
+      ],
+      annotations: [defineField({
+        name: 'link',
+        title: 'Link',
+        type: 'object',
+        fields: [defineField({
+          name: 'href',
+          title: 'Adres',
+          type: 'url',
+          validation: (rule) => rule.uri({allowRelative: true, scheme: ['http', 'https', 'mailto', 'tel']}),
+        })],
+      })],
+    },
+  })],
+  validation: (rule) => rule.required().min(1),
+})
+
 const imageWithAlt = (name: string, title: string, group: string) => defineField({
   name,
   title,
@@ -23,7 +58,12 @@ const richText = (name: string, title: string, group: string) => defineField({
         name: 'link',
         title: 'Link',
         type: 'object',
-        fields: [defineField({name: 'href', title: 'Adres', type: 'url', options: {allowRelative: true}})],
+        fields: [defineField({
+          name: 'href',
+          title: 'Adres',
+          type: 'url',
+          validation: (rule) => rule.uri({allowRelative: true, scheme: ['http', 'https', 'mailto', 'tel']}),
+        })],
       })],
     },
   })],
@@ -41,9 +81,15 @@ const accordionItems = (name: string, title: string, group: string) => defineFie
     title: 'Pozycja',
     fields: [
       defineField({name: 'title', title: 'Nazwa / pytanie', type: 'string', validation: (rule) => rule.required()}),
-      defineField({name: 'body', title: 'Opis / odpowiedź', type: 'text', rows: 5, validation: (rule) => rule.required()}),
+      formattedText('body', 'Opis / odpowiedź'),
     ],
-    preview: {select: {title: 'title', subtitle: 'body'}},
+    preview: {
+      select: {title: 'title', body: 'body'},
+      prepare: ({title, body}) => ({
+        title,
+        subtitle: body?.[0]?.children?.map((child: {text?: string}) => child.text).join('') ?? '',
+      }),
+    },
   })],
 })
 
@@ -85,9 +131,9 @@ export const homePage = defineType({
       description: 'Dodaj maksymalnie 3 zdjęcia. Kolejność można zmieniać przez przeciąganie.',
       type: 'array',
       group: 'hero',
-      hidden: ({parent}) => parent?.heroType === 'video',
+      hidden: ({parent}) => (parent as HeroParent)?.heroType === 'video',
       validation: (rule) => rule.custom((value, context) => {
-        if (context.parent?.heroType === 'video') return true
+        if ((context.parent as HeroParent)?.heroType === 'video') return true
         if (!Array.isArray(value) || value.length === 0) return 'Dodaj co najmniej jedno zdjęcie.'
         if (value.length > 3) return 'Możesz dodać maksymalnie 3 zdjęcia.'
         return true
@@ -106,9 +152,9 @@ export const homePage = defineType({
       type: 'file',
       group: 'hero',
       options: {accept: 'video/*'},
-      hidden: ({parent}) => parent?.heroType !== 'video',
+      hidden: ({parent}) => (parent as HeroParent)?.heroType !== 'video',
       validation: (rule) => rule.custom((value, context) => {
-        if (context.parent?.heroType !== 'video') return true
+        if ((context.parent as HeroParent)?.heroType !== 'video') return true
         return value?.asset ? true : 'Dodaj plik wideo.'
       }),
     }),
@@ -142,8 +188,14 @@ export const homePage = defineType({
       defineField({name: 'lead', title: 'Pytanie wprowadzające', type: 'text', rows: 2}),
       defineField({name: 'sections', title: 'Pozycje', type: 'array', of: [defineArrayMember({type: 'object', name: 'offerSection', title: 'Pozycja', fields: [
         defineField({name: 'title', title: 'Nazwa', type: 'string', validation: (rule) => rule.required()}),
-        defineField({name: 'text', title: 'Opis', type: 'text', rows: 4, validation: (rule) => rule.required()}),
-      ], preview: {select: {title: 'title', subtitle: 'text'}}})]})
+        formattedText('text', 'Opis'),
+      ], preview: {
+        select: {title: 'title', text: 'text'},
+        prepare: ({title, text}) => ({
+          title,
+          subtitle: text?.[0]?.children?.map((child: {text?: string}) => child.text).join('') ?? '',
+        }),
+      }})]})
     ], preview: {select: {title: 'title'}}})]}),
 
     defineField({name: 'showProcess', title: 'Pokaż sekcję „Proces”', type: 'boolean', group: 'process', initialValue: true}),

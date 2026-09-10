@@ -1,0 +1,103 @@
+---
+// Podgląd wersji roboczych. Renderowany na żądanie, więc czyta ciasteczko trybu
+// podglądu i pobiera z Sanity treść niepublikowaną.
+//
+// Nie duplikujemy tu układu stron — każda gałąź renderuje ten sam widok co
+// wersja publiczna, więc podgląd nie może rozjechać się z produkcją. Tryb
+// podglądu płynie przez `Astro.locals.preview`, ustawiane przez middleware.
+export const prerender = false;
+
+import HomeView from '../../views/HomeView.astro';
+import ProjektyView from '../../views/ProjektyView.astro';
+import ProjektView from '../../views/ProjektView.astro';
+import BlogView from '../../views/BlogView.astro';
+import KontaktView from '../../views/KontaktView.astro';
+import PolitykaView from '../../views/PolitykaView.astro';
+import ArticlePage from '../../components/article/ArticlePage.astro';
+
+import {getProjects} from '../../data/projects';
+import {getBlogPosts} from '../../data/blogPosts';
+import type {Project} from '../../data/portfolio';
+import type {BlogPost} from '../../data/blogPosts';
+
+const preview = true;
+
+// Sprawdzamy token zanim zaczniemy renderować. Bez tego błąd wypada w środku
+// strumienia HTML i przeglądarka dostaje puste 200 zamiast czytelnego komunikatu.
+if (!import.meta.env.SANITY_API_READ_TOKEN) {
+  return new Response(
+    'Podgląd wersji roboczych wymaga zmiennej SANITY_API_READ_TOKEN.\n\n'
+    + 'Utwórz token o uprawnieniach Viewer w sanity.io/manage (API -> Tokens),\n'
+    + 'dodaj go do .env lokalnie i jako sekret Workera na wdrożeniu.',
+    {status: 500, headers: {'content-type': 'text/plain; charset=utf-8'}},
+  );
+}
+
+const segments = (Astro.params.path ?? '')
+  .split('/')
+  .map((part) => part.trim())
+  .filter(Boolean);
+
+const [first, second] = segments;
+
+// Bez generyka — składnia <T,> w frontmatterze bywa brana za JSX.
+function sasiedzi(items: unknown[], index: number) {
+  if (items.length < 2) return {prev: undefined, next: undefined};
+  return {
+    prev: items[(index - 1 + items.length) % items.length],
+    next: items[(index + 1) % items.length],
+  };
+}
+
+const nieZnaleziono = () => new Response('Nie ma takiej strony w podglądzie.', {
+  status: 404,
+  headers: {'content-type': 'text/plain; charset=utf-8'},
+});
+
+type Widok = 'home' | 'projekty' | 'projekt' | 'blog' | 'artykul' | 'kontakt' | 'polityka';
+let widok: Widok | null = null;
+let projekt: Project | undefined;
+let projektSasiedzi: {prev?: Project; next?: Project} = {};
+let wpis: BlogPost | undefined;
+let wpisSasiedzi: {prev?: BlogPost; next?: BlogPost} = {};
+
+if (segments.length === 0) {
+  widok = 'home';
+} else if (first === 'kontakt' && !second) {
+  widok = 'kontakt';
+} else if (first === 'polityka-prywatnosci' && !second) {
+  widok = 'polityka';
+} else if (first === 'projekty' && !second) {
+  widok = 'projekty';
+} else if (first === 'projekty' && second) {
+  const projekty = await getProjects({preview});
+  const index = projekty.findIndex((item) => item.slug === second);
+  if (index === -1) return nieZnaleziono();
+  projekt = projekty[index];
+  projektSasiedzi = sasiedzi(projekty, index) as {prev?: Project; next?: Project};
+  widok = 'projekt';
+} else if (first === 'blog' && !second) {
+  widok = 'blog';
+} else if ((first === 'blog' || first === 'oferta') && second) {
+  const wpisy = await getBlogPosts(first === 'oferta' ? 'offer' : 'blog', {preview});
+  const index = wpisy.findIndex((item) => item.slug === second);
+  if (index === -1) return nieZnaleziono();
+  wpis = wpisy[index];
+  wpisSasiedzi = sasiedzi(wpisy, index) as {prev?: BlogPost; next?: BlogPost};
+  widok = 'artykul';
+}
+
+if (!widok) return nieZnaleziono();
+---
+
+{widok === 'home' && <HomeView />}
+{widok === 'projekty' && <ProjektyView />}
+{widok === 'projekt' && projekt && (
+  <ProjektView project={projekt} prev={projektSasiedzi.prev} next={projektSasiedzi.next} />
+)}
+{widok === 'blog' && <BlogView />}
+{widok === 'artykul' && wpis && (
+  <ArticlePage post={wpis} prev={wpisSasiedzi.prev} next={wpisSasiedzi.next} />
+)}
+{widok === 'kontakt' && <KontaktView />}
+{widok === 'polityka' && <PolitykaView />}

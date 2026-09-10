@@ -10,7 +10,7 @@ interface Props {
 
 const { id } = Astro.props;
 const year = new Date().getFullYear();
-const settings = await getSiteSettings();
+const settings = await getSiteSettings({preview: Astro.locals.preview ?? false});
 const {email, phoneLabel, phoneHref} = settings;
 ---
 

@@ -3,7 +3,7 @@ import ArrowLink from '../ArrowLink.astro';
 import { plNoBreak } from '../../utils/typography';
 import {getSiteSettings} from '../../data/site';
 
-const settings = await getSiteSettings();
+const settings = await getSiteSettings({preview: Astro.locals.preview ?? false});
 const {email, phoneLabel, phoneHref, bookingHref, bookingLabel} = settings;
 ---
 

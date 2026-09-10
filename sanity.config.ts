@@ -1,7 +1,13 @@
 import {visionTool} from '@sanity/vision'
 import {defineConfig} from 'sanity'
+import {presentationTool} from 'sanity/presentation'
 import {structureTool} from 'sanity/structure'
+import {resolve} from './sanity/presentation/resolve'
 import {schemaTypes} from './sanity/schemaTypes'
+
+// Adres podglądu. Studio i strona stoją na tej samej domenie, więc ramka
+// podglądu jest first-party — bez zabawy z ciasteczkami cross-site.
+const origin = import.meta.env.DEV ? 'http://localhost:4321' : 'https://tomaszmarek.com'
 
 export default defineConfig({
   name: 'tomasz_marek',
@@ -34,6 +40,19 @@ export default defineConfig({
             .initialValueTemplates([S.initialValueTemplateItem('offer-page')]),
         ),
       ]),
+    }),
+    presentationTool({
+      resolve,
+      name: 'podglad',
+      title: 'Podgląd',
+      previewUrl: {
+        origin,
+        preview: '/preview',
+        previewMode: {
+          enable: '/api/draft-mode/enable',
+          disable: '/api/draft-mode/disable',
+        },
+      },
     }),
     visionTool(),
   ],

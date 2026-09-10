@@ -1,13 +1,13 @@
-import {sanityClient} from 'sanity:client'
 import type {PortableTextBlock} from '@portabletext/types'
+import {cachedUnlessPreview, loadQuery, type LoadOptions} from '../lib/sanityLoad'
 import type {SanityProjectImage} from './portfolio'
 import {faq, procesArchitektura, procesWnetrza} from './home'
-import {normalizePortableText, paragraphsToPortableText} from '../utils/portableText'
+import {normalizePortableText, paragraphsToPortableText, toPortableText} from '../utils/portableText'
 import {isValidSanityImage} from '../lib/sanityImage'
 
 export interface SimpleItem {
   title: string
-  body: string
+  body: PortableTextBlock[]
 }
 
 export interface ApproachPillar {
@@ -18,7 +18,7 @@ export interface ApproachPillar {
 export interface OfferGroup {
   title: string
   lead?: string
-  sections: Array<{title: string; text: string}>
+  sections: Array<{title: string; text: PortableTextBlock[]}>
 }
 
 export interface HomePageData {
@@ -93,6 +93,27 @@ export interface NavigationLink {
   openInNewTab?: boolean
 }
 
+const rawOfferGroups: Array<{title: string; lead?: string; sections: Array<{title: string; text: string}>}> = [
+    {title: 'Klienci indywidualni', lead: 'Planujesz budowę domu, przebudowę lub remont?', sections: [
+      {title: 'Architektura', text: 'Indywidualne projekty domów i rezydencji — od koncepcji po projekt budowlany, techniczny, koordynację branż i nadzór autorski.'},
+      {title: 'Wnętrza', text: 'Kompleksowe projekty wnętrz prywatnych — od układu funkcjonalnego i koncepcji po materiały, wizualizacje oraz dokumentację wykonawczą.'},
+    ]},
+    {title: 'Biznes', lead: 'Potrzebujesz funkcjonalnej przestrzeni spójnej z charakterem marki?', sections: [
+      {title: 'Architektura', text: 'Projekty obiektów usługowych, komercyjnych i mieszkaniowych — od koncepcji po dokumentację, koordynację branż oraz nadzór realizacji.'},
+      {title: 'Wnętrza', text: 'Projekty biur, gastronomii, lokali usługowych i innych wnętrz komercyjnych — funkcjonalnych, spójnych i zgodnych z charakterem marki.'},
+    ]},
+    {title: 'Doradztwo', lead: 'Planujesz zakup działki i chcesz sprawdzić jej potencjał?', sections: [
+      {title: 'Analizy', text: 'Analizujemy możliwości zabudowy, zapisy MPZP lub WZ oraz potencjał działki albo nieruchomości przed zakupem i rozpoczęciem inwestycji.'},
+      {title: 'Konsultacje', text: 'Doradzamy przed zakupem działki lub nieruchomości, pomagamy ocenić planowane zamierzenie i wspieramy proces uzyskania warunków zabudowy.'},
+    ]},
+  ]
+
+const itemsToPortableText = (items: Array<{title: string; body: string}>, keyPrefix: string): SimpleItem[] =>
+  items.map((item, index) => ({
+    title: item.title,
+    body: toPortableText(item.body, [], `${keyPrefix}-${index}`),
+  }))
+
 export const defaultHomePage: HomePageData = {
   showHero: true,
   heroType: 'images',
@@ -114,27 +135,20 @@ export const defaultHomePage: HomePageData = {
   projectsLinkLabel: 'Zobacz wszystkie projekty',
   showProjects: true,
   offerTitle: 'Zakres współpracy',
-  offers: [
-    {title: 'Klienci indywidualni', lead: 'Planujesz budowę domu, przebudowę lub remont?', sections: [
-      {title: 'Architektura', text: 'Indywidualne projekty domów i rezydencji — od koncepcji po projekt budowlany, techniczny, koordynację branż i nadzór autorski.'},
-      {title: 'Wnętrza', text: 'Kompleksowe projekty wnętrz prywatnych — od układu funkcjonalnego i koncepcji po materiały, wizualizacje oraz dokumentację wykonawczą.'},
-    ]},
-    {title: 'Biznes', lead: 'Potrzebujesz funkcjonalnej przestrzeni spójnej z charakterem marki?', sections: [
-      {title: 'Architektura', text: 'Projekty obiektów usługowych, komercyjnych i mieszkaniowych — od koncepcji po dokumentację, koordynację branż oraz nadzór realizacji.'},
-      {title: 'Wnętrza', text: 'Projekty biur, gastronomii, lokali usługowych i innych wnętrz komercyjnych — funkcjonalnych, spójnych i zgodnych z charakterem marki.'},
-    ]},
-    {title: 'Doradztwo', lead: 'Planujesz zakup działki i chcesz sprawdzić jej potencjał?', sections: [
-      {title: 'Analizy', text: 'Analizujemy możliwości zabudowy, zapisy MPZP lub WZ oraz potencjał działki albo nieruchomości przed zakupem i rozpoczęciem inwestycji.'},
-      {title: 'Konsultacje', text: 'Doradzamy przed zakupem działki lub nieruchomości, pomagamy ocenić planowane zamierzenie i wspieramy proces uzyskania warunków zabudowy.'},
-    ]},
-  ],
+  offers: rawOfferGroups.map((group, index) => ({
+    ...group,
+    sections: group.sections.map((section, sectionIndex) => ({
+      title: section.title,
+      text: toPortableText(section.text, [], `oferta-${index}-${sectionIndex}`),
+    })),
+  })),
   showOffer: true,
   processTitle: 'Rozmowa / Realizacja',
   showProcess: true,
   showArchitectureProcess: true,
-  architectureProcess: procesArchitektura,
+  architectureProcess: itemsToPortableText(procesArchitektura, 'proces-architektura'),
   showInteriorsProcess: true,
-  interiorsProcess: procesWnetrza,
+  interiorsProcess: itemsToPortableText(procesWnetrza, 'proces-wnetrza'),
   aboutTitle: 'Cześć! Tu Tomek.\nTworzę indywidualne projekty architektury i wnętrz.',
   showAbout: true,
   aboutParagraphs: paragraphsToPortableText([
@@ -144,7 +158,7 @@ export const defaultHomePage: HomePageData = {
   ], 'about'),
   faqTitle: 'Pytania przed rozpoczęciem współpracy',
   showFaq: true,
-  faq,
+  faq: itemsToPortableText(faq, 'faq'),
   seoTitle: 'Tomasz Marek — architektura i wnętrza',
   seoDescription: 'Kompleksowa obsługa inwestycji — od analizy działki, przez projekt i formalności, po wnętrza i nadzór autorski.',
 }
@@ -202,11 +216,43 @@ const homePageQuery = `*[_id == "homePage"][0] {
 
 const siteSettingsQuery = `*[_id == "siteSettings"][0]`
 
-let homePageCache: Promise<HomePageData> | undefined
-let settingsCache: Promise<SiteSettingsData> | undefined
+const normalizeItems = (value: unknown, fallback: SimpleItem[], keyPrefix: string): SimpleItem[] => {
+  if (!Array.isArray(value) || value.length === 0) return fallback
 
-export function getHomePage(): Promise<HomePageData> {
-  homePageCache ??= sanityClient.fetch<Partial<HomePageData> | null>(homePageQuery)
+  return value.map((item, index) => {
+    const entry = item as {title?: string; body?: unknown}
+    return {
+      title: entry?.title ?? '',
+      body: toPortableText(entry?.body, [], `${keyPrefix}-${index}`),
+    }
+  })
+}
+
+const normalizeOffers = (value: unknown, fallback: OfferGroup[]): OfferGroup[] => {
+  if (!Array.isArray(value) || value.length === 0) return fallback
+
+  return value.map((group, index) => {
+    const entry = group as {title?: string; lead?: string; sections?: unknown}
+    const sections = Array.isArray(entry?.sections) ? entry.sections : []
+    return {
+      title: entry?.title ?? '',
+      lead: entry?.lead,
+      sections: sections.map((section, sectionIndex) => {
+        const item = section as {title?: string; text?: unknown}
+        return {
+          title: item?.title ?? '',
+          text: toPortableText(item?.text, [], `oferta-${index}-${sectionIndex}`),
+        }
+      }),
+    }
+  })
+}
+
+const homePageCache: {value?: Promise<HomePageData>} = {}
+const settingsCache: {value?: Promise<SiteSettingsData>} = {}
+
+export function getHomePage(options: LoadOptions = {}): Promise<HomePageData> {
+  return cachedUnlessPreview(homePageCache, options, () => loadQuery<Partial<HomePageData> | null>(homePageQuery, {}, options)
     .then((data) => {
       const merged = {...defaultHomePage, ...(data ?? {})}
       const heroImage = isValidSanityImage(data?.heroImage) ? data.heroImage : undefined
@@ -228,23 +274,33 @@ export function getHomePage(): Promise<HomePageData> {
         showInteriorsProcess: data?.showInteriorsProcess ?? true,
         approachBody: normalizePortableText(data?.approachBody, defaultHomePage.approachBody, 'approach'),
         aboutParagraphs: normalizePortableText(data?.aboutParagraphs, defaultHomePage.aboutParagraphs, 'about'),
+        // Pola poniżej były wcześniej zwykłym tekstem. `toPortableText` przyjmuje obie
+        // postacie, więc strona działa niezależnie od tego, czy migracja już przeszła.
+        faq: normalizeItems(data?.faq, defaultHomePage.faq, 'faq'),
+        architectureProcess: normalizeItems(data?.architectureProcess, defaultHomePage.architectureProcess, 'proces-architektura'),
+        interiorsProcess: normalizeItems(data?.interiorsProcess, defaultHomePage.interiorsProcess, 'proces-wnetrza'),
+        offers: normalizeOffers(data?.offers, defaultHomePage.offers),
         heroImages: heroImages.length
           ? heroImages.slice(0, 3)
           : heroImage ? [heroImage] : [],
       }
-    })
-  return homePageCache
+    }))
 }
 
-export function getSiteSettings(): Promise<SiteSettingsData> {
-  settingsCache ??= sanityClient.fetch<Partial<SiteSettingsData> | null>(siteSettingsQuery)
+export function getSiteSettings(options: LoadOptions = {}): Promise<SiteSettingsData> {
+  return cachedUnlessPreview(settingsCache, options, () => loadQuery<Partial<SiteSettingsData> | null>(siteSettingsQuery, {}, options)
     .then((data) => ({
       ...defaultSiteSettings,
       ...(data ?? {}),
       navigationLinks: (data?.navigationLinks?.length ? data.navigationLinks : defaultSiteSettings.navigationLinks)
-        .map((item) => ({...item, href: item.href.replace(/^\/portfolio(?=\/|$)/, '/projekty')})),
+        .map((item) => ({
+          ...item,
+          // Kotwica bez wiodącego „/” działa tylko na stronie głównej, więc ją uzupełniamy.
+          href: item.href
+            .replace(/^\/portfolio(?=\/|$)/, '/projekty')
+            .replace(/^#/, '/#'),
+        })),
       areaServed: data?.areaServed?.length ? data.areaServed : defaultSiteSettings.areaServed,
       bookingHref: data?.bookingHref || defaultSiteSettings.bookingHref,
-    }))
-  return settingsCache
+    })))
 }

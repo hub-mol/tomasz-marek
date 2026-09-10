@@ -6,7 +6,7 @@ import {getProjects} from '../data/projects';
 const projects = await getProjects();
 ---
 
-<Page title="Portfolio — Tomasz Marek" heading="Portfolio" wide>
+<Page title="Portfolio — Tomasz Marek" heading="Portfolio" wide noindex>
   <section class="section portfolio-grid">
     {projects.map((project) => <ProjectCard project={project} variant="grid" />)}
   </section>

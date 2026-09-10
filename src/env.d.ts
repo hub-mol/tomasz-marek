@@ -10,3 +10,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+declare namespace App {
+  interface Locals {
+    /** Ustawiane przez middleware dla tras /preview — włącza wersje robocze i stega. */
+    preview?: boolean
+  }
+}

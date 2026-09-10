@@ -2,13 +2,18 @@
 import {toHTML} from '@portabletext/to-html';
 import type {PortableTextBlock} from '@portabletext/types';
 import {getSanityImageSources} from '../lib/sanityImage';
+import {paragraphsToPortableText} from '../utils/portableText';
 
 interface Props {
-  value?: PortableTextBlock[];
+  // Zwykły string przyjmujemy dla treści sprzed migracji na Portable Text.
+  value?: PortableTextBlock[] | string;
   class?: string;
 }
 
-const {value = [], class: className} = Astro.props;
+const {value: rawValue = [], class: className} = Astro.props;
+const value = typeof rawValue === 'string'
+  ? paragraphsToPortableText(rawValue.split(/\n{2,}/).map((part) => part.trim()).filter(Boolean))
+  : rawValue;
 const escapeAttribute = (input: unknown) => String(input ?? '')
   .replaceAll('&', '&amp;')
   .replaceAll('"', '&quot;')

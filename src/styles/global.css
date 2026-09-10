@@ -26,9 +26,9 @@
   --tracking-display: -0.06em;
   --tracking-caps: 0.08em;
 
-  --display: 7.5rem;
-  --h1: 5.6rem;
-  --h2: 3.5rem;
+  --display: 5rem;
+  --h1: 4.5rem;
+  --h2: 3rem;
   --h3: 2.125rem;
 
   /* spacing: rdzeń oparty o potęgi 2; półkroki tylko dla rytmu 24/48/96 */
@@ -47,8 +47,9 @@
   --sec-y: var(--space-32);
 
   /* Maksymalna szerokość treści. Tło sekcji nadal idzie przez całą szerokość
-     okna — ogranicza się tylko zawartość, przez powiększany padding boczny. */
-  --container: 100rem;
+     okna — ogranicza się tylko zawartość, przez powiększany padding boczny.
+     W px, bo to twarda granica układu i nie ma rosnąć razem z typografią. */
+  --container: 1920px;
   --gutter: max(var(--pad-x), (100% - var(--container)) / 2);
 
   /* wysokość paska nagłówka — nav jest jego rodzeństwem, nie dzieckiem */
@@ -61,10 +62,6 @@
 @media (max-width: 1024px) {
   :root {
     --pad-x: var(--space-8);
-    --display: 5rem;
-    --h1: 4.5rem;
-    --h2: 3rem;
-    --h3: 2.125rem;
     --sec-y: var(--space-24);
   }
 }
@@ -87,26 +84,10 @@
 }
 
 html {
-  font-size: 1rem;
+  /* 14 px przy 360 px szerokości, 18 px przy 1920 px i powyżej.
+     Jedna funkcja na cały zakres — bez skoków na granicach breakpointów. */
+  font-size: clamp(0.875rem, 0.8173rem + 0.2564vw, 1.125rem);
   background: var(--c-bg-dark);
-}
-
-@media screen and (max-width: 1728px) {
-  html {
-    font-size: calc(0.39rem + 0.57vw);
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  html {
-    font-size: 1.57vw;
-  }
-}
-
-@media screen and (max-width: 769px) {
-  html {
-    font-size: calc(0.75rem + 0.52vw);
-  }
 }
 
 body {

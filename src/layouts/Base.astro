@@ -5,6 +5,7 @@ import '@fontsource-variable/dm-sans/wght.css';
 import dmSansUrl from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url';
 import workSansUrl from '@fontsource-variable/work-sans/files/work-sans-latin-wght-normal.woff2?url';
 import {getHomePage, getSiteSettings} from '../data/site';
+import {VisualEditing} from '@sanity/astro/visual-editing';
 
 interface Props {
   title?: string;
@@ -14,9 +15,11 @@ interface Props {
   contentType?: 'website' | 'article';
   author?: string;
   publishedAt?: string;
+  noindex?: boolean;
 }
 
-const [settings, home] = await Promise.all([getSiteSettings(), getHomePage()]);
+const preview = Astro.locals.preview ?? false;
+const [settings, home] = await Promise.all([getSiteSettings({preview}), getHomePage({preview})]);
 const siteUrl = new URL('/', Astro.site ?? 'https://tomaszmarek.com').toString();
 const {
   title = settings.defaultSeoTitle,
@@ -26,6 +29,7 @@ const {
   contentType = 'website',
   author,
   publishedAt,
+  noindex = false,
 } = Astro.props;
 const canonicalUrl = new URL(canonical, siteUrl).toString();
 const sameAs = [settings.instagram, settings.facebook, settings.iarpUrl].filter(Boolean);
@@ -94,6 +98,7 @@ const professionalServiceJsonLd = JSON.stringify(professionalService).replace(/<
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:locale" content="pl_PL" />
     <meta property="og:type" content={contentType} />
@@ -127,5 +132,37 @@ const professionalServiceJsonLd = JSON.stringify(professionalService).replace(/<
   </head>
   <body>
     <slot />
+
+    {preview && (
+      <>
+        <VisualEditing enabled />
+        <a class="preview-exit" href="/api/draft-mode/disable">Wyjdź z podglądu</a>
+        <script is:inline>
+          // W podglądzie odsyłacze wewnętrzne muszą zostać w gałęzi /preview,
+          // inaczej klik wyrzuca edytora na wersję opublikowaną.
+          for (const link of document.querySelectorAll('a[href^="/"]')) {
+            const href = link.getAttribute('href');
+            if (!href || href.startsWith('/preview') || href.startsWith('/api/') || href.startsWith('/admin')) continue;
+            link.setAttribute('href', href === '/' ? '/preview' : '/preview' + href);
+          }
+        </script>
+      </>
+    )}
   </body>
 </html>
+
+<style is:global>
+  .preview-exit {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 9999;
+    padding: 0.5rem 0.875rem;
+    border-radius: 999px;
+    background: #2b2a26;
+    color: #fff;
+    font: inherit;
+    font-size: 0.8125rem;
+    text-decoration: none;
+  }
+</style>

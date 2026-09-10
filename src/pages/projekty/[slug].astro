@@ -1,11 +1,6 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import ProjectNav from '../../components/project/ProjectNav.astro';
-import ProjectEditorial from '../../components/project/ProjectEditorial.astro';
+import ProjektView from '../../views/ProjektView.astro';
 import { getProjects } from '../../data/projects';
-import {getImageEdgeColors} from '../../lib/imagePalette';
 
 export async function getStaticPaths() {
   const projects = await getProjects();
@@ -20,37 +15,6 @@ export async function getStaticPaths() {
 }
 
 const { project, prev, next } = Astro.props;
-const heroColors = await getImageEdgeColors(project.img);
-const seoDescription = project.seoDescription ?? `${project.category}. ${project.location}${project.surface ? `, ${project.surface}` : ''}.`;
-const socialImage = project.socialImage?.url ?? ('url' in project.img ? project.img.url : undefined);
-const projectJsonLd = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@type': 'CreativeWork',
-  name: project.seoTitle ?? project.title,
-  description: seoDescription,
-  ...(socialImage ? {image: socialImage} : {}),
-  url: new URL(`/projekty/${project.slug}`, Astro.site ?? 'https://tomaszmarek.com').toString(),
-}).replace(/</g, '\\u003c');
 ---
 
-<Base
-  title={`${project.seoTitle ?? project.title} — Tomasz Marek Architekt`}
-  description={seoDescription}
-  canonical={`/projekty/${project.slug}`}
-  socialImage={socialImage}
->
-  <Header
-    variant="overlay"
-    overlayColor={heroColors.navText}
-    overlayColorMobile={heroColors.mobileNavText}
-  />
-
-  <main>
-    <script type="application/ld+json" set:html={projectJsonLd} />
-    <ProjectEditorial project={project} />
-
-    <ProjectNav prev={prev} next={next} />
-  </main>
-
-  <Footer />
-</Base>
+<ProjektView project={project} prev={prev} next={next} />

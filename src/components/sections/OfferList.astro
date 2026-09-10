@@ -1,65 +1,17 @@
 ---
 import { plNoBreak } from '../../utils/typography';
-
-export interface OfferGroup {
-  title: string;
-  lead?: string;
-  sections: Array<{title: string; text: string}>;
-}
+import type {OfferGroup} from '../../data/site';
+import {defaultHomePage} from '../../data/site';
+import PortableText from '../PortableText.astro';
 
 interface Props {
   title?: string;
   offers?: OfferGroup[];
 }
 
-const defaultOffers = [
-  {
-    title: 'Klienci indywidualni',
-    lead: 'Planujesz budowę domu, przebudowę lub remont?',
-    sections: [
-      {
-        title: 'Architektura',
-        text: 'Indywidualne projekty domów i rezydencji — od koncepcji po projekt budowlany, techniczny, koordynację branż i nadzór autorski.',
-      },
-      {
-        title: 'Wnętrza',
-        text: 'Kompleksowe projekty wnętrz prywatnych — od układu funkcjonalnego i koncepcji po materiały, wizualizacje oraz dokumentację wykonawczą.',
-      },
-    ],
-  },
-  {
-    title: 'Biznes',
-    lead: 'Potrzebujesz funkcjonalnej przestrzeni spójnej z charakterem marki?',
-    sections: [
-      {
-        title: 'Architektura',
-        text: 'Projekty obiektów usługowych, komercyjnych i mieszkaniowych — od koncepcji po dokumentację, koordynację branż oraz nadzór realizacji.',
-      },
-      {
-        title: 'Wnętrza',
-        text: 'Projekty biur, gastronomii, lokali usługowych i innych wnętrz komercyjnych — funkcjonalnych, spójnych i zgodnych z charakterem marki.',
-      },
-    ],
-  },
-  {
-    title: 'Doradztwo',
-    lead: 'Planujesz zakup działki i chcesz sprawdzić jej potencjał?',
-    sections: [
-      {
-        title: 'Analizy',
-        text: 'Analizujemy możliwości zabudowy, zapisy MPZP lub WZ oraz potencjał działki albo nieruchomości przed zakupem i rozpoczęciem inwestycji.',
-      },
-      {
-        title: 'Konsultacje',
-        text: 'Doradzamy przed zakupem działki lub nieruchomości, pomagamy ocenić planowane zamierzenie i wspieramy proces uzyskania warunków zabudowy.',
-      },
-    ],
-  },
-];
-
-const {title = 'Zakres współpracy', offers = defaultOffers} = Astro.props;
+const {title = 'Zakres współpracy', offers = defaultHomePage.offers} = Astro.props;
 const getLead = (offer: OfferGroup) => offer.lead
-  ?? defaultOffers.find((item) => item.title === offer.title)?.lead;
+  ?? defaultHomePage.offers.find((item) => item.title === offer.title)?.lead;
 ---
 
 <section class="section section-spaced offer" id="oferta">
@@ -80,7 +32,7 @@ const getLead = (offer: OfferGroup) => offer.lead
           {offer.sections.map((section) => (
             <section class="offer__section">
               <h3 class="tagline">{section.title}</h3>
-              <p>{plNoBreak(section.text)}</p>
+              <PortableText value={section.text} />
             </section>
           ))}
         </div>

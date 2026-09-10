@@ -5,10 +5,9 @@
   "name": "tomasz-marek",
   "compatibility_date": "2026-08-04",
 
-  // Strona jest w całości prerenderowana (Astro w trybie static), więc
-  // nie ma pola "main" — nie potrzebujemy kodu Workera ani adaptera.
-  // Serwujemy sam katalog wyjściowy builda.
-  "assets": {
-    "directory": "./dist"
-  }
+  // Strony publiczne są nadal prerenderowane i serwowane jako pliki statyczne.
+  // Worker obsługuje wyłącznie trasy renderowane na żądanie: podgląd wersji
+  // roboczych pod /preview oraz przełączanie trybu podglądu pod /api/draft-mode.
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_flags": ["nodejs_compat"]
 }

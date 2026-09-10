@@ -35,7 +35,7 @@ const {
 } = Astro.props;
 
 const copy = body ?? paragraphsToPortableText([text], 'about');
-const settings = await getSiteSettings();
+const settings = await getSiteSettings({preview: Astro.locals.preview ?? false});
 ---
 
 <section class="about-hero" id={id}>

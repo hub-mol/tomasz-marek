@@ -26,7 +26,7 @@ const {
 const slides = images?.length ? images.slice(0, 3) : [img];
 const hasVideo = Boolean(videoUrl);
 const hasSlideshow = !hasVideo && slides.length > 1;
-const settings = await getSiteSettings();
+const settings = await getSiteSettings({preview: Astro.locals.preview ?? false});
 ---
 
 <section class="hero">

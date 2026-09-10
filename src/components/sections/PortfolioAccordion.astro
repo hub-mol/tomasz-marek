@@ -4,7 +4,7 @@ import ArrowLink from '../ArrowLink.astro';
 import DisclosureIcon from '../DisclosureIcon.astro';
 import { getProjects } from '../../data/projects';
 
-const projects = await getProjects();
+const projects = await getProjects({preview: Astro.locals.preview ?? false});
 ---
 
 {

@@ -14,6 +14,10 @@ const richText = defineField({
         {title: 'Śródtytuł', value: 'h3'},
         {title: 'Cytat', value: 'blockquote'},
       ],
+      lists: [
+        {title: 'Lista punktowana', value: 'bullet'},
+        {title: 'Lista numerowana', value: 'number'},
+      ],
       marks: {
         decorators: [
           {title: 'Pogrubienie', value: 'strong'},

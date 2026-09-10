@@ -1,13 +1,14 @@
 ---
 import { plNoBreak } from '../../utils/typography';
-import type {AccordionItem} from '../../data/home';
+import type {SimpleItem} from '../../data/site';
 import DisclosureIcon from '../DisclosureIcon.astro';
+import PortableText from '../PortableText.astro';
 
 interface Props {
   id?: string;
   eyebrow?: string;
   title: string;
-  items: AccordionItem[];
+  items: SimpleItem[];
   numbered?: boolean;
   alt?: boolean;
 }
@@ -42,7 +43,7 @@ const {
               <DisclosureIcon />
             </summary>
             <div class="accordion__body">
-              <p>{plNoBreak(item.body)}</p>
+              <PortableText value={item.body} />
             </div>
           </details>
         );

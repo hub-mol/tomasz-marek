@@ -1,11 +1,12 @@
 ---
-import type { AccordionItem } from '../../data/home';
+import type { SimpleItem } from '../../data/site';
 import { plNoBreak } from '../../utils/typography';
 import DisclosureIcon from '../DisclosureIcon.astro';
+import PortableText from '../PortableText.astro';
 
 interface Props {
-  architecture: AccordionItem[];
-  interiors: AccordionItem[];
+  architecture: SimpleItem[];
+  interiors: SimpleItem[];
   title?: string;
 }
 
@@ -38,7 +39,7 @@ const hasSingleGroup = groups.length === 1;
                   <DisclosureIcon />
                 </summary>
                 <div class="process__body">
-                  <p>{plNoBreak(item.body)}</p>
+                  <PortableText value={item.body} />
                 </div>
               </details>
             ))}

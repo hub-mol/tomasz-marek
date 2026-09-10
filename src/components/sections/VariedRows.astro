@@ -18,7 +18,7 @@ const {
   showHeader = true,
 } = Astro.props;
 
-const projects = await getProjects();
+const projects = await getProjects({preview: Astro.locals.preview ?? false});
 const items = projects.slice(0, limit);
 const pary = Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
   items.slice(i * 2, i * 2 + 2)

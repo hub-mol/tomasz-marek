@@ -14,7 +14,7 @@ interface Props {
   overlayColorMobile?: string;
 }
 
-const settings = await getSiteSettings();
+const settings = await getSiteSettings({preview: Astro.locals.preview ?? false});
 const {
   variant = 'solid',
   logoStart,
