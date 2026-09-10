@@ -6,6 +6,7 @@ import dmSansUrl from '@fontsource-variable/dm-sans/files/dm-sans-latin-wght-nor
 import workSansUrl from '@fontsource-variable/work-sans/files/work-sans-latin-wght-normal.woff2?url';
 import {getHomePage, getSiteSettings} from '../data/site';
 import {VisualEditing} from '@sanity/astro/visual-editing';
+import {bezZnacznikow} from '../lib/sanityLoad';
 
 interface Props {
   title?: string;
@@ -31,6 +32,11 @@ const {
   publishedAt,
   noindex = false,
 } = Astro.props;
+// Tytuł i opisy trafiają do <title> i <meta>, gdzie znaczniki stega byłyby
+// niewidzialnym śmieciem — czyścimy je centralnie dla wszystkich podstron.
+const metaTitle = bezZnacznikow(title);
+const metaDescription = bezZnacznikow(description);
+const metaImage = bezZnacznikow(socialImage);
 const canonicalUrl = new URL(canonical, siteUrl).toString();
 const sameAs = [settings.instagram, settings.facebook, settings.iarpUrl].filter(Boolean);
 
@@ -88,7 +94,7 @@ const professionalService = {
   ...(sameAs.length ? {sameAs} : {}),
 };
 
-const professionalServiceJsonLd = JSON.stringify(professionalService).replace(/</g, '\\u003c');
+const professionalServiceJsonLd = JSON.stringify(bezZnacznikow(professionalService)).replace(/</g, '\\u003c');
 ---
 
 <!doctype html>
@@ -96,21 +102,21 @@ const professionalServiceJsonLd = JSON.stringify(professionalService).replace(/<
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    {description && <meta name="description" content={description} />}
+    <title>{metaTitle}</title>
+    {metaDescription && <meta name="description" content={metaDescription} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:locale" content="pl_PL" />
     <meta property="og:type" content={contentType} />
     <meta property="og:site_name" content={settings.siteTitle} />
-    <meta property="og:title" content={title} />
-    {description && <meta property="og:description" content={description} />}
+    <meta property="og:title" content={metaTitle} />
+    {metaDescription && <meta property="og:description" content={metaDescription} />}
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={socialImage} />
+    <meta property="og:image" content={metaImage} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    {description && <meta name="twitter:description" content={description} />}
-    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:title" content={metaTitle} />
+    {metaDescription && <meta name="twitter:description" content={metaDescription} />}
+    <meta name="twitter:image" content={metaImage} />
     {contentType === 'article' && author && <meta property="article:author" content={author} />}
     {contentType === 'article' && publishedAt && <meta property="article:published_time" content={publishedAt} />}
     <script type="application/ld+json" set:html={professionalServiceJsonLd} />

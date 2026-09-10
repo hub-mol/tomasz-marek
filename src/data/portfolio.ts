@@ -83,10 +83,13 @@ export interface ProjectTextBlock {
   body: PortableTextBlock[];
 }
 
+export type ProjectImageRatio = 'auto' | '1:1' | '4:3' | '3:2' | '2:1' | '3:4' | '2:3' | '1:2';
+
 export interface ProjectImageBlock {
   _key: string;
   _type: 'projectImageBlock';
   columns?: 1 | 2 | 3 | 4;
+  ratio?: ProjectImageRatio;
   images: ProjectImage[];
 }
 

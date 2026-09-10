@@ -5,20 +5,21 @@ import Footer from '../components/Footer.astro';
 import ProjectNav from '../components/project/ProjectNav.astro';
 import ProjectEditorial from '../components/project/ProjectEditorial.astro';
 import {getImageEdgeColors} from '../lib/imagePalette';
+import {bezZnacznikow} from '../lib/sanityLoad';
 
 
 const { project, prev, next } = Astro.props;
 const heroColors = await getImageEdgeColors(project.img, {preview: Astro.locals.preview ?? false});
 const seoDescription = project.seoDescription ?? `${project.category}. ${project.location}${project.surface ? `, ${project.surface}` : ''}.`;
 const socialImage = project.socialImage?.url ?? ('url' in project.img ? project.img.url : undefined);
-const projectJsonLd = JSON.stringify({
+const projectJsonLd = JSON.stringify(bezZnacznikow({
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
   name: project.seoTitle ?? project.title,
   description: seoDescription,
   ...(socialImage ? {image: socialImage} : {}),
   url: new URL(`/projekty/${project.slug}`, Astro.site ?? 'https://tomaszmarek.com').toString(),
-}).replace(/</g, '\\u003c');
+})).replace(/</g, '\\u003c');
 ---
 
 <Base

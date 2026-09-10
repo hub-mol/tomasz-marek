@@ -1,5 +1,5 @@
 import type {PortableTextBlock} from '@portabletext/types'
-import {cachedUnlessPreview, loadQuery, type LoadOptions} from '../lib/sanityLoad'
+import {bezZnacznikow, cachedUnlessPreview, loadQuery, type LoadOptions} from '../lib/sanityLoad'
 import type {Project, ProjectContentBlock, SanityProjectImage} from './portfolio'
 import {getImageEdgeColors} from '../lib/imagePalette'
 
@@ -8,7 +8,7 @@ interface SanityProject extends Omit<Project, 'img' | 'gallery' | 'alt' | 'conte
   gallery?: SanityProjectImage[]
   content?: Array<
     | {_key: string; _type: 'projectTextBlock'; tagline?: string; textSize?: 'h3' | 'h4'; body: PortableTextBlock[]}
-    | {_key: string; _type: 'projectImageBlock'; columns?: 1 | 2 | 3 | 4; images?: SanityProjectImage[]}
+    | {_key: string; _type: 'projectImageBlock'; columns?: 1 | 2 | 3 | 4; ratio?: string; images?: SanityProjectImage[]}
   >
 }
 
@@ -33,6 +33,7 @@ const projectsQuery = `*[
     tagline,
     textSize,
     columns,
+    ratio,
     body,
     "images": images[] {
       "url": asset->url,
@@ -73,12 +74,17 @@ export function getProjects(options: LoadOptions = {}): Promise<Project[]> {
 
       return Promise.all(items.map(async (item) => {
         const content = item.content?.map((block) => block._type === 'projectImageBlock'
-          ? {...block, images: block.images ?? []}
-          : block) as ProjectContentBlock[] | undefined
+          // ratio buduje wartość CSS, więc też musi być czyste.
+          ? {...block, ratio: bezZnacznikow(block.ratio), images: block.images ?? []}
+          // textSize buduje nazwę klasy, więc musi być czysty.
+          : {...block, textSize: bezZnacznikow(block.textSize)}) as ProjectContentBlock[] | undefined
 
         const palette = await getImageEdgeColors(item.img, {preview: options.preview ?? false})
         return {
           ...item,
+          slug: bezZnacznikow(item.slug),
+          seoTitle: bezZnacznikow(item.seoTitle),
+          seoDescription: bezZnacznikow(item.seoDescription),
           content,
           gallery: item.gallery ?? [],
           alt: item.img.alt ?? item.title,

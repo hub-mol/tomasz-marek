@@ -92,6 +92,26 @@ export const projectImageBlock = defineType({
       validation: (rule) => rule.required().min(1),
     }),
     defineField({
+      name: 'ratio',
+      title: 'Proporcje zdjęć',
+      description: 'Wspólne kadrowanie dla wszystkich zdjęć w bloku. „Oryginalne” zostawia proporcje pliku bez przycinania.',
+      type: 'string',
+      initialValue: '1:1',
+      options: {
+        list: [
+          {title: 'Oryginalne proporcje pliku', value: 'auto'},
+          {title: 'Kwadrat — 1:1', value: '1:1'},
+          {title: 'Poziome — 4:3', value: '4:3'},
+          {title: 'Poziome — 3:2', value: '3:2'},
+          {title: 'Poziome panorama — 2:1', value: '2:1'},
+          {title: 'Pionowe — 3:4', value: '3:4'},
+          {title: 'Pionowe — 2:3', value: '2:3'},
+          {title: 'Pionowe wysokie — 1:2', value: '1:2'},
+        ],
+        layout: 'dropdown',
+      },
+    }),
+    defineField({
       name: 'columns',
       title: 'Liczba kolumn',
       description: 'Na telefonie zdjęcia zawsze układają się w jedną kolumnę.',
@@ -107,7 +127,11 @@ export const projectImageBlock = defineType({
     }),
   ],
   preview: {
-    select: {media: 'images.0', images: 'images', columns: 'columns'},
-    prepare: ({media, images, columns}) => ({title: 'Zdjęcia', subtitle: `${images?.length ?? 0} zdjęć · ${columns ?? 1} kol.`, media}),
+    select: {media: 'images.0', images: 'images', columns: 'columns', ratio: 'ratio'},
+    prepare: ({media, images, columns, ratio}) => ({
+      title: 'Zdjęcia',
+      subtitle: `${images?.length ?? 0} zdjęć · ${columns ?? 1} kol. · ${ratio && ratio !== 'auto' ? ratio : 'oryginalne'}`,
+      media,
+    }),
   },
 })

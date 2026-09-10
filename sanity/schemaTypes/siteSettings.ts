@@ -58,7 +58,7 @@ export const siteSettings = defineType({
     defineField({
       name: 'bookingHref',
       title: 'Umów spotkanie link',
-      description: 'Adres strony do umawiania spotkań albo mailto:. Jeśli pole jest puste, użyty zostanie e-mail kontaktowy.',
+      description: 'Adres strony do umawiania spotkań. Jeśli pole jest puste, użyty zostanie e-mail kontaktowy.',
       type: 'string',
       group: 'contact',
       validation: (rule) => rule.custom((value) => {

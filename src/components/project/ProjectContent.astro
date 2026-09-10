@@ -9,6 +9,11 @@ interface Props {
 }
 
 const {blocks, projectAlt} = Astro.props;
+// Proporcje z CMS-u. Brak wartości albo „auto” zostawia dotychczasowe
+// zachowanie: 1 kolumna bez kadrowania, 2 kolumny 2:3, 3 i 4 kwadrat.
+const kadr = (ratio?: string) => ratio && ratio !== 'auto'
+  ? ratio.replace(':', ' / ')
+  : undefined;
 const imageSizes = (columns = 1) => columns === 1
   ? '(max-width: 768px) 100vw, 92vw'
   : `(max-width: 768px) 100vw, ${Math.ceil(92 / columns)}vw`;
@@ -24,7 +29,15 @@ const imageSizes = (columns = 1) => columns === 1
         </div>
       </section>
     ) : (
-      <section class:list={['section', 'project-content__images', `project-content__images--${block.columns ?? 1}`]}>
+      <section
+        class:list={[
+          'section',
+          'project-content__images',
+          `project-content__images--${block.columns ?? 1}`,
+          {'project-content__images--kadrowane': Boolean(kadr(block.ratio))},
+        ]}
+        style={kadr(block.ratio) ? `--ratio: ${kadr(block.ratio)};` : undefined}
+      >
         {block.images.map((image, imageIndex) => (
           <figure>
             <ProjectImage
@@ -99,6 +112,16 @@ const imageSizes = (columns = 1) => columns === 1
   .project-content__images--2 :global(img),
   .project-content__images--3 :global(img),
   .project-content__images--4 :global(img) {
+    height: 100%;
+    max-height: none;
+  }
+
+  /* Proporcje ustawione w CMS wygrywają z domyślnymi dla liczby kolumn. */
+  .project-content__images--kadrowane figure {
+    aspect-ratio: var(--ratio);
+  }
+
+  .project-content__images--kadrowane :global(img) {
     height: 100%;
     max-height: none;
   }

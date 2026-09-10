@@ -1,5 +1,6 @@
 ---
 import type {BlogPost} from '../../data/blogPosts';
+import {bezZnacznikow} from '../../lib/sanityLoad';
 import Base from '../../layouts/Base.astro';
 import Header from '../Header.astro';
 import Footer from '../Footer.astro';
@@ -18,7 +19,7 @@ const date = new Intl.DateTimeFormat('pl-PL', {day: 'numeric', month: 'long', ye
 const sectionLabel = post.routeType === 'offer' ? 'Oferta' : 'Blog';
 const pathPrefix = post.routeType === 'offer' ? 'oferta' : 'blog';
 const socialImage = post.socialImage?.url ?? post.cover?.url;
-const articleJsonLd = JSON.stringify({
+const articleJsonLd = JSON.stringify(bezZnacznikow({
   '@context': 'https://schema.org',
   '@type': post.routeType === 'offer' ? 'WebPage' : 'BlogPosting',
   headline: post.seoTitle ?? post.title,
@@ -27,7 +28,7 @@ const articleJsonLd = JSON.stringify({
   author: {'@type': 'Person', name: post.author},
   ...(socialImage ? {image: socialImage} : {}),
   url: new URL(`/${pathPrefix}/${post.slug}`, Astro.site ?? 'https://tomaszmarek.com').toString(),
-}).replace(/</g, '\\u003c');
+})).replace(/</g, '\\u003c');
 ---
 
 <Base

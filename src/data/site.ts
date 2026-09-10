@@ -1,5 +1,5 @@
 import type {PortableTextBlock} from '@portabletext/types'
-import {cachedUnlessPreview, loadQuery, type LoadOptions} from '../lib/sanityLoad'
+import {bezZnacznikow, cachedUnlessPreview, loadQuery, type LoadOptions} from '../lib/sanityLoad'
 import type {SanityProjectImage} from './portfolio'
 import {faq, procesArchitektura, procesWnetrza} from './home'
 import {normalizePortableText, paragraphsToPortableText, toPortableText} from '../utils/portableText'
@@ -261,7 +261,11 @@ export function getHomePage(options: LoadOptions = {}): Promise<HomePageData> {
       return {
         ...merged,
         showHero: data?.showHero ?? true,
-        heroType: data?.heroType === 'video' && data.heroVideoUrl ? 'video' : 'images',
+        // heroType przełącza wideo/slideshow, więc porównanie musi działać.
+        heroType: bezZnacznikow(data?.heroType) === 'video' && data?.heroVideoUrl ? 'video' : 'images',
+        heroVideoUrl: bezZnacznikow(data?.heroVideoUrl),
+        seoTitle: bezZnacznikow(data?.seoTitle) ?? defaultHomePage.seoTitle,
+        seoDescription: bezZnacznikow(data?.seoDescription) ?? defaultHomePage.seoDescription,
         showApproach: data?.showApproach ?? true,
         showProjects: data?.showProjects ?? true,
         showOffer: data?.showOffer ?? true,
@@ -292,15 +296,34 @@ export function getSiteSettings(options: LoadOptions = {}): Promise<SiteSettings
     .then((data) => ({
       ...defaultSiteSettings,
       ...(data ?? {}),
+      // Adresy, dane kontaktowe i dane strukturalne trafiają do atrybutów i
+      // JSON-LD, więc idą bez znaczników stega.
       navigationLinks: (data?.navigationLinks?.length ? data.navigationLinks : defaultSiteSettings.navigationLinks)
         .map((item) => ({
           ...item,
           // Kotwica bez wiodącego „/” działa tylko na stronie głównej, więc ją uzupełniamy.
-          href: item.href
+          href: bezZnacznikow(item.href)
             .replace(/^\/portfolio(?=\/|$)/, '/projekty')
             .replace(/^#/, '/#'),
         })),
+      siteTitle: bezZnacznikow(data?.siteTitle) || defaultSiteSettings.siteTitle,
+      defaultSeoTitle: bezZnacznikow(data?.defaultSeoTitle) || defaultSiteSettings.defaultSeoTitle,
+      defaultSeoDescription: bezZnacznikow(data?.defaultSeoDescription) || defaultSiteSettings.defaultSeoDescription,
+      email: bezZnacznikow(data?.email) || defaultSiteSettings.email,
+      phoneHref: bezZnacznikow(data?.phoneHref) || defaultSiteSettings.phoneHref,
+      instagram: bezZnacznikow(data?.instagram) ?? defaultSiteSettings.instagram,
+      facebook: bezZnacznikow(data?.facebook) ?? defaultSiteSettings.facebook,
+      iarpUrl: bezZnacznikow(data?.iarpUrl) ?? defaultSiteSettings.iarpUrl,
+      iarpNumber: bezZnacznikow(data?.iarpNumber) ?? defaultSiteSettings.iarpNumber,
+      nip: bezZnacznikow(data?.nip) ?? defaultSiteSettings.nip,
+      regon: bezZnacznikow(data?.regon) ?? defaultSiteSettings.regon,
+      founderName: bezZnacznikow(data?.founderName) ?? defaultSiteSettings.founderName,
+      studioStreet: bezZnacznikow(data?.studioStreet) ?? defaultSiteSettings.studioStreet,
+      studioPostalCode: bezZnacznikow(data?.studioPostalCode) ?? defaultSiteSettings.studioPostalCode,
+      studioCity: bezZnacznikow(data?.studioCity) ?? defaultSiteSettings.studioCity,
+      studioRegion: bezZnacznikow(data?.studioRegion) ?? defaultSiteSettings.studioRegion,
+      studioCountry: bezZnacznikow(data?.studioCountry) ?? defaultSiteSettings.studioCountry,
       areaServed: data?.areaServed?.length ? data.areaServed : defaultSiteSettings.areaServed,
-      bookingHref: data?.bookingHref || defaultSiteSettings.bookingHref,
+      bookingHref: bezZnacznikow(data?.bookingHref) || defaultSiteSettings.bookingHref,
     })))
 }

@@ -1,4 +1,16 @@
 import {sanityClient} from 'sanity:client'
+import {stegaClean} from '@sanity/client/stega'
+
+/**
+ * Zdejmuje niewidzialne znaczniki stega.
+ *
+ * W podglądzie każdy tekst z Sanity niesie doklejone znaki sterujące, dzięki
+ * którym Presentation wie, z którego pola pochodzi. To działa dla treści
+ * wyświetlanej, ale rozwala wszystko, co trafia do kodu: nazwy klas, adresy,
+ * porównania i znaczniki SEO. Takie wartości czyścimy; prozę zostawiamy
+ * zakodowaną, bo to ona daje klik-do-edycji.
+ */
+export const bezZnacznikow = <T>(value: T): T => stegaClean(value) as T
 
 export interface LoadOptions {
   /** Wersje robocze zamiast opublikowanych, wraz ze znacznikami klik-do-edycji. */

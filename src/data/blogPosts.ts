@@ -1,5 +1,5 @@
 import type {PortableTextBlock} from '@portabletext/types'
-import {loadQuery, type LoadOptions} from '../lib/sanityLoad'
+import {bezZnacznikow, loadQuery, type LoadOptions} from '../lib/sanityLoad'
 import type {SanityProjectImage} from './portfolio'
 
 export interface BlogPost {
@@ -72,7 +72,13 @@ export function getBlogPosts(
   ] | order(publishedAt desc) ${projection}`, {}, options)
     .then((posts) => posts.map((post) => ({
       ...post,
-      routeType: post.routeType ?? routeType,
+      // routeType decyduje o adresie i układzie, slug buduje URL, pola SEO idą
+      // do znaczników meta — wszystkie muszą być wolne od znaczników stega.
+      slug: bezZnacznikow(post.slug),
+      publishedAt: bezZnacznikow(post.publishedAt),
+      seoTitle: bezZnacznikow(post.seoTitle),
+      seoDescription: bezZnacznikow(post.seoDescription),
+      routeType: bezZnacznikow(post.routeType) ?? routeType,
       categories: post.categories ?? [],
       author: post.author || 'Tomasz Marek',
       readingTime: post.readingTime || 5,
